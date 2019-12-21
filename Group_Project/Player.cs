@@ -137,27 +137,34 @@ namespace Group_Project_2
 
             if (Input.GetButtonDown(DX.PAD_INPUT_10))
             {
-                
+                float lookX = 0;
+                float lookY = 0;
 
                 if (state == State.RIGHT)
                 {
-                    playScene.map.DeleteWallPlayer(x + 80, y + 24);
-                    playScene.gameObjects.Add(new Empty(playScene, x + 80, y + 24));
+                    lookX = x + 80;
+                    lookY = y + 24;
                 }
-                if(state == State.LEFT)
+                if (state == State.LEFT)
                 {
-                    playScene.map.DeleteWallPlayer(x - 32, y + 24);
-                    playScene.gameObjects.Add(new Empty(playScene, x - 32, y + 24));
+                    lookX = x - 32;
+                    lookY = y + 24;
                 }
-                if(state == State.UP)
+                if (state == State.UP)
                 {
-                    playScene.map.DeleteWallPlayer(x + 24, y - 32);
-                    playScene.gameObjects.Add(new Empty(playScene, x + 24, y - 32));
+                    lookX = x + 24;
+                    lookY = y - 32;
                 }
-                if(state == State.DOWN)
+                if (state == State.DOWN)
                 {
-                    playScene.map.DeleteWallPlayer(x + 24, y + 80);
-                    playScene.gameObjects.Add(new Empty(playScene, x + 24, y + 80));
+                    lookX = x + 24;
+                    lookY = y + 80;
+                }
+                if (playScene.map.GetTerrain(lookX, lookY) >= 0)
+                {
+                    playScene.map.DeleteWall(lookX, lookY);
+                    playScene.gameObjects.Add(new Empty(playScene, lookX, lookY));
+                    playScene.blockcount++;
                 }
             }
             if (playScene.blockcount > 0)
@@ -165,22 +172,34 @@ namespace Group_Project_2
                 if ((MouseInput & DX.MOUSE_INPUT_RIGHT) != 0 && !IsMouseRightClick)
                 {
                     IsMouseRightClick = true;
+                    float lookX = 0;
+                    float lookY = 0;
 
                     if (state == State.RIGHT)
                     {
-                        playScene.map.CreateBlockPlayer(x + 112, y + 32, 0);
+                        lookX = x + 112;
+                        lookY = y + 32;
                     }
                     if (state == State.LEFT)
                     {
-                        playScene.map.CreateBlockPlayer(x - 64, y + 32, 0);
+                        lookX = x - 64;
+                        lookY = y + 32;
                     }
                     if (state == State.UP)
                     {
-                        playScene.map.CreateBlockPlayer(x + 32, y - 64, 0);
+                        lookX = x + 32;
+                        lookY = y - 64;
                     }
                     if (state == State.DOWN)
                     {
-                        playScene.map.CreateBlockPlayer(x + 32, y + 112, 0);
+                        lookX = x + 32;
+                        lookY = y + 112;
+                    }
+
+                    if (playScene.map.GetTerrain(lookX, lookY) == -1)
+                    {
+                        playScene.map.CreateBlock(lookX, lookY, 0);
+                        playScene.blockcount--;
                     }
                 }
             }

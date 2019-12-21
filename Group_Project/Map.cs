@@ -598,20 +598,6 @@ namespace Group_Project_2
             }
         }
 
-        public void DeleteWallPlayer(float worldX, float worldY)
-        {
-            int mapX = (int)(worldX / CellSize);
-            int mapY = (int)(worldY / CellSize);
-
-            if (mapX < 1 || mapX > width - 2 || mapY < 1 || mapY > height - 2) return;
-
-            if (GetTerrain(worldX, worldY) >= 0)
-            {
-                map[mapX, mapY] = -1;
-                playScene.blockcount++;
-            }
-        }
-
         public void BlowUpWall(float worldX, float worldY)
         {
             int mapX = (int)(worldX / CellSize);
@@ -632,28 +618,11 @@ namespace Group_Project_2
 
         public void CreateBlock(float worldX, float worldY, int blockLevel)
         {
-            //int mapX = (int)(worldX / CellSize);
-            //int mapY = (int)(worldY / CellSize);
-
             if (GetTerrain(worldX, worldY) == -1)
             {
                 int mapX = (int)(worldX / CellSize);
                 int mapY = (int)(worldY / CellSize);
                 map[mapX, mapY] = blockLevel;
-            }
-        }
-
-        public void CreateBlockPlayer(float worldX, float worldY, int blockLevel)
-        {
-            //int mapX = (int)(worldX / CellSize);
-            //int mapY = (int)(worldY / CellSize);
-
-            if (GetTerrain(worldX, worldY) == -1)
-            {
-                int mapX = (int)(worldX / CellSize);
-                int mapY = (int)(worldY / CellSize);
-                map[mapX, mapY] = blockLevel;
-                playScene.blockcount--;
             }
         }
     }
