@@ -10,7 +10,7 @@ namespace Group_Project_2
         const int MutekiJikan = 120;
         int mutekiTimer = 0;
 
-        float WalkSpeed = 3f; //プレイヤーSPEED
+        float WalkSpeed = 7f; //プレイヤーSPEED
         int   resultAnimation = 0;　//アニメーション
 
         int MouseX;　//マウス座標

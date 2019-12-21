@@ -30,6 +30,8 @@ namespace Group_Project_2
         int limiter = 0;
         int animCount = 0;
 
+        Point moveTo;
+
         public Enemy4(PlayScene playScene, float x, float y) : base (playScene)
         {
             this.x = x;
@@ -49,8 +51,10 @@ namespace Group_Project_2
             {
                 if (foundPlayer)
                 {
-                    Player player = playScene.player;
-                    angleToPlayer = MyMath.PointToPointAngle(x, y, player.x, player.y);
+                    //Player player = playScene.player;
+                    //angleToPlayer = MyMath.PointToPointAngle(x, y, player.x, player.y);
+                    moveTo = playScene.map.Move(new Point(x, y));
+                    angleToPlayer = MyMath.PointToPointAngle(x, y, moveTo.x, moveTo.y);
                     PlayerEnterExplodeRadius();
                     MoveX();
                     MoveY();

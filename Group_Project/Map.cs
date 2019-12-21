@@ -107,7 +107,7 @@ namespace Group_Project_2
 
                     if (x == bossRoomX + bossRoomWidth / 2 && y == bossRoomY + bossRoomHeight / 2)
                     {
-                        objectMap[x, y] = 9;
+                        //objectMap[x, y] = 9;
                     }
 
                 }
@@ -453,10 +453,10 @@ namespace Group_Project_2
         int[] CreateEnemyList()
         {
             //the number of enemies of a certain type
-            int enemy0Count = 1;
-            int enemy1Count = 1;
-            int enemy2Count = 1;
-            int enemy3Count = 1;
+            int enemy0Count = 0;
+            int enemy1Count = 0;
+            int enemy2Count = 0;
+            int enemy3Count = 5;
             //an array that holds the above numbers, makes the following code smaller
             int[] numOfEachEnemyType = new int[] {enemy0Count, enemy1Count, enemy2Count, enemy3Count};
             //just a variable to hold the number of different enemy types
@@ -623,6 +623,94 @@ namespace Group_Project_2
                 int mapX = (int)(worldX / CellSize);
                 int mapY = (int)(worldY / CellSize);
                 map[mapX, mapY] = blockLevel;
+            }
+        }
+
+
+
+
+        bool finish = false;
+
+        public Point Move(Point location)
+        {
+            Point playerLoc = new Point((int)(playScene.player.x / CellSize), (int)(playScene.player.y / CellSize));
+            Point enemyLoc = new Point((int)(location.x / CellSize), (int)(location.y / CellSize));
+            List<Point> visited = new List<Point>();
+
+            Point moveTo = DFS(playerLoc, visited, enemyLoc);
+            finish = false;
+            moveTo.x *= CellSize;
+            moveTo.y *= CellSize;
+            return moveTo;
+        }
+
+        Point DFS(Point location, List<Point> visited, Point end)
+        {
+            Point moveTo = end;
+
+            Point currentLoc = location;
+            visited.Add(currentLoc);
+
+            Point up = new Point(currentLoc.x, currentLoc.y - 1);
+            bool canMoveUp = false;
+            Point right = new Point(currentLoc.x + 1, currentLoc.y);
+            bool canMoveRight = false;
+            Point down = new Point(currentLoc.x, currentLoc.y + 1);
+            bool canMoveDown = false;
+            Point left = new Point(currentLoc.x - 1, currentLoc.y);
+            bool canMoveLeft = false;
+
+            DFSFinish(currentLoc, end);
+            if (finish) return currentLoc;
+
+            if (!visited.Contains(up) && map[(int)up.x, (int)up.y] == -1) canMoveUp = true;
+            if (!visited.Contains(right) && map[(int)right.x, (int)right.y] == -1) canMoveRight = true;
+            if (!visited.Contains(down) && map[(int)down.x, (int)down.y] == -1) canMoveDown = true;
+            if (!visited.Contains(left) && map[(int)left.x, (int)left.y] == -1) canMoveLeft = true;
+
+            if (canMoveUp && !finish)
+            {
+                moveTo = DFS(up, visited, end);
+            }
+            if (canMoveRight && !finish)
+            {
+                moveTo = DFS(right, visited, end);
+            }
+            if (canMoveDown && !finish)
+            {
+                moveTo = DFS(down, visited, end);
+            }
+            if (canMoveLeft && !finish)
+            {
+                moveTo = DFS(left, visited, end);
+            }
+
+            return moveTo;
+        }
+
+        void DFSFinish(Point current, Point end)
+        {
+            if (finish) return;
+
+            if (current.x == end.x &&
+                current.y - 1 == end.y)
+            {//up
+                finish = true;
+            }
+            else if (current.x + 1 == end.x &&
+                current.y == end.y)
+            {//right
+                finish = true;
+            }
+            else if (current.x == end.x &&
+                current.y + 1 == end.y)
+            {//down
+                finish = true;
+            }
+            else if (current.x - 1 == end.x &&
+                current.y == end.y)
+            {//left
+                finish = true;
             }
         }
     }

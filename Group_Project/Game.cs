@@ -12,7 +12,7 @@ namespace Group_Project_2
             Input.Init();
             MyRandom.Init();
             Image.Load();
-            scene = new TitleScene();
+            scene = new PlayScene();
         }
 
         public void Update()
