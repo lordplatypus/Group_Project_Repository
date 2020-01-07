@@ -53,7 +53,9 @@ namespace Group_Project_2
         int numEnemy4 = 0;
         int numEnemy5 = 0;
         int bossID = 0;
-        int spawnableBlocks = 0;
+        int mainBlock = 0;
+        int secondBlock = 0;
+        int spawnDiamonds = 0;
 
         public Map(PlayScene playScene)
         {
@@ -73,14 +75,11 @@ namespace Group_Project_2
             CreateMapArray();
             CreateBossRoom();
             CreatePlayerRoom();
-
             CreateBasicRoom1();
             CreateBasicRoom2();
             CreateBasicRoom3();
-
             CreateSecretRoom();
-            //CreatePathX();
-            //CreatePathY();
+            CreateVeins(secondBlock, 20);
             CreateEnemies();
             SpawnObjects();
         }
@@ -100,7 +99,9 @@ namespace Group_Project_2
             numEnemy4 = floorInfo[9];
             numEnemy5 = floorInfo[10];
             bossID = floorInfo[11];
-            spawnableBlocks = floorInfo[12];
+            mainBlock = floorInfo[12];
+            secondBlock = floorInfo[13];
+            spawnDiamonds = floorInfo[14];
         }
 
         void CreateMapArray()
@@ -109,14 +110,11 @@ namespace Group_Project_2
             {
                 for (int y = 0; y < height; y++)
                 {
-
-
                     if (x == 0 || y == 0 || x == width - 1 || y == height - 1)
                     {//unbreakable wall
                         map[x, y] = 5;
                     }
-                    else map[x, y] = 0;
-                    
+                    else map[x, y] = mainBlock;                   
 
                     objectMap[x, y] = -1;
                 }
@@ -125,24 +123,16 @@ namespace Group_Project_2
 
         void CreateBossRoom()
         {
-            int bossRoomWidth = 22;
-            int bossRoomHeight = 22;
+            int bossRoomWidth = 20;
+            int bossRoomHeight = 20;
             int bossRoomX = width / 2 - bossRoomWidth / 2;
-            int bossRoomY = 2;
+            int bossRoomY = 1;
 
             for (int x = bossRoomX; x < bossRoomX + bossRoomWidth; x++)
             {
                 for (int y = bossRoomY; y < bossRoomY + bossRoomHeight; y++)
-                {
-                    //if (y == bossRoomY + bossRoomHeight / 2 && x == bossRoomX) objectMap[x, y] = 0;
-                    //else if (y == bossRoomY + bossRoomHeight / 2 && x == bossRoomX + bossRoomWidth - 1) objectMap[x, y] = 1;
-                    //else if (x == bossRoomX + bossRoomWidth / 2 && y == bossRoomY) objectMap[x, y] = 2;
-                    //else if (x == bossRoomX + bossRoomWidth / 2 && y == bossRoomY + bossRoomHeight - 1) objectMap[x, y] = 3;
-                    if (x == bossRoomX || y == bossRoomY || x == bossRoomX + bossRoomWidth - 1 || y == bossRoomY + bossRoomHeight - 1)
-                    {//room wall
-                        map[x, y] = 1;
-                    }
-                    else map[x, y] = -1; //Empty space
+                {                   
+                    map[x, y] = -1; //Empty space
 
                     if (x == bossRoomX + bossRoomWidth / 2 && y == bossRoomY + bossRoomHeight / 2)
                     {
@@ -155,8 +145,8 @@ namespace Group_Project_2
 
         void CreatePlayerRoom()
         {
-            int playerRoomWidth = 7;
-            int playerRoomHeight = 7;
+            int playerRoomWidth = 5;
+            int playerRoomHeight = 5;
             int playerRoomX = width / 2 - playerRoomWidth / 2;
             int playerRoomY = height - (playerRoomHeight + 1);
 
@@ -164,15 +154,7 @@ namespace Group_Project_2
             {
                 for (int y = playerRoomY; y < playerRoomY + playerRoomHeight; y++)
                 {
-                    //if (y == playerRoomY + playerRoomHeight / 2 && x == playerRoomX) objectMap[x, y] = 0;
-                    //else if (y == playerRoomY + playerRoomHeight / 2 && x == playerRoomX + playerRoomWidth - 1) objectMap[x, y] = 1;
-                    //else if (x == playerRoomX + playerRoomWidth / 2 && y == playerRoomY) objectMap[x, y] = 2;
-                    //else if (x == playerRoomX + playerRoomWidth / 2 && y == playerRoomY + playerRoomHeight - 1) objectMap[x, y] = 3;
-                    if (x == playerRoomX || y == playerRoomY || x == playerRoomX + playerRoomWidth - 1 || y == playerRoomY + playerRoomHeight - 1)
-                    {//room wall
-                        map[x, y] = 1;
-                    }
-                    else map[x, y] = -1; //Empty space
+                    map[x, y] = -1; //Empty space
 
                     if (x == playerRoomX + playerRoomWidth / 2 && y == playerRoomY + playerRoomHeight / 2)
                     {
@@ -185,8 +167,8 @@ namespace Group_Project_2
 
         void CreateBasicRoom1()
         {
-            int basicRoomWidth = 7;
-            int basicRoomHeight = 7;
+            int basicRoomWidth = 5;
+            int basicRoomHeight = 5;
             bool canPlace = false;
             int basicRoomX = 0;
             int basicRoomY = 0;
@@ -198,15 +180,9 @@ namespace Group_Project_2
                     bool skip = false;
                     basicRoomX = MyRandom.Range(5, width - basicRoomWidth - 5);
                     basicRoomY = MyRandom.Range(5, height - basicRoomHeight - 5);
-                    //if (map[basicRoomX - 5, basicRoomY - 5] != -1 &&
-                    //    map[basicRoomX + 11, basicRoomY + 11] != -1 &&
-                    //    map[basicRoomX + 11, basicRoomY - 5] != -1 &&
-                    //    map[basicRoomX - 5, basicRoomY + 11] != -1 &&
-                    //    map[basicRoomX + basicRoomWidth / 2, basicRoomY + basicRoomHeight / 2] != -1) canPlace = true;
-
-                    for (int x = basicRoomX - 5; x < basicRoomX + 12; x++)
+                    for (int x = basicRoomX - 5; x < basicRoomX + 10; x++)
                     {
-                        for (int y = basicRoomY - 5; y < basicRoomY + 12; y++)
+                        for (int y = basicRoomY - 5; y < basicRoomY + 10; y++)
                         {
                             if (map[x, y] == -1) skip = true;
                             if (skip) break;
@@ -223,15 +199,7 @@ namespace Group_Project_2
                 {
                     for (int y = basicRoomY; y < basicRoomY + basicRoomHeight; y++)
                     {
-                        //if (y == basicRoomY + basicRoomHeight / 2 && x == basicRoomX) objectMap[x, y] = 0;
-                        //else if (y == basicRoomY + basicRoomHeight / 2 && x == basicRoomX + basicRoomWidth - 1) objectMap[x, y] = 1;
-                        //else if (x == basicRoomX + basicRoomWidth / 2 && y == basicRoomY) objectMap[x, y] = 2;
-                        //else if (x == basicRoomX + basicRoomWidth / 2 && y == basicRoomY + basicRoomHeight - 1) objectMap[x, y] = 3;
-                        if (x == basicRoomX || y == basicRoomY || x == basicRoomX + basicRoomWidth - 1 || y == basicRoomY + basicRoomHeight - 1)
-                        {//room wall
-                            map[x, y] = 1;
-                        }
-                        else map[x, y] = -1; //Empty space
+                        map[x, y] = -1; //Empty space
                     }
                 }
                 canPlace = false;
@@ -241,8 +209,8 @@ namespace Group_Project_2
 
         void CreateBasicRoom2()
         {
-            int basicRoomWidth = 12;
-            int basicRoomHeight = 12;
+            int basicRoomWidth = 10;
+            int basicRoomHeight = 10;
             bool canPlace = false;
             int basicRoomX = 0;
             int basicRoomY = 0;
@@ -253,16 +221,10 @@ namespace Group_Project_2
                 {
                     bool skip = false;
                     basicRoomX = MyRandom.Range(5, width - basicRoomWidth - 5);
-                    basicRoomY = MyRandom.Range(5, height - basicRoomHeight - 5);
-                    //if (map[basicRoomX - 5, basicRoomY - 5] != -1 &&
-                    //    map[basicRoomX + 16, basicRoomY + 16] != -1 &&
-                    //    map[basicRoomX + 16, basicRoomY - 5] != -1 &&
-                    //    map[basicRoomX - 5, basicRoomY + 16] != -1 &&
-                    //    map[basicRoomX + basicRoomWidth / 2, basicRoomY + basicRoomHeight / 2] != -1) canPlace = true;
-
-                    for (int x = basicRoomX - 5; x < basicRoomX + 17; x++)
+                    basicRoomY = MyRandom.Range(5, height - basicRoomHeight - 5);                   
+                    for (int x = basicRoomX - 5; x < basicRoomX + 15; x++)
                     {
-                        for (int y = basicRoomY - 5; y < basicRoomY + 17; y++)
+                        for (int y = basicRoomY - 5; y < basicRoomY + 15; y++)
                         {
                             if (map[x, y] == -1) skip = true;
                             if (skip) break;
@@ -279,11 +241,7 @@ namespace Group_Project_2
                 {
                     for (int y = basicRoomY; y < basicRoomY + basicRoomHeight; y++)
                     {
-                        if (x == basicRoomX || y == basicRoomY || x == basicRoomX + basicRoomWidth - 1 || y == basicRoomY + basicRoomHeight - 1)
-                        {//room wall
-                            map[x, y] = 1;
-                        }
-                        else map[x, y] = -1; //Empty space
+                        map[x, y] = -1; //Empty space
                     }
                 }
                 canPlace = false;
@@ -293,8 +251,8 @@ namespace Group_Project_2
 
         void CreateBasicRoom3()
         {
-            int basicRoomWidth = 17;
-            int basicRoomHeight = 17;
+            int basicRoomWidth = 15;
+            int basicRoomHeight = 15;
             bool canPlace = false;
             int basicRoomX = 0;
             int basicRoomY = 0;
@@ -305,16 +263,10 @@ namespace Group_Project_2
                 {
                     bool skip = false;
                     basicRoomX = MyRandom.Range(5, width - basicRoomWidth - 5);
-                    basicRoomY = MyRandom.Range(5, height - basicRoomHeight - 5);
-                    //if (map[basicRoomX - 5, basicRoomY - 5] != -1 &&
-                    //    map[basicRoomX + 21, basicRoomY + 21] != -1 &&
-                    //    map[basicRoomX + 21, basicRoomY - 5] != -1 &&
-                    //    map[basicRoomX - 5, basicRoomY + 21] != -1 &&
-                    //    map[basicRoomX + basicRoomWidth / 2, basicRoomY + basicRoomHeight / 2] != -1) canPlace = true;
-
-                    for (int x = basicRoomX - 5; x < basicRoomX + 22; x++)
+                    basicRoomY = MyRandom.Range(5, height - basicRoomHeight - 5);                    
+                    for (int x = basicRoomX - 5; x < basicRoomX + 20; x++)
                     {
-                        for (int y = basicRoomY - 5; y < basicRoomY + 22; y++)
+                        for (int y = basicRoomY - 5; y < basicRoomY + 20; y++)
                         {
                             if (map[x, y] == -1) skip = true;
                             if (skip) break;
@@ -331,11 +283,7 @@ namespace Group_Project_2
                 {
                     for (int y = basicRoomY; y < basicRoomY + basicRoomHeight; y++)
                     {
-                        if (x == basicRoomX || y == basicRoomY || x == basicRoomX + basicRoomWidth - 1 || y == basicRoomY + basicRoomHeight - 1)
-                        {//room wall
-                            map[x, y] = 1;
-                        }
-                        else map[x, y] = -1; //Empty space
+                        map[x, y] = -1; //Empty space
                     }
                 }
                 canPlace = false;
@@ -376,225 +324,25 @@ namespace Group_Project_2
             }
         }
 
-        //void CreatePathX()
-        //{
-        //    bool done = false;
-        //    while (!done)
-        //    {
-        //        done = true;
-        //        //look for the first point
-        //        bool found0 = false;
-        //        bool found1 = false;
-        //        int firstPointX = -2;
-        //        int firstPointY = -2;
-        //        for (int y = 1; y < height - 1; y++)
-        //        {//after looking through the current row (x) move down one row
-        //            for (int x = 1; x < width - 1; x++)
-        //            {//looks in the x direction first
-        //                if (objectMap[x, y] == 1)
-        //                {//from left to right if '1' is found save that location and break out of the loops
-        //                    found1 = true;
-        //                    firstPointX = x;
-        //                    firstPointY = y;
-        //                }
-        //                int x2 = width - 1 - x;
-        //                if (objectMap[x2, y] == 0)
-        //                {//from right to left if '0' is found save that location and break out of the loops
-        //                    found0 = true;
-        //                    firstPointX = x2;
-        //                    firstPointY = y;
-        //                }
+        void CreateVeins(int blockID, int veinNum)
+        {
+            for (int j = 0; j < veinNum; j++)
+            {
+                int veinSize = MyRandom.Range(3, 11);
+                int veinX = MyRandom.Range(2, width - 1);
+                int veinY = MyRandom.Range(2, height - 1);
+                for (int i = 0; i < veinSize; i++)
+                {
+                    if (veinX > 1 && veinX < width - 1 && veinY > 1 && veinY < height - 1 && map[veinX, veinY] != -1) map[veinX, veinY] = blockID;
 
-        //                if (found0 || found1) break;
-        //            }
-        //            if (found0 || found1) break;
-        //        }
-        //        //Start looking for the next point
-        //        bool foundSecondPoint = false;
-        //        int secondPointX = -2;
-        //        int secondPointY = -2;
-
-        //        if (found0)
-        //        {//if a '0' was found before '1', continue moving from right to left to find a '1'
-        //            for (int y = firstPointY; y < height - 1; y++)
-        //            {
-        //                for (int x = firstPointX; x > 1; x--)
-        //                {
-        //                    if (objectMap[x, y] == 1)
-        //                    {//if '1' is found, save the location and break out of the loops
-        //                        secondPointX = x;
-        //                        secondPointY = y;
-        //                        foundSecondPoint = true;
-        //                    }
-        //                    if (foundSecondPoint) break;
-        //                }
-        //                if (foundSecondPoint) break;
-        //            }
-        //        }
-        //        else if (found1)
-        //        {//if a '1' was found before '0', continue moving from left to right to find a '1'
-        //            for (int y = firstPointY; y < height - 1; y++)
-        //            {
-        //                for (int x = firstPointX; x < width - 1; x++)
-        //                {
-        //                    if (objectMap[x, y] == 0)
-        //                    {//if '1' is found, save the location and break out of the loops
-        //                        secondPointX = x;
-        //                        secondPointY = y;
-        //                        foundSecondPoint = true;
-        //                    }
-        //                    if (foundSecondPoint) break;
-        //                }
-        //                if (foundSecondPoint) break;
-        //            }
-        //        }
-        //        //if a second point is found and depending on the first point found, start making the hallway to connect the 2 rooms
-        //        if (foundSecondPoint && found0)
-        //        {//if '0' was found first
-        //            for (int x = firstPointX; x >= secondPointX; x--)
-        //            {//move left until the y coordinate is the same as second point
-        //                map[x, firstPointY] = -1;
-        //            }
-        //            for (int y = firstPointY; y <= secondPointY; y++)
-        //            {//move down until it reaches the second point
-        //                map[secondPointX, y] = -1;
-        //            }
-        //        }
-        //        else if (foundSecondPoint && found1)
-        //        {//if '1' was found first
-        //            for (int x = firstPointX; x <= secondPointX; x++)
-        //            {//move right until the y coordinate is the same as second point
-        //                map[x, firstPointY] = -1;
-        //            }
-        //            for (int y = firstPointY; y <= secondPointY; y++)
-        //            {//move down until it reaches the second point
-        //                map[secondPointX, y] = -1;
-        //            }
-        //        }
-        //        //remove places that the program already tried
-        //        if (firstPointX != -2 && firstPointY != -2)
-        //        {
-        //            objectMap[firstPointX, firstPointY] = -1;
-        //            done = false;
-        //        }
-        //        if (secondPointX != -2 && secondPointY != -2)
-        //        {
-        //            objectMap[secondPointX, secondPointY] = -1;
-        //            done = false;
-        //        }
-        //    }
-        //}
-
-        //void CreatePathY()
-        //{
-        //    bool done = false;
-        //    while (!done)
-        //    {
-        //        done = true;
-        //        //look for the first point
-        //        bool found2 = false;
-        //        bool found3 = false;
-        //        int firstPointX = -2;
-        //        int firstPointY = -2;
-        //        for (int x = 1; x < width - 1; x++)
-        //        {//after looking through the current column (y) move right one column
-        //            for (int y = 1; y < height - 1; y++)
-        //            {//looks in the y direction first
-        //                if (objectMap[x, y] == 3)
-        //                {//from top to bottom if '3' is found save that location and break out of the loops
-        //                    found3 = true;
-        //                    firstPointX = x;
-        //                    firstPointY = y;
-        //                }
-        //                int y2 = height - 1 - y;
-        //                if (objectMap[x, y2] == 2)
-        //                {//from bottom to top if '2' is found save that location and break out of the loops
-        //                    found2 = true;
-        //                    firstPointX = x;
-        //                    firstPointY = y2;
-        //                }
-
-        //                if (found2 || found3) break;
-        //            }
-        //            if (found2 || found3) break;
-        //        }
-        //        //Start looking for the next point
-        //        bool foundSecondPoint = false;
-        //        int secondPointX = -2;
-        //        int secondPointY = -2;
-
-        //        if (found2)
-        //        {//if a '2' was found before '3', continue moving from bottom to top to find a '3'
-        //            for (int x = firstPointX; x < width - 1; x++)
-        //            {
-        //                for (int y = firstPointY; y > 1; y--)
-        //                {
-        //                    if (objectMap[x, y] == 3)
-        //                    {//if '3' is found, save the location and break out of the loops
-        //                        secondPointX = x;
-        //                        secondPointY = y;
-        //                        foundSecondPoint = true;
-        //                    }
-        //                    if (foundSecondPoint) break;
-        //                }
-        //                if (foundSecondPoint) break;
-        //            }
-        //        }
-        //        else if (found3)
-        //        {//if a '3' was found before '2', continue moving from top to bottom to find a '2'
-        //            for (int x = firstPointX; x < width - 1; x++)
-        //            {
-        //                for (int y = firstPointY; y < height - 1; y++)
-        //                {
-        //                    if (objectMap[x, y] == 2)
-        //                    {//if '2' is found, save the location and break out of the loops
-        //                        secondPointX = x;
-        //                        secondPointY = y;
-        //                        foundSecondPoint = true;
-        //                    }
-        //                    if (foundSecondPoint) break;
-        //                }
-        //                if (foundSecondPoint) break;
-        //            }
-        //        }
-        //        //if a second point is found and depending on the first point found, start making the hallway to connect the 2 rooms
-        //        if (foundSecondPoint && found2)
-        //        {//if '2' was found first
-        //            for (int y = firstPointY; y >= secondPointY; y--)
-        //            {//move up until the x coordinate is the same as second point
-        //                map[firstPointX, y] = -1;
-        //            }
-        //            for (int x = firstPointX; x <= secondPointX; x++)
-        //            {//move right until it reaches the second point
-        //                map[x, secondPointY] = -1;
-        //            }
-        //            done = false;
-        //        }
-        //        else if (foundSecondPoint && found3)
-        //        {//if '3' was found first
-        //            for (int y = firstPointY; y <= secondPointY; y++)
-        //            {//move down until the xw coordinate is the same as second point
-        //                map[firstPointX, y] = -1;
-        //            }
-        //            for (int x = firstPointX; x <= secondPointX; x++)
-        //            {//move right until it reaches the second point
-        //                map[x, secondPointY] = -1;
-        //            }
-        //            done = false;
-        //        }
-        //        //remove places that the program already tried
-        //        if (firstPointX != -2 && firstPointY != -2)
-        //        {
-        //            objectMap[firstPointX, firstPointY] = -1;
-        //            done = false;
-        //        }
-        //        if (secondPointX != -2 && secondPointY != -2)
-        //        {
-        //            objectMap[secondPointX, secondPointY] = -1;
-        //            done = false;
-        //        }
-        //    }
-        //}
+                    int veinPath = MyRandom.Range(0, 4);
+                    if (veinPath == 0) veinX++;
+                    else if (veinPath == 1) veinX--;
+                    else if (veinPath == 2) veinY++;
+                    else veinY--;
+                }
+            }
+        }
 
         void CreatePlayer(int x, int y)
         {
