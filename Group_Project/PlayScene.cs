@@ -16,8 +16,11 @@ namespace Group_Project_2
 
         public ParticleManager pm;
 
+        public FloorManager fm;
+
         public PlayScene()
         {
+            fm = new FloorManager();
             map = new Map(this);
             Camera.LookAt(player.x, player.y);
             pm = new ParticleManager();

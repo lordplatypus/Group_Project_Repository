@@ -72,6 +72,7 @@
     <Compile Include="Enemy3.cs" />
     <Compile Include="Enemy4.cs" />
     <Compile Include="EnemyShot.cs" />
+    <Compile Include="FloorManager.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="GameClearScene.cs" />
