@@ -53,7 +53,7 @@ namespace Group_Project_2
         {
 
             //ブロック
-            DX.LoadDivGraph("Map/box_tiles.png", block.Length, 10, 1, 64, 64, block);
+            DX.LoadDivGraph("Map/Block.png", block.Length, 6, 1, 64, 64, block);
 
             //プレイヤー
             DX.LoadDivGraph("Image/player/player.png", player.Length, 3, 8, 48, 48, player);

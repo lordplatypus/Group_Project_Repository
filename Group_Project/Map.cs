@@ -8,12 +8,12 @@ using MyLib;
 //Note
 //Map
 //-1 = empty
-//0 = indestructible (何も壊れないブロック)
-//1 = slime (スライム)
-//2 = soil (土)
-//3 = stone (石)
-//4 = iron (鉄)
-//5 = diamond (ダイアモンド)
+//0 = slime (スライム)
+//1 = soil (土)
+//2 = stone (石)
+//3 = iron (鉄)
+//4 = diamond (ダイアモンド)
+//5 = indestructible (何も壊れないブロック)
 
 //Object Map
 //-2 = no spawn zone
@@ -109,22 +109,14 @@ namespace Group_Project_2
             {
                 for (int y = 0; y < height; y++)
                 {
-                    if (spawnableBlocks > 2)
-                    {//to spawn stone and iron blocks
-                        int blockToSpawn = MyRandom.Range(0, 1000);
-                        if (blockToSpawn <= 994) map[x, y] = 3;
-                        if (blockToSpawn <= 996) map[x, y] = 4;
-                        if (spawnableBlocks > 4)
-                        {//to spawn diamond blocks
-                            if (blockToSpawn == 999) map[x, y] = 5;
-                        }
-                    }
+
 
                     if (x == 0 || y == 0 || x == width - 1 || y == height - 1)
                     {//unbreakable wall
-                        map[x, y] = 0;
+                        map[x, y] = 5;
                     }
-                    else map[x, y] = 1;
+                    else map[x, y] = 0;
+                    
 
                     objectMap[x, y] = -1;
                 }
@@ -148,7 +140,7 @@ namespace Group_Project_2
                     //else if (x == bossRoomX + bossRoomWidth / 2 && y == bossRoomY + bossRoomHeight - 1) objectMap[x, y] = 3;
                     if (x == bossRoomX || y == bossRoomY || x == bossRoomX + bossRoomWidth - 1 || y == bossRoomY + bossRoomHeight - 1)
                     {//room wall
-                        map[x, y] = 2;
+                        map[x, y] = 1;
                     }
                     else map[x, y] = -1; //Empty space
 
@@ -178,7 +170,7 @@ namespace Group_Project_2
                     //else if (x == playerRoomX + playerRoomWidth / 2 && y == playerRoomY + playerRoomHeight - 1) objectMap[x, y] = 3;
                     if (x == playerRoomX || y == playerRoomY || x == playerRoomX + playerRoomWidth - 1 || y == playerRoomY + playerRoomHeight - 1)
                     {//room wall
-                        map[x, y] = 2;
+                        map[x, y] = 1;
                     }
                     else map[x, y] = -1; //Empty space
 
@@ -203,13 +195,26 @@ namespace Group_Project_2
             {
                 while (!canPlace)
                 {
+                    bool skip = false;
                     basicRoomX = MyRandom.Range(5, width - basicRoomWidth - 5);
                     basicRoomY = MyRandom.Range(5, height - basicRoomHeight - 5);
-                    if (map[basicRoomX - 5, basicRoomY - 5] != -1 &&
-                        map[basicRoomX + 11, basicRoomY + 11] != -1 &&
-                        map[basicRoomX + 11, basicRoomY - 5] != -1 &&
-                        map[basicRoomX - 5, basicRoomY + 11] != -1 &&
-                        map[basicRoomX + basicRoomWidth / 2, basicRoomY + basicRoomHeight / 2] != -1) canPlace = true;
+                    //if (map[basicRoomX - 5, basicRoomY - 5] != -1 &&
+                    //    map[basicRoomX + 11, basicRoomY + 11] != -1 &&
+                    //    map[basicRoomX + 11, basicRoomY - 5] != -1 &&
+                    //    map[basicRoomX - 5, basicRoomY + 11] != -1 &&
+                    //    map[basicRoomX + basicRoomWidth / 2, basicRoomY + basicRoomHeight / 2] != -1) canPlace = true;
+
+                    for (int x = basicRoomX - 5; x < basicRoomX + 12; x++)
+                    {
+                        for (int y = basicRoomY - 5; y < basicRoomY + 12; y++)
+                        {
+                            if (map[x, y] == -1) skip = true;
+                            if (skip) break;
+                        }
+                        if (skip) break;
+                    }
+                    if (!skip) canPlace = true;
+
                     failsafe++;
                     if (failsafe >= 100) return;
                 }
@@ -224,7 +229,7 @@ namespace Group_Project_2
                         //else if (x == basicRoomX + basicRoomWidth / 2 && y == basicRoomY + basicRoomHeight - 1) objectMap[x, y] = 3;
                         if (x == basicRoomX || y == basicRoomY || x == basicRoomX + basicRoomWidth - 1 || y == basicRoomY + basicRoomHeight - 1)
                         {//room wall
-                            map[x, y] = 2;
+                            map[x, y] = 1;
                         }
                         else map[x, y] = -1; //Empty space
                     }
@@ -246,13 +251,26 @@ namespace Group_Project_2
             {
                 while (!canPlace)
                 {
+                    bool skip = false;
                     basicRoomX = MyRandom.Range(5, width - basicRoomWidth - 5);
                     basicRoomY = MyRandom.Range(5, height - basicRoomHeight - 5);
-                    if (map[basicRoomX - 5, basicRoomY - 5] != -1 &&
-                        map[basicRoomX + 16, basicRoomY + 16] != -1 &&
-                        map[basicRoomX + 16, basicRoomY - 5] != -1 &&
-                        map[basicRoomX - 5, basicRoomY + 16] != -1 &&
-                        map[basicRoomX + basicRoomWidth / 2, basicRoomY + basicRoomHeight / 2] != -1) canPlace = true;
+                    //if (map[basicRoomX - 5, basicRoomY - 5] != -1 &&
+                    //    map[basicRoomX + 16, basicRoomY + 16] != -1 &&
+                    //    map[basicRoomX + 16, basicRoomY - 5] != -1 &&
+                    //    map[basicRoomX - 5, basicRoomY + 16] != -1 &&
+                    //    map[basicRoomX + basicRoomWidth / 2, basicRoomY + basicRoomHeight / 2] != -1) canPlace = true;
+
+                    for (int x = basicRoomX - 5; x < basicRoomX + 17; x++)
+                    {
+                        for (int y = basicRoomY - 5; y < basicRoomY + 17; y++)
+                        {
+                            if (map[x, y] == -1) skip = true;
+                            if (skip) break;
+                        }
+                        if (skip) break;
+                    }
+                    if (!skip) canPlace = true;
+
                     failsafe++;
                     if (failsafe >= 100) return;
                 }
@@ -263,7 +281,7 @@ namespace Group_Project_2
                     {
                         if (x == basicRoomX || y == basicRoomY || x == basicRoomX + basicRoomWidth - 1 || y == basicRoomY + basicRoomHeight - 1)
                         {//room wall
-                            map[x, y] = 2;
+                            map[x, y] = 1;
                         }
                         else map[x, y] = -1; //Empty space
                     }
@@ -285,13 +303,26 @@ namespace Group_Project_2
             {
                 while (!canPlace)
                 {
+                    bool skip = false;
                     basicRoomX = MyRandom.Range(5, width - basicRoomWidth - 5);
                     basicRoomY = MyRandom.Range(5, height - basicRoomHeight - 5);
-                    if (map[basicRoomX - 5, basicRoomY - 5] != -1 &&
-                        map[basicRoomX + 21, basicRoomY + 21] != -1 &&
-                        map[basicRoomX + 21, basicRoomY - 5] != -1 &&
-                        map[basicRoomX - 5, basicRoomY + 21] != -1 &&
-                        map[basicRoomX + basicRoomWidth / 2, basicRoomY + basicRoomHeight / 2] != -1) canPlace = true;
+                    //if (map[basicRoomX - 5, basicRoomY - 5] != -1 &&
+                    //    map[basicRoomX + 21, basicRoomY + 21] != -1 &&
+                    //    map[basicRoomX + 21, basicRoomY - 5] != -1 &&
+                    //    map[basicRoomX - 5, basicRoomY + 21] != -1 &&
+                    //    map[basicRoomX + basicRoomWidth / 2, basicRoomY + basicRoomHeight / 2] != -1) canPlace = true;
+
+                    for (int x = basicRoomX - 5; x < basicRoomX + 22; x++)
+                    {
+                        for (int y = basicRoomY - 5; y < basicRoomY + 22; y++)
+                        {
+                            if (map[x, y] == -1) skip = true;
+                            if (skip) break;
+                        }
+                        if (skip) break;
+                    }
+                    if (!skip) canPlace = true;
+
                     failsafe++;
                     if (failsafe >= 100) return;
                 }
@@ -302,7 +333,7 @@ namespace Group_Project_2
                     {
                         if (x == basicRoomX || y == basicRoomY || x == basicRoomX + basicRoomWidth - 1 || y == basicRoomY + basicRoomHeight - 1)
                         {//room wall
-                            map[x, y] = 2;
+                            map[x, y] = 1;
                         }
                         else map[x, y] = -1; //Empty space
                     }

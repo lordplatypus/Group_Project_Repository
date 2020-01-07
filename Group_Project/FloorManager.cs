@@ -38,9 +38,9 @@ namespace Group_Project_2
             //map size y
             floorInfo[1] = 60;
             //num of regular rooms 1
-            floorInfo[2] = 4;
+            floorInfo[2] = 0;
             //num of regular rooms 2
-            floorInfo[3] = 0;
+            floorInfo[3] = 4;
             //num of regular rooms 3
             floorInfo[4] = 0;
             //num of secret rooms
