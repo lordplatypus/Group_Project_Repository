@@ -34,6 +34,7 @@ namespace Group_Project_2
         {
             this.x = x;
             this.y = y;
+            hp = 1;
 
             imageWidth = 48;
             imageHeight = 48;

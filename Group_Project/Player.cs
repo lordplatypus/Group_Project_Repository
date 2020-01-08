@@ -92,6 +92,12 @@ namespace Group_Project_2
 
         void HandleInput()
         {
+            if (Input.GetButton(DX.PAD_INPUT_7))
+            {
+                playScene.bm.CurrentSelectedBlock();
+            }
+
+
             if (Input.GetButton(DX.PAD_INPUT_6))
             {
                 vx = WalkSpeed;
@@ -162,7 +168,8 @@ namespace Group_Project_2
                 }
                 if (playScene.map.GetTerrain(lookX, lookY) >= 0)
                 {
-                    playScene.map.DeleteWall(lookX, lookY);
+                    //playScene.map.DeleteWall(lookX, lookY);
+                    playScene.bm.StoreBlock(lookX, lookY);
                     playScene.gameObjects.Add(new Empty(playScene, lookX, lookY));
                     playScene.blockcount++;
                 }
@@ -246,7 +253,8 @@ namespace Group_Project_2
             {
                 if ((MouseInput & DX.MOUSE_INPUT_LEFT) != 0 && !IsMouseClick)
                 {
-                    playScene.gameObjects.Add(new PlayerShot(playScene, x, y, angle));
+                    //playScene.gameObjects.Add(new PlayerShot(playScene, x, y, angle));
+                    playScene.bm.ThrowBlock(x, y, angle);
                     IsMouseClick = true;
                     playScene.blockcount--;
                 }
@@ -434,7 +442,7 @@ namespace Group_Project_2
             }
         }
 
-        public void TakeDamage(int damage)
+        public override void TakeDamage(int damage)
         {
             if (mutekiTimer <= 0)
             {

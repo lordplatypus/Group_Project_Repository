@@ -6,27 +6,29 @@ using System.Threading.Tasks;
 
 namespace Group_Project_2
 {
-    public class Enemy3 : GameObject
+    public class Enemy1 : GameObject
     {
-        const int CellSize = 64;
-        const float Speed = 0f;
 
-        float angleToPlayer = 0;
-        bool foundPlayer = false;
-        float vx = 0;
-        float vy = 0;
+        const float Speed = 1f;
         
-        bool isLook = false;
-        bool isMaked = false;
+        float vx = Speed;
+        float vy = -Speed;
 
-        const int MutekiJikan = 30;
-        int mutekiTimer = 0;
-        int life = 3;
+        enum State
+        {
+            Left,
+            Right,
+            Up,
+            Down,
+        }
 
-        public Enemy3(PlayScene playScene, float x, float y) : base (playScene)
+        State state = State.Up;
+
+        public Enemy1(PlayScene playScene, float x, float y) : base(playScene)
         {
             this.x = x;
             this.y = y;
+            hp = 1;
 
             imageWidth = 48;
             imageHeight = 48;
@@ -38,44 +40,22 @@ namespace Group_Project_2
 
         public override void Update()
         {
-            if (foundPlayer)
-            {
-                Player player = playScene.player;
-                angleToPlayer = MyMath.PointToPointAngle(x, y, player.x, player.y);
-                MoveX();
-                MoveY();
-                isLook = true;
-            }
-            else if (!foundPlayer && IsVisible()) LookForPlayer();
-            else if (!IsVisible()) foundPlayer = false;
-
-            if (isLook == true && isMaked == false)
-            {
-                for (int i = 0; i < 360; i += 40)
-                {
-                    playScene.map.CreateBlock(x + 88 * (float)Math.Cos(i), y + 88 * (float)Math.Sin(i), 1);
-                }
-                isMaked = true;
-            }
-
-            mutekiTimer--;
-        }
-
-        void LookForPlayer()
-        {
-            Player player = playScene.player;
-            if (MyMath.RectRectIntersection(
-                        GetLeft() - 5 * CellSize, GetTop() - 5 * CellSize, GetRight() + 5 * CellSize, GetBottom() + 5 * CellSize,
-                        player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
-            {
-                foundPlayer = true;
-            }
+            MoveX();
+            MoveY();
         }
 
         void MoveX()
         {
-            vx = (float)Math.Cos(angleToPlayer) * Speed;
+            if (vy != 0) return;
             x += vx;
+            if (vx > 0)
+            {
+                state = State.Right;
+            }
+            else if (vx < 0)
+            {
+                state = State.Left;
+            }
 
             float left = GetLeft();
             float right = GetRight() - .01f;
@@ -89,6 +69,9 @@ namespace Group_Project_2
             {//check right
                 float wallRight = left - left % Map.CellSize + Map.CellSize;
                 SetLeft(wallRight);
+                {
+                    vx = -vx;
+                }
             }
             else if (playScene.map.IsWall(right, top) ||
                 playScene.map.IsWall(right, middle) ||
@@ -96,13 +79,25 @@ namespace Group_Project_2
             {//check left
                 float wallLeft = right - right % Map.CellSize;
                 SetRight(wallLeft);
+                {
+                    vx = -vx;
+                }
             }
         }
 
         void MoveY()
         {
-            vy = (float)Math.Sin(angleToPlayer) * Speed;
+            //if (vx != 0) return;
             y += vy;
+
+            if (vy > 0)
+            {
+                state = State.Down;
+            }
+            else if (vy < 0)
+            {
+                state = State.Up;
+            }
 
             float left = GetLeft();
             float right = GetRight() - .01f;
@@ -116,6 +111,9 @@ namespace Group_Project_2
             {//check up
                 float wallUp = top - top % Map.CellSize + Map.CellSize;
                 SetTop(wallUp);
+                {
+                    vy = -vy;
+                }
             }
             else if (playScene.map.IsWall(left, bottom) ||
                 playScene.map.IsWall(middle, bottom) ||
@@ -123,38 +121,66 @@ namespace Group_Project_2
             {//check down
                 float wallDown = bottom - bottom % Map.CellSize;
                 SetBottom(wallDown);
+                {
+                    vy = -vy;
+                }
             }
         }
 
         public override void Draw()
         {
-            Camera.DrawGraph(x, y, Image.blockenemy);
+            if (state == State.Down)
+            {
+                Camera.DrawGraph(x, y, Image.moveEnemy[1]);
+            }
+            else if (state == State.Right)
+            {
+                Camera.DrawGraph(x, y, Image.moveEnemy[4]);
+            }
+            else if (state == State.Left)
+            {
+                Camera.DrawGraph(x, y, Image.moveEnemy[7]);
+            }
+            else if (state == State.Up)
+            {
+                Camera.DrawGraph(x, y, Image.moveEnemy[10]);
+            }
         }
 
         public override void OnCollision(GameObject other)
         {
-            if (other is PlayerShot)
+            if (other is Player || other is Enemy1 || other is Enemy2 || other is Enemy3 || other is Enemy4)
             {
-                if (mutekiTimer <= 0)
+                if (other.x < x && other.x + 48 > x)
                 {
-                    TakeDamage();
+                    vy = 0;
+                    vx = Speed;
+                }
+                if (other.x > x && other.x < x + 48)
+                {
+                    vy = 0;
+                    vx = -Speed;
+                }
+                if (other.y < y && other.y + 48 > y)
+                {
+                    vx = 0;
+                    vy = Speed;
+                }
+                if (other.y > y && other.y < y + 48)
+                {
+                    vx = 0;
+                    vy = -Speed;
                 }
             }
-        }
 
-        void TakeDamage()
-        {
-            life -= 1; // ライフ減少
-
-            if (life <= 0)
+            if(other is PlayerShot)
             {
-                // ライフが無くなったら死亡
                 Kill();
             }
-            else
+
+            if (other is Empty)
             {
-                // 無敵時間発動
-                mutekiTimer = MutekiJikan;
+                Kill();
             }
         }
     }

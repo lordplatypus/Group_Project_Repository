@@ -18,12 +18,15 @@ namespace Group_Project_2
 
         public FloorManager fm;
 
+        public BlockManager bm;
+
         public PlayScene()
         {
             fm = new FloorManager(this);
             map = new Map(this);
             Camera.LookAt(player.x, player.y);
             pm = new ParticleManager();
+            bm = new BlockManager(this);
         }
 
         public override void Update()
