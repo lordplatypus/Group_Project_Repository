@@ -92,6 +92,7 @@
     <Compile Include="Scene.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="TitleScene.cs" />
+    <Compile Include="Warp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

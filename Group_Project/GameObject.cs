@@ -131,5 +131,10 @@ namespace Group_Project_2
         {
             isDead = true;
         }
+
+        public virtual void TakeDamage(int damage)
+        {
+
+        }
     }
 }

@@ -18,16 +18,16 @@ using MyLib;
 //Object Map
 //-2 = no spawn zone
 //-1 = empty
-//0 = anchor left
-//1 = anchor right
-//2 = anchor up
-//3 = anchor down
-//4 = player
-//5 = enemy 1
-//6 = enemy 2
-//7 = enemy 3
-//8 = enemy 4
-//9 = boss
+//0 = player
+//1 = enemy 1
+//2 = enemy 2
+//3 = enemy 3
+//4 = enemy 4
+//5 = enemy 5
+//6 = boss 1
+//7 = boss 2
+//8 = boss 3
+//9 = warp
 
 namespace Group_Project_2
 {
@@ -46,7 +46,7 @@ namespace Group_Project_2
         int numBasic1 = 0;
         int numBasic2 = 0;
         int numBasic3 = 0;
-        int numSecret = 0;
+        bool spawnSecret = false;
         int numEnemy1 = 0;
         int numEnemy2 = 0;
         int numEnemy3 = 0;
@@ -55,7 +55,8 @@ namespace Group_Project_2
         int bossID = 0;
         int mainBlock = 0;
         int secondBlock = 0;
-        int spawnDiamonds = 0;
+        bool spawnDiamonds = false;
+        bool finalBoss = false;
 
         public Map(PlayScene playScene)
         {
@@ -72,15 +73,21 @@ namespace Group_Project_2
             map = new int[width, height];
             objectMap = new int[width, height];
 
-            CreateMapArray();
-            CreateBossRoom();
-            CreatePlayerRoom();
-            CreateBasicRoom1();
-            CreateBasicRoom2();
-            CreateBasicRoom3();
-            CreateSecretRoom();
-            CreateVeins(secondBlock, 20);
-            CreateEnemies();
+            if (!finalBoss)
+            {
+                CreateMapArray();
+                CreateBossRoom();
+                CreatePlayerRoom();
+                if (spawnSecret) CreateSecretRoom();
+                CreateBasicRoom1();
+                CreateBasicRoom2();
+                CreateBasicRoom3();
+                CreateVeins(secondBlock, 20);
+                if (spawnDiamonds) CreateVeins(4, 1);
+                CreateEnemies();
+            }
+            else CreateFinalBossRoom();
+
             SpawnObjects();
         }
 
@@ -92,7 +99,7 @@ namespace Group_Project_2
             numBasic1 = floorInfo[2];
             numBasic2 = floorInfo[3];
             numBasic3 = floorInfo[4];
-            numSecret = floorInfo[5];
+            if (floorInfo[5] == 1) spawnSecret = true;
             numEnemy1 = floorInfo[6];
             numEnemy2 = floorInfo[7];
             numEnemy3 = floorInfo[8];
@@ -101,7 +108,8 @@ namespace Group_Project_2
             bossID = floorInfo[11];
             mainBlock = floorInfo[12];
             secondBlock = floorInfo[13];
-            spawnDiamonds = floorInfo[14];
+            if (floorInfo[14] == 1) spawnDiamonds = true;
+            if (floorInfo[15] == 1) finalBoss = true;
         }
 
         void CreateMapArray()
@@ -134,9 +142,13 @@ namespace Group_Project_2
                 {                   
                     map[x, y] = -1; //Empty space
 
-                    if (x == bossRoomX + bossRoomWidth / 2 && y == bossRoomY + bossRoomHeight / 2)
-                    {
+                    if (x == bossRoomX + bossRoomWidth / 2 && y == bossRoomY + bossRoomHeight / 2 + 1)
+                    {//marker to spawn the warp
                         objectMap[x, y] = 9;
+                    }
+                    else if (x == bossRoomX + bossRoomWidth / 2 && y == bossRoomY + bossRoomHeight / 2)
+                    {//marker to spawn the boss
+                        objectMap[x, y] = bossID;
                     }
                     else objectMap[x, y] = -2;
                 }
@@ -158,10 +170,33 @@ namespace Group_Project_2
 
                     if (x == playerRoomX + playerRoomWidth / 2 && y == playerRoomY + playerRoomHeight / 2)
                     {
-                        CreatePlayer(x, y);
+                        objectMap[x, y] = 0;
                     }
                     else objectMap[x, y] = -2;
                 }
+            }
+        }
+
+        void CreateSecretRoom()
+        {
+            int secretRoomWidth = 5;
+            int secretRoomHeight = 5;
+            int secretRoomX = 5;
+            int secretRoomY = 5;
+                          
+            for (int x = secretRoomX; x < secretRoomX + secretRoomWidth; x++)
+            {
+                for (int y = secretRoomY; y < secretRoomY + secretRoomHeight; y++)
+                {//make room left of the boss room
+                    map[x, y] = -1;
+                    objectMap[x, y] = -2;
+                }
+            }
+            
+            for (int x = 5; x < 30; x++)
+            {//make hallway
+                map[x, secretRoomHeight / 2 + secretRoomY] = -1;
+                objectMap[x, secretRoomHeight / 2 + secretRoomY] = -2;
             }
         }
 
@@ -291,36 +326,28 @@ namespace Group_Project_2
             }
         }
 
-        void CreateSecretRoom()
+        void CreateFinalBossRoom()
         {
-            int secretRoomWidth = 5;
-            int secretRoomHeight = 5;
-            bool canPlace = false;
-            int secretRoomX = 0;
-            int secretRoomY = 0;
-            int failsafe = 0;
-            for (int i = 0; i < numSecret; i++)
+            for (int x = 0; x < width; x++)
             {
-                while (!canPlace)
+                for (int y = 0; y < height; y++)
                 {
-                    secretRoomX = MyRandom.Range(1, width - secretRoomWidth);
-                    secretRoomY = MyRandom.Range(1, height - secretRoomHeight);
-                    if (map[secretRoomX, secretRoomY] != -1 &&
-                        map[secretRoomX + 4, secretRoomY + 4] != -1 &&
-                        map[secretRoomX + 4, secretRoomY] != -1 &&
-                        map[secretRoomX, secretRoomY + 4] != -1) canPlace = true;
-                    failsafe++;
-                    if (failsafe >= 100) return;
-                }
-                for (int x = secretRoomX; x < secretRoomX + secretRoomWidth; x++)
-                {
-                    for (int y = secretRoomY; y < secretRoomY + secretRoomHeight; y++)
-                    {
-                        map[x, y] = -1;
+                    if (x == 0 || y == 0 || x == width - 1 || y == height - 1)
+                    {//unbreakable wall
+                        map[x, y] = 5;
                     }
+                    else map[x, y] = -1; //empty space
+
+                    if (x == width / 2 && y == 2)
+                    {//boss location
+                        objectMap[x, y] = bossID;
+                    }
+                    else if (x == width / 2 && y == height - 2)
+                    {//player location
+                        objectMap[x, y] = 0;
+                    }
+                    else objectMap[x, y] = -1; //empty
                 }
-                canPlace = false;
-                failsafe = 0;
             }
         }
 
@@ -344,31 +371,21 @@ namespace Group_Project_2
             }
         }
 
-        void CreatePlayer(int x, int y)
-        {
-            objectMap[x, y] = 4;
-        }
-
         int[] CreateEnemyList()
         {
-            //the number of enemies of a certain type
-            int enemy0Count = 1;
-            int enemy1Count = 1;
-            int enemy2Count = 1;
-            int enemy3Count = 1;
             //an array that holds the above numbers, makes the following code smaller
-            int[] numOfEachEnemyType = new int[] {enemy0Count, enemy1Count, enemy2Count, enemy3Count};
+            int[] numOfEachEnemyType = new int[] {numEnemy1, numEnemy2, numEnemy3, numEnemy4, numEnemy5};
             //just a variable to hold the number of different enemy types
             int numOfDiffEnemies = numOfEachEnemyType.Length;
             //the actual enemy array that will be passed on, it holds the id and the amount needed to spawn the correct enemy type and amount
-            int[] enemyList = new int[enemy0Count + enemy1Count + enemy2Count + enemy3Count];
+            int[] enemyList = new int[numEnemy1 + numEnemy2 + numEnemy3 + numEnemy4 + numEnemy5];
             //'k' is just a typical counter
             int k = 0;
             for (int i = 0; i < numOfDiffEnemies; i++)
             {//this loop goes through the types of enemies
                 for (int j = 0; j < numOfEachEnemyType[i]; j++)
                 {//this loop goes through the amount of 1 enemy type
-                    enemyList[k] = i + 5; //the '+ 5' is to offset the id, as id 5 = enemy0, id 6 = enemy1, and so on
+                    enemyList[k] = i + 1; //the '+ 1' is to offset the id, as id 1 = enemy1, id 2 = enemy2, and so on
                     k++;
                 }
             }
@@ -402,37 +419,49 @@ namespace Group_Project_2
                 for (int y = 0; y < height; y++)
                 {
                     //if the spot is empty, skip
-                    if (objectMap[x, y] < 4) continue;
+                    if (objectMap[x, y] < 0) continue;
                     //convert from block coordinates to world coordinates
                     int worldX = x * CellSize;
                     int worldY = y * CellSize;
                     //spawn object based on ID stored at that location
-                    if (objectMap[x, y] == 4)
+                    if (objectMap[x, y] == 0)
                     {//Spawn player
                         Player player = new Player(playScene, worldX, worldY);
                         playScene.gameObjects.Add(player);
                         playScene.player = player;
                     }
-                    if (objectMap[x, y] == 5)
+                    if (objectMap[x, y] == 1)
                     {
                         playScene.gameObjects.Add(new Enemy1(playScene, worldX, worldY));
                     }
-                    if (objectMap[x, y] == 6)
+                    if (objectMap[x, y] == 2)
                     {
                         playScene.gameObjects.Add(new Enemy2(playScene, worldX, worldY));
                     }
-                    if (objectMap[x, y] == 7)
+                    if (objectMap[x, y] == 3)
                     {
                         playScene.gameObjects.Add(new Enemy3(playScene, worldX, worldY));
                     }
-                    if (objectMap[x, y] == 8)
+                    if (objectMap[x, y] == 4)
                     {
                         playScene.gameObjects.Add(new Enemy4(playScene, worldX, worldY));
                     }
-                    if (objectMap[x, y] == 9)
+                    //if (objectMap[x, y] == 5)
+                    //{
+                    //    playScene.gameObjects.Add(new Enemy5(playScene, worldX, worldY));
+                    //}
+                    if (objectMap[x, y] == 6)
                     {
                         playScene.gameObjects.Add(new Boss(playScene, worldX, worldY));
                     }
+                    //if (objectMap[x, y] == 7)
+                    //{
+                    //    playScene.gameObjects.Add(new Boss2(playScene, worldX, worldY));
+                    //}
+                    //if (objectMap[x, y] == 8)
+                    //{
+                    //    playScene.gameObjects.Add(new Boss3(playScene, worldX, worldY));
+                    //}
                 }
             }
         }
@@ -522,6 +551,26 @@ namespace Group_Project_2
                 int mapX = (int)(worldX / CellSize);
                 int mapY = (int)(worldY / CellSize);
                 map[mapX, mapY] = blockLevel;
+            }
+        }
+
+        public void CreateWarp()
+        {
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    //if the spot is empty, skip
+                    if (objectMap[x, y] != 9) continue;
+                    //convert from block coordinates to world coordinates
+                    int worldX = x * CellSize;
+                    int worldY = y * CellSize;
+                    //spawn object based on ID stored at that location
+                    if (objectMap[x, y] == 9)
+                    {//Spawn player
+                        playScene.gameObjects.Add(new Warp(playScene, worldX, worldY));
+                    }
+                }
             }
         }
     }

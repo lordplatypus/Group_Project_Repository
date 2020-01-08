@@ -867,5 +867,25 @@ namespace Group_Project_2
                     });
             }
         }
+
+        //public void BreakWall(float x, float y)
+        //{
+        //    particles.Add(
+        //        new Particle()
+        //        {
+        //            x = x,
+        //            y = y,
+        //            lifeSpan = MyRandom.Range(40, 70),
+        //            imageHandle = Image.square,
+        //            vy = MyRandom.Range(-4f, -7f),
+        //            vx = MyRandom.PlusMinus(1.5f),
+        //            forceY = 0.15f,
+        //            startScale = 1f,
+        //            endScale = 1f,
+        //            red = 200,
+        //            green = 200,
+        //            blue = 200,
+        //        });
+        //}
     }
 }
