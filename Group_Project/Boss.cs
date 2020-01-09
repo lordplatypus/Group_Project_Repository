@@ -27,7 +27,6 @@ namespace Group_Project_2
         float centerY;
         int cooldownTimer = 0;
         int cooldown = 240;
-        int HP = 20;
         bool foundPlayer = false;
 
         public Boss(PlayScene playScene, float x, float y) : base(playScene)
@@ -43,6 +42,7 @@ namespace Group_Project_2
             this.y = y;
             centerX = x - imageWidth / 2;
             centerY = y - imageHeight / 2;
+            hp = 20;
         }
 
         public override void Update()
@@ -185,15 +185,26 @@ namespace Group_Project_2
 
         public override void OnCollision(GameObject other)
         {
-            if (other is PlayerShot)
+            //if (other is PlayerShot)
+            //{
+            //    HP--;
+            //    if (HP == 10)
+            //    {
+            //        AngleSpeed *= 2;
+            //        cooldown /= 2;
+            //    }
+            //    if (HP <= 0) Kill();
+            //}
+        }
+
+        public override void TakeDamage(int damage)
+        {
+            base.TakeDamage(damage);
+
+            if (hp == 10)
             {
-                HP--;
-                if (HP == 10)
-                {
-                    AngleSpeed *= 2;
-                    cooldown /= 2;
-                }
-                if (HP <= 0) Kill();
+                AngleSpeed *= 2;
+                cooldown /= 2;
             }
         }
 

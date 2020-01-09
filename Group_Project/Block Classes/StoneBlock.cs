@@ -106,5 +106,12 @@ namespace Group_Project_2
 
             other.TakeDamage(damage);
         }
+
+        public override void Kill()
+        {
+            base.Kill();
+
+            playScene.pm.BreakWall(x + imageWidth / 2, y + imageHeight / 2, 100, 100, 100);
+        }
     }
 }

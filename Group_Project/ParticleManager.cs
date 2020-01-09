@@ -50,34 +50,6 @@ namespace Group_Project_2
                 });
         }
 
-        public void Spark(float x, float y, float angle)
-        {
-            for (int i = 0; i < 30; i++)
-            {
-                angle += MyRandom.PlusMinus(0.04f);
-                float speed = MyRandom.Range(4f, 17f);
-
-                particles.Add(
-                    new Particle()
-                    {
-                        x = x,
-                        y = y,
-                        lifeSpan = MyRandom.Range(22, 35),
-                        imageHandle = Image.particleDot1,
-                        vx = (float)Math.Cos(angle) * speed,
-                        vy = (float)Math.Sin(angle) * speed,
-                        forceY = 0.13f,
-                        damp = 0.95f,
-                        startScale = 0.1f,
-                        endScale = 0.05f,
-                        red = 255,
-                        green = 255,
-                        blue = 0,
-                        endAlpha = 0,
-                    });
-            }
-        }
-
         public void Fire(float x, float y)
         {
             particles.Add(new Particle()
@@ -158,30 +130,7 @@ namespace Group_Project_2
             });
         }
 
-        public void Smoke(float x, float y)
-        {
-            for (int i = 0; i < 30; i++)
-            {
-                particles.Add(new Particle()
-                {
-                    x = x + MyRandom.PlusMinus(5),
-                    y = y + MyRandom.PlusMinus(2),
-                    lifeSpan = MyRandom.Range(15, 40),
-                    imageHandle = Image.particleSmoke,
-                    vx = MyRandom.PlusMinus(3f),
-                    vy = MyRandom.PlusMinus(0.7f) + -0.5f,
-                    damp = 0.93f,
-                    forceY = 0.02f,
-                    startScale = 0.15f,
-                    endScale = 0.3f,
-                    startAlpha = 170,
-                    endAlpha = 0,
-                    angle = MyRandom.PlusMinus(3.14f),
-                    angularVelocity = MyRandom.PlusMinus(0.05f),
-                    angularDamp = 0.98f,
-                });
-            }
-        }
+        
 
         public void PickupItem(float x, float y)
         {
@@ -869,24 +818,86 @@ namespace Group_Project_2
             }
         }
 
-        //public void BreakWall(float x, float y)
-        //{
-        //    particles.Add(
-        //        new Particle()
-        //        {
-        //            x = x,
-        //            y = y,
-        //            lifeSpan = MyRandom.Range(40, 70),
-        //            imageHandle = Image.square,
-        //            vy = MyRandom.Range(-4f, -7f),
-        //            vx = MyRandom.PlusMinus(1.5f),
-        //            forceY = 0.15f,
-        //            startScale = 1f,
-        //            endScale = 1f,
-        //            red = 200,
-        //            green = 200,
-        //            blue = 200,
-        //        });
-        //}
+
+
+
+
+        //Currently Used
+
+        public void BreakWall(float x, float y, int red, int green, int blue)
+        {
+            for (int i = 0; i < 20; i++)
+            {
+                particles.Add(
+                    new Particle()
+                    {
+                        x = x + MyRandom.PlusMinus(8),
+                        y = y + MyRandom.PlusMinus(8),
+                        lifeSpan = MyRandom.Range(30, 40),
+                        imageHandle = Image.particleSquare,
+                        vy = MyRandom.PlusMinus(3f),
+                        vx = MyRandom.PlusMinus(3f),
+                        //forceY = 0.10f,
+                        startScale = 1f,
+                        endScale = .1f,
+                        red = red,
+                        green = green,
+                        blue = blue,
+                    });
+            }
+        }
+
+        public void Spark(float x, float y, int red, int green, int blue)
+        {
+            for (int i = 0; i < 30; i++)
+            {
+                float angle = MyRandom.Range(0, 360) * MyMath.Deg2Rad;
+                float speed = MyRandom.Range(4f, 17f);
+
+                particles.Add(
+                    new Particle()
+                    {
+                        x = x,
+                        y = y,
+                        lifeSpan = MyRandom.Range(22, 35),
+                        imageHandle = Image.particleDot1,
+                        vx = (float)Math.Cos(angle) * speed,
+                        vy = (float)Math.Sin(angle) * speed,
+                        forceY = 0.13f,
+                        damp = 0.95f,
+                        startScale = 0.1f,
+                        endScale = 0.05f,
+                        red = red,
+                        green = green,
+                        blue = blue,
+                        endAlpha = 0,
+                    });
+            }
+        }
+
+        public void Smoke(float x, float y)
+        {
+            for (int i = 0; i < 30; i++)
+            {
+                particles.Add(new Particle()
+                {
+                    x = x + MyRandom.PlusMinus(10),
+                    y = y + MyRandom.PlusMinus(10),
+                    lifeSpan = MyRandom.Range(15, 40),
+                    imageHandle = Image.particleSmoke,
+                    vx = MyRandom.PlusMinus(3f),
+                    vy = MyRandom.PlusMinus(3f),
+                    damp = 0.93f,
+                    forceY = 0.02f,
+                    startScale = 0.15f,
+                    endScale = 0.3f,
+                    startAlpha = 170,
+                    endAlpha = 0,
+                    angle = MyRandom.PlusMinus(3.14f),
+                    angularVelocity = MyRandom.PlusMinus(0.05f),
+                    angularDamp = 0.98f,
+                });
+            }
+        }
     }
 }

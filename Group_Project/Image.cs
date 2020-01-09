@@ -43,6 +43,7 @@ namespace Group_Project_2
         public static int particleLine2;
         public static int particleSlash;
         public static int particleStone1;
+        public static int particleSquare;
 
 
         //ブロック
@@ -104,6 +105,7 @@ namespace Group_Project_2
             particleLine2 = DX.LoadGraph("Image/Particle/particle_line_2.png");
             particleSlash = DX.LoadGraph("Image/Particle/particle_slash.png");
             particleStone1 = DX.LoadGraph("Image/Particle/particle_stone_1.png");
+            particleSquare = DX.LoadGraph("Image/Particle/square.png");
         }
     }
 }

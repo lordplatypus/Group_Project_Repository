@@ -40,6 +40,35 @@ namespace Group_Project_2
 
             playScene.map.DeleteWall(worldX, worldY);
 
+            int red, green, blue;
+            if (blockID == 0)
+            {//slime
+                red = 0;
+                green = 255;
+                blue = 0;
+            }
+            else if (blockID == 1)
+            {//soil
+                red = 176;
+                green = 112;
+                blue = 0;
+            }
+            else if (blockID == 2 || blockID == 3)
+            {//stone and iron
+                red = 100;
+                green = 100;
+                blue = 100;
+            }
+            else
+            {//diamond
+                red = 0;
+                green = 215;
+                blue = 208;
+            }
+            playScene.pm.Smoke(worldX, worldY);
+            playScene.pm.Spark(worldX, worldY, red, green, blue);
+            playScene.pm.BreakWall(worldX, worldY, red, green, blue);
+
             storedBlocks[blockID]++;
         }
 
