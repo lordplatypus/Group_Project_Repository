@@ -6,21 +6,21 @@ namespace Group_Project_2
 {
     public class Player : GameObject
     {
-        public int life  = 10;
+        public int life = 10;
         const int MutekiJikan = 120;
         int mutekiTimer = 0;
 
         float WalkSpeed = 3f; //プレイヤーSPEED
-        int   resultAnimation = 0;　//アニメーション
+        int resultAnimation = 0;　//アニメーション
 
         int MouseX;　//マウス座標
         int MouseY;　//マウス座標
         int MouseInput;　//マウスクリック取得
         float MouseAngle; //マウス角度
         bool IsMouseClick = false; //マウスがclickしたか
-        bool IsMouseRightClick = false; 
+        bool IsMouseRightClick = false;
         float MouseCount = 0.0f; //マウスを連続で押さないようにする処理
-        int xcount = 0 , ycount = 0; //横方向と縦方向のcount数
+        int xcount = 0, ycount = 0; //横方向と縦方向のcount数
         int xycount = 0, yxcount = 0;
         int ix = 0, iy = 0;
         int ixy = 0, iyx = 0;
@@ -78,7 +78,7 @@ namespace Group_Project_2
                 }
             }
 
-            if(IsMouseRightClick)
+            if (IsMouseRightClick)
             {
                 MouseCount++;
                 if (MouseCount > 20)
@@ -92,12 +92,18 @@ namespace Group_Project_2
 
         void HandleInput()
         {
+            if (Input.GetButtonDown(DX.PAD_INPUT_7))
+            {
+                playScene.bm.CurrentSelectedBlock();
+            }
+
+
             if (Input.GetButton(DX.PAD_INPUT_6))
             {
                 vx = WalkSpeed;
                 if (xcount < 0)
                     xcount = 0;
-                    ++xcount;
+                ++xcount;
                 state = State.RIGHT;
             }
             else if (Input.GetButton(DX.PAD_INPUT_4))
@@ -160,48 +166,39 @@ namespace Group_Project_2
                     lookX = x + 24;
                     lookY = y + 80;
                 }
-                if (playScene.map.GetTerrain(lookX, lookY) >= 0)
-                {
-                    playScene.map.DeleteWall(lookX, lookY);
-                    playScene.gameObjects.Add(new Empty(playScene, lookX, lookY));
-                    playScene.blockcount++;
-                }
+
+                playScene.bm.StoreBlock(lookX, lookY);
+                playScene.gameObjects.Add(new Empty(playScene, lookX, lookY));
             }
-            if (playScene.blockcount > 0)
+
+            if ((MouseInput & DX.MOUSE_INPUT_RIGHT) != 0 && !IsMouseRightClick)
             {
-                if ((MouseInput & DX.MOUSE_INPUT_RIGHT) != 0 && !IsMouseRightClick)
+                IsMouseRightClick = true;
+                float lookX = 0;
+                float lookY = 0;
+
+                if (state == State.RIGHT)
                 {
-                    IsMouseRightClick = true;
-                    float lookX = 0;
-                    float lookY = 0;
-
-                    if (state == State.RIGHT)
-                    {
-                        lookX = x + 112;
-                        lookY = y + 32;
-                    }
-                    if (state == State.LEFT)
-                    {
-                        lookX = x - 64;
-                        lookY = y + 32;
-                    }
-                    if (state == State.UP)
-                    {
-                        lookX = x + 32;
-                        lookY = y - 64;
-                    }
-                    if (state == State.DOWN)
-                    {
-                        lookX = x + 32;
-                        lookY = y + 112;
-                    }
-
-                    if (playScene.map.GetTerrain(lookX, lookY) == -1)
-                    {
-                        playScene.map.CreateBlock(lookX, lookY, 0);
-                        playScene.blockcount--;
-                    }
+                    lookX = x + 112;
+                    lookY = y + 32;
                 }
+                if (state == State.LEFT)
+                {
+                    lookX = x - 64;
+                    lookY = y + 32;
+                }
+                if (state == State.UP)
+                {
+                    lookX = x + 32;
+                    lookY = y - 64;
+                }
+                if (state == State.DOWN)
+                {
+                    lookX = x + 32;
+                    lookY = y + 112;
+                }
+
+                playScene.bm.PlaceBlock(lookX, lookY);
             }
 
             if (Input.GetButton(DX.PAD_INPUT_6) && (Input.GetButton(DX.PAD_INPUT_5)))
@@ -242,20 +239,16 @@ namespace Group_Project_2
 
         void MouseShot()
         {
-            if (playScene.blockcount > 0)
+            if ((MouseInput & DX.MOUSE_INPUT_LEFT) != 0 && !IsMouseClick)
             {
-                if ((MouseInput & DX.MOUSE_INPUT_LEFT) != 0 && !IsMouseClick)
-                {
-                    playScene.gameObjects.Add(new PlayerShot(playScene, x, y, angle));
-                    IsMouseClick = true;
-                    playScene.blockcount--;
-                }
+                playScene.bm.ThrowBlock(x, y, angle);
+                IsMouseClick = true;
             }
         }
 
         void KeyboardAnimesion()
         {
-            if(state == State.RIGHT)
+            if (state == State.RIGHT)
             {
                 if (xcount >= 0)
                 {
@@ -286,7 +279,7 @@ namespace Group_Project_2
                     resultAnimation = iy;
                 }
             }
-            if(state == State.DOWNRIGHT)
+            if (state == State.DOWNRIGHT)
             {
                 if (xycount >= 0)
                 {
@@ -294,9 +287,9 @@ namespace Group_Project_2
                     resultAnimation = ixy;
                 }
             }
-            if(state == State.UPRIGTH)
+            if (state == State.UPRIGTH)
             {
-                if(xycount <= 1)
+                if (xycount <= 1)
                 {
                     ixy += 15;
                     resultAnimation = ixy;
@@ -420,7 +413,7 @@ namespace Group_Project_2
 
         public override void Draw()
         {
-            Camera.DrawGraph(x, y, Image.player[resultAnimation]);       
+            Camera.DrawGraph(x, y, Image.player[resultAnimation]);
         }
 
         public override void OnCollision(GameObject other)
@@ -434,13 +427,13 @@ namespace Group_Project_2
             }
         }
 
-        public void TakeDamage(int damage)
+        public override void TakeDamage(int damage)
         {
             if (mutekiTimer <= 0)
             {
                 life -= damage;
             }
-            if(life <= 0)
+            if (life <= 0)
             {
                 Kill();
             }

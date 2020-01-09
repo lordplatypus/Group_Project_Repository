@@ -554,9 +554,9 @@ namespace Group_Project_2
                         endScale = 0f,
                         startAlpha = 255,
                         endAlpha = 0,
-                        red   = color[colorPattern * 2, 0],
+                        red = color[colorPattern * 2, 0],
                         green = color[colorPattern * 2, 1],
-                        blue  = color[colorPattern * 2, 2],
+                        blue = color[colorPattern * 2, 2],
                         blendMode = DX.DX_BLENDMODE_ADD,
                     });
             }
@@ -581,9 +581,9 @@ namespace Group_Project_2
                         endScale = 0f,
                         startAlpha = 255,
                         endAlpha = 0,
-                        red   = color[colorPattern * 2 + 1, 0],
+                        red = color[colorPattern * 2 + 1, 0],
                         green = color[colorPattern * 2 + 1, 1],
-                        blue  = color[colorPattern * 2 + 1, 2],
+                        blue = color[colorPattern * 2 + 1, 2],
                         blendMode = DX.DX_BLENDMODE_ADD,
                     });
             }
@@ -704,7 +704,7 @@ namespace Group_Project_2
                     new Particle()
                     {
                         x = x + MyRandom.PlusMinus(30),
-                        y = y  + 30 + MyRandom.PlusMinus(30),
+                        y = y + 30 + MyRandom.PlusMinus(30),
                         lifeSpan = MyRandom.Range(20, 40),
                         imageHandle = Image.particleLine1,
                         vy = -MyRandom.Range(1f, 5f),
@@ -732,7 +732,8 @@ namespace Group_Project_2
             float distanceY = (float)Math.Sin(angle) * distance;
             int lifeSpan = MyRandom.Range(15, 40);
 
-            particles.Add(new Particle() {
+            particles.Add(new Particle()
+            {
                 x = x + distanceX,
                 y = y + distanceY,
                 lifeSpan = lifeSpan,
@@ -867,5 +868,25 @@ namespace Group_Project_2
                     });
             }
         }
+
+        //public void BreakWall(float x, float y)
+        //{
+        //    particles.Add(
+        //        new Particle()
+        //        {
+        //            x = x,
+        //            y = y,
+        //            lifeSpan = MyRandom.Range(40, 70),
+        //            imageHandle = Image.square,
+        //            vy = MyRandom.Range(-4f, -7f),
+        //            vx = MyRandom.PlusMinus(1.5f),
+        //            forceY = 0.15f,
+        //            startScale = 1f,
+        //            endScale = 1f,
+        //            red = 200,
+        //            green = 200,
+        //            blue = 200,
+        //        });
+        //}
     }
 }

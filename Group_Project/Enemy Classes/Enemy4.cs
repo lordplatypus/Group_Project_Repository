@@ -30,10 +30,11 @@ namespace Group_Project_2
         int limiter = 0;
         int animCount = 0;
 
-        public Enemy4(PlayScene playScene, float x, float y) : base (playScene)
+        public Enemy4(PlayScene playScene, float x, float y) : base(playScene)
         {
             this.x = x;
             this.y = y;
+            hp = 1;
 
             imageWidth = 48;
             imageHeight = 48;
@@ -152,7 +153,7 @@ namespace Group_Project_2
                 animCount++;
                 if (animCount > 3) animCount = 0;
             }
-            if (angleToPlayer >= -(MyMath.PI/4) && angleToPlayer < MyMath.PI / 4)
+            if (angleToPlayer >= -(MyMath.PI / 4) && angleToPlayer < MyMath.PI / 4)
             {
                 direction = Direction.Right;
             }
@@ -194,15 +195,7 @@ namespace Group_Project_2
 
         public override void OnCollision(GameObject other)
         {
-            if (other is Empty)
-            {               
-                Kill();
-            }
 
-            if (other is PlayerShot)
-            {
-                Kill();
-            }
         }
 
         public override void Kill()

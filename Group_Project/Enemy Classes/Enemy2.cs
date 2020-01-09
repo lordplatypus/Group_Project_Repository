@@ -14,12 +14,12 @@ namespace Group_Project_2
 
         const int MutekiJikan = 30;
         int mutekiTimer = 0;
-        int life = 5;
 
         public Enemy2(PlayScene playScene, float x, float y) : base(playScene)
         {
             this.x = x;
             this.y = y;
+            hp = 5;
 
             imageWidth = 48;
             imageHeight = 48;
@@ -90,26 +90,13 @@ namespace Group_Project_2
             {
                 vx = -vx;
             }
-            if (other is PlayerShot)
-            {
-                if (mutekiTimer <= 0)
-                {
-                    TakeDamage();
-                }
-            }
         }
 
-        void TakeDamage()
+        public override void TakeDamage(int damage)
         {
-            life -= 1; // ライフ減少
-
-            if (life <= 0)
+            if (mutekiTimer <= 0)
             {
-                Kill();
-            }
-            else
-            {
-                // 無敵時間発動
+                base.TakeDamage(damage);
                 mutekiTimer = MutekiJikan;
             }
         }

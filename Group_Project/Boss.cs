@@ -31,7 +31,7 @@ namespace Group_Project_2
         bool foundPlayer = false;
 
         public Boss(PlayScene playScene, float x, float y) : base(playScene)
-        {            
+        {
             imageWidth = 128;
             imageHeight = 128;
             hitboxOffsetLeft = 0;
@@ -46,7 +46,7 @@ namespace Group_Project_2
         }
 
         public override void Update()
-        {          
+        {
             theta += AngleSpeed;
             if (theta >= 2 * MyMath.PI) theta = 0;
 
@@ -89,14 +89,12 @@ namespace Group_Project_2
         void MoveX()
         {
             x = ((float)Math.Cos(theta) * radius) + centerX;
-            //vx = (int)(Math.Cos(theta - Math.PI / 2) * radius) * Speed;
-            //x += vx / 500;
 
             float left = GetLeft();
             float right = GetRight() - 0.01f;
             float top = GetTop();
             float middle = top + 64;
-            float bottom = GetBottom() - 0.01f;           
+            float bottom = GetBottom() - 0.01f;
 
             if (playScene.map.IsWall(left, top) ||
                 playScene.map.IsWall(left, middle) ||
@@ -119,8 +117,6 @@ namespace Group_Project_2
         void MoveY()
         {
             y = ((float)Math.Sin(theta) * radius) + centerY;
-            //vy = (int)(Math.Sin(theta - Math.PI / 2) * radius) * Speed;
-            //y += vy / 500;
 
             float left = GetLeft();
             float right = GetRight() - 0.01f;
@@ -149,15 +145,15 @@ namespace Group_Project_2
         void AnimationHandle()
         {
             //for animations
-            if (theta >= MyMath.PI / 4 && theta < (3f/4f) * MyMath.PI)
+            if (theta >= MyMath.PI / 4 && theta < (3f / 4f) * MyMath.PI)
             {
                 direction = Direction.Left;
             }
-            else if (theta >= (3f/4f) * MyMath.PI && theta < (5f/4f) * MyMath.PI)
+            else if (theta >= (3f / 4f) * MyMath.PI && theta < (5f / 4f) * MyMath.PI)
             {
                 direction = Direction.Up;
             }
-            else if (theta >= (5f/4f) * MyMath.PI && theta < (7f/4f) * MyMath.PI)
+            else if (theta >= (5f / 4f) * MyMath.PI && theta < (7f / 4f) * MyMath.PI)
             {
                 direction = Direction.Right;
             }
@@ -185,35 +181,11 @@ namespace Group_Project_2
             {
                 Camera.DrawGraph(x, y, Image.boss[0]);
             }
-
-
-
-            //if (counter >= 0 && counter < 120)
-            //{
-            //    Camera.DrawRectGraph((int)x, (int)y, 0, 0, imageWidth, imageHeight, Image.boss, DX.TRUE, DX.FALSE);
-            //}
-            //else if (counter >= 120 && counter < 240)
-            //{
-            //    Camera.DrawRectGraph((int)x, (int)y, 0, 128, imageWidth, imageHeight, Image.boss, DX.TRUE, DX.FALSE);
-            //}
-            //else if(counter >= 240 && counter < 360)
-            //{
-            //    Camera.DrawRectGraph((int)x, (int)y, 128, 0, imageWidth, imageHeight, Image.boss, DX.TRUE, DX.FALSE);
-            //}
-            //else if(counter >= 360 && counter < 480)
-            //{                
-            //    Camera.DrawRectGraph((int)x, (int)y, 128, 128, imageWidth, imageHeight, Image.boss, DX.TRUE, DX.FALSE);
-            //}
-            //else if(counter >= 480)
-            //{                
-            //    Camera.DrawRectGraph((int)x, (int)y, 0, 0, imageWidth, imageHeight, Image.boss, DX.TRUE, DX.FALSE);
-            //    counter = 0;
-            //}
         }
 
         public override void OnCollision(GameObject other)
         {
-            if(other is PlayerShot)
+            if (other is PlayerShot)
             {
                 HP--;
                 if (HP == 10)
@@ -223,6 +195,13 @@ namespace Group_Project_2
                 }
                 if (HP <= 0) Kill();
             }
+        }
+
+        public override void Kill()
+        {
+            base.Kill();
+
+            playScene.map.CreateWarp();
         }
     }
 }

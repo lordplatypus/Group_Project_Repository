@@ -20,7 +20,7 @@ namespace Group_Project_2
         public static int[] teki3 = new int[4];
 
         //エネミー4
-        public static int[] teki4= new int[24];
+        public static int[] teki4 = new int[24];
 
         //ボース
         public static int[] boss = new int[4];
@@ -47,6 +47,11 @@ namespace Group_Project_2
 
         //ブロック
         public static int[] block = new int[10];
+        public static int slimeBullet;
+        public static int soilBullet;
+        public static int stoneBullet;
+        public static int ironBullet;
+        public static int diamondBullet;
 
 
         public static void Load()
@@ -54,6 +59,11 @@ namespace Group_Project_2
 
             //ブロック
             DX.LoadDivGraph("Map/Block.png", block.Length, 6, 1, 64, 64, block);
+            slimeBullet = DX.LoadGraph("Image/Objects/SlimeBullet.png");
+            soilBullet = DX.LoadGraph("Image/Objects/SoilBullet.png");
+            stoneBullet = DX.LoadGraph("Image/Objects/StoneBullet.png");
+            ironBullet = DX.LoadGraph("Image/Objects/IronBullet.png");
+            diamondBullet = DX.LoadGraph("Image/Objects/DiamondBullet.png");
 
             //プレイヤー
             DX.LoadDivGraph("Image/player/player.png", player.Length, 3, 8, 48, 48, player);

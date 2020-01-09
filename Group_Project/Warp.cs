@@ -6,18 +6,16 @@ using System.Threading.Tasks;
 
 namespace Group_Project_2
 {
-    public class Empty : GameObject
+    public class Warp : GameObject
     {
-        const int damage = 1;
-        int count = 0;
 
-        public Empty(PlayScene playScene, float x, float y) : base(playScene)
+        public Warp(PlayScene playScene, float x, float y) : base(playScene)
         {
             this.x = x;
             this.y = y;
 
-            imageWidth = 48;
-            imageHeight = 48;
+            imageWidth = 64;
+            imageHeight = 64;
             hitboxOffsetLeft = 0;
             hitboxOffsetRight = 0;
             hitboxOffsetTop = 0;
@@ -26,11 +24,6 @@ namespace Group_Project_2
 
         public override void Update()
         {
-            count++;
-            if (count >= 10)
-            {
-                Kill();
-            }
         }
 
         public override void Draw()
@@ -39,10 +32,10 @@ namespace Group_Project_2
 
         public override void OnCollision(GameObject other)
         {
-            if (other is Player) return;
-
-            other.TakeDamage(damage);
+            if (other is Player)
+            {
+                playScene.fm.MoveFloor();
+            }
         }
     }
 }
-

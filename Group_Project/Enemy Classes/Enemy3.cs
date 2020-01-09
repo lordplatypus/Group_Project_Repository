@@ -15,18 +15,18 @@ namespace Group_Project_2
         bool foundPlayer = false;
         float vx = 0;
         float vy = 0;
-        
+
         bool isLook = false;
         bool isMaked = false;
 
         const int MutekiJikan = 30;
         int mutekiTimer = 0;
-        int life = 3;
 
-        public Enemy3(PlayScene playScene, float x, float y) : base (playScene)
+        public Enemy3(PlayScene playScene, float x, float y) : base(playScene)
         {
             this.x = x;
             this.y = y;
+            hp = 3;
 
             imageWidth = 48;
             imageHeight = 48;
@@ -133,27 +133,13 @@ namespace Group_Project_2
 
         public override void OnCollision(GameObject other)
         {
-            if (other is PlayerShot)
-            {
-                if (mutekiTimer <= 0)
-                {
-                    TakeDamage();
-                }
-            }
         }
 
-        void TakeDamage()
+        public override void TakeDamage(int damage)
         {
-            life -= 1; // ライフ減少
-
-            if (life <= 0)
+            if (mutekiTimer <= 0)
             {
-                // ライフが無くなったら死亡
-                Kill();
-            }
-            else
-            {
-                // 無敵時間発動
+                base.TakeDamage(damage);
                 mutekiTimer = MutekiJikan;
             }
         }

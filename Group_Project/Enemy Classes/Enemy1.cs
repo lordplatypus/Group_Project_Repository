@@ -10,7 +10,7 @@ namespace Group_Project_2
     {
 
         const float Speed = 1f;
-        
+
         float vx = Speed;
         float vy = -Speed;
 
@@ -28,6 +28,7 @@ namespace Group_Project_2
         {
             this.x = x;
             this.y = y;
+            hp = 1;
 
             imageWidth = 48;
             imageHeight = 48;
@@ -170,16 +171,6 @@ namespace Group_Project_2
                     vx = 0;
                     vy = -Speed;
                 }
-            }
-
-            if(other is PlayerShot)
-            {
-                Kill();
-            }
-
-            if (other is Empty)
-            {
-                Kill();
             }
         }
     }

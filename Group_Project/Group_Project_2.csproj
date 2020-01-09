@@ -62,15 +62,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Block Classes\BlockManager.cs" />
+    <Compile Include="Block Classes\DiamondBlock.cs" />
+    <Compile Include="Block Classes\IronBlock.cs" />
+    <Compile Include="Block Classes\SlimeBlock.cs" />
+    <Compile Include="Block Classes\SoilBlock.cs" />
+    <Compile Include="Block Classes\StoneBlock.cs" />
     <Compile Include="Boss.cs" />
     <Compile Include="BossBullet.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="DxDLLW.cs" />
     <Compile Include="Empty.cs" />
-    <Compile Include="Enemy1.cs" />
-    <Compile Include="Enemy2.cs" />
-    <Compile Include="Enemy3.cs" />
-    <Compile Include="Enemy4.cs" />
+    <Compile Include="Enemy Classes\Enemy1.cs" />
+    <Compile Include="Enemy Classes\Enemy2.cs" />
+    <Compile Include="Enemy Classes\Enemy3.cs" />
+    <Compile Include="Enemy Classes\Enemy4.cs" />
     <Compile Include="EnemyShot.cs" />
     <Compile Include="FloorManager.cs" />
     <Compile Include="Game.cs" />
@@ -92,6 +98,7 @@
     <Compile Include="Scene.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="TitleScene.cs" />
+    <Compile Include="Warp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -133,6 +140,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Image\Objects\block.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Objects\DiamondBullet.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Objects\IronBullet.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Objects\SlimeBullet.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Objects\SoilBullet.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Image\Objects\StoneBullet.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Image\Particle\particle_bubble_1.png">

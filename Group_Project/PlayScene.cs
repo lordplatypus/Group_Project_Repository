@@ -12,18 +12,20 @@ namespace Group_Project_2
         public Map map;
         public Player player;
         public List<GameObject> gameObjects = new List<GameObject>();
-        public int blockcount = 0;
 
         public ParticleManager pm;
 
         public FloorManager fm;
 
+        public BlockManager bm;
+
         public PlayScene()
         {
-            fm = new FloorManager();
+            fm = new FloorManager(this);
             map = new Map(this);
             Camera.LookAt(player.x, player.y);
             pm = new ParticleManager();
+            bm = new BlockManager(this);
         }
 
         public override void Update()
@@ -71,8 +73,8 @@ namespace Group_Project_2
             {
                 go.Draw();
             }
-
-            DX.DrawString(Screen.Width - 120, 5, "ブロック数" + blockcount.ToString("0"), DX.GetColor(255, 255, 255));
+            bm.Draw();
+            //DX.DrawString(Screen.Width - 120, 5, "ブロック数" + blockcount.ToString("0"), DX.GetColor(255, 255, 255));
             DX.DrawBox(950, 5, 1050 + (10 * player.life), 20, DX.GetColor(0, 255, 0), DX.TRUE);
         }
     }
