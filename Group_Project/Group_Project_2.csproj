@@ -69,6 +69,9 @@
     <Compile Include="Block Classes\SoilBlock.cs" />
     <Compile Include="Block Classes\StoneBlock.cs" />
     <Compile Include="Boss.cs" />
+    <Compile Include="Boss Classes\Boss3.cs" />
+    <Compile Include="Boss Classes\Boss3LeftShoulder.cs" />
+    <Compile Include="Boss Classes\Boss3RightShoulder.cs" />
     <Compile Include="BossBullet.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="DxDLLW.cs" />
