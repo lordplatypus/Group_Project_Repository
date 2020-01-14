@@ -88,7 +88,7 @@ namespace Group_Project_2
         void HandleInput()
         {
             if (Input.GetButtonDown(DX.PAD_INPUT_7))
-            {
+            {//ブライスの変更　－　ブロックを選択
                 playScene.bm.CurrentSelectedBlock();
             }
 
@@ -172,7 +172,7 @@ namespace Group_Project_2
             if (!AnimesionTsuruhashi)
             {
                 if (Input.GetButtonDown(DX.PAD_INPUT_2))
-                {
+                {//ブライスの変更　－　どうやってブロックを投げることをちょっと変更しました
                     angle = 0;
 
                     //if (state == State.UP) playScene.gameObjects.Add(new PlayerShot(playScene, x, y, 270 * MyMath.Deg2Rad));
@@ -197,7 +197,7 @@ namespace Group_Project_2
                 }
                 
                 if (Input.GetButtonDown(DX.PAD_INPUT_5))
-                {
+                {//ブライスの変更　－　どうやってブロックを出すことをちょっと変更しました
                     float lookX = 0;
                     float lookY = 0;
                     if (state == State.UP)
@@ -232,7 +232,7 @@ namespace Group_Project_2
             if (state != State.UPLEFT && state != State.UPRIGTH && state != State.DOWNLEFT && state != State.DOWNRIGHT)
             {
                 if (Input.GetButtonDown(DX.PAD_INPUT_6))
-                {
+                {//ブライスの変更　－　どうやってブロックを掘ることをちょっと変更しました
                     AnimesionTsuruhashi = true;
                     Animesion = false;
                     Animeisoncounter = 0;
