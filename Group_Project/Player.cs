@@ -9,21 +9,11 @@ namespace Group_Project_2
         public int life = 10;
         const int MutekiJikan = 120;
         int mutekiTimer = 0;
-
-        float WalkSpeed = 3f; //プレイヤーSPEED
-        int resultAnimation = 0;　//アニメーション
-
-        int MouseX;　//マウス座標
-        int MouseY;　//マウス座標
-        int MouseInput;　//マウスクリック取得
-        float MouseAngle; //マウス角度
-        bool IsMouseClick = false; //マウスがclickしたか
-        bool IsMouseRightClick = false;
-        float MouseCount = 0.0f; //マウスを連続で押さないようにする処理
-        int xcount = 0, ycount = 0; //横方向と縦方向のcount数
-        int xycount = 0, yxcount = 0;
-        int ix = 0, iy = 0;
-        int ixy = 0, iyx = 0;
+        float WalkSpeed = 3f;
+        bool Animesion = false;
+        bool AnimesionTsuruhashi = false;
+        int counter = 0;
+        int Animeisoncounter = 0;
 
         enum State
         {
@@ -57,37 +47,42 @@ namespace Group_Project_2
 
         public override void Update()
         {
-            MouseInput = DX.GetMouseInput();
-            DX.GetMousePoint(out MouseX, out MouseY);
-            angle = MyMath.PointToPointAngle(Screen.Width / 2, Screen.Height / 2, MouseX, MouseY);
-
             HandleInput();
             MoveX();
             MoveY();
-            MouseShot();
-            KeyboardAnimesion();
-            MouseAnimesion();
+            ThrowPutDig();
 
-            if (IsMouseClick)
-            {
-                MouseCount++;
-                if (MouseCount > 20)
-                {
-                    IsMouseClick = false;
-                    MouseCount = 0;
-                }
-            }
-
-            if (IsMouseRightClick)
-            {
-                MouseCount++;
-                if (MouseCount > 20)
-                {
-                    IsMouseRightClick = false;
-                    MouseCount = 0;
-                }
-            }
             mutekiTimer--;
+
+            if (Animesion)
+            {
+                counter++;
+
+                if (counter % 10 == 0)
+                {
+                    Animeisoncounter++;
+                }
+                if (Animeisoncounter == 2)
+                {
+                    Animeisoncounter = 0;
+                    counter = 0;
+                }
+            }
+            if (AnimesionTsuruhashi)
+            {
+                counter++;
+
+                if (counter % 10 == 0)
+                {
+                    Animeisoncounter++;
+                }
+                if (Animeisoncounter == 3)
+                {
+                    Animeisoncounter = 0;
+                    AnimesionTsuruhashi = false;
+                    counter = 0;
+                }
+            }
         }
 
         void HandleInput()
@@ -97,265 +92,187 @@ namespace Group_Project_2
                 playScene.bm.CurrentSelectedBlock();
             }
 
-
-            if (Input.GetButton(DX.PAD_INPUT_6))
+            if (!AnimesionTsuruhashi)
             {
-                vx = WalkSpeed;
-                if (xcount < 0)
-                    xcount = 0;
-                ++xcount;
-                state = State.RIGHT;
-            }
-            else if (Input.GetButton(DX.PAD_INPUT_4))
-            {
-                vx = -WalkSpeed;
-                if (xcount > 0)
-                    xcount = 0;
-                --xcount;
-                state = State.LEFT;
-            }
-            else
-            {
-                vx = 0;
-            }
-
-            if (Input.GetButton(DX.PAD_INPUT_5))
-            {
-                vy = WalkSpeed;
-                if (ycount > 0)
-                    ycount = 0;
-                --ycount;
-                state = State.DOWN;
-            }
-            else if (Input.GetButton(DX.PAD_INPUT_8))
-            {
-                vy = -WalkSpeed;
-                if (ycount < 0)
-                    ycount = 0;
-                ++ycount;
-                state = State.UP;
-            }
-            else
-            {
-                vy = 0;
-            }
-
-
-            if (Input.GetButtonDown(DX.PAD_INPUT_10))
-            {
-                float lookX = 0;
-                float lookY = 0;
-
-                if (state == State.RIGHT)
+                if (Input.GetButton(DX.PAD_INPUT_UP))
                 {
-                    lookX = x + 80;
-                    lookY = y + 24;
+                    vy = -WalkSpeed;
+                    state = State.UP;
+                    if (Input.GetButton(DX.PAD_INPUT_LEFT))
+                    {
+                        vy = -WalkSpeed;
+                        vx = -WalkSpeed;
+                        state = State.UPLEFT;
+                    }
+                    else if (Input.GetButton(DX.PAD_INPUT_RIGHT))
+                    {
+                        vy = -WalkSpeed;
+                        vx = WalkSpeed;
+                        state = State.UPRIGTH;
+                    }
+                    else
+                    {
+                        vx = 0;
+                    }
+                    Animesion = true;
                 }
-                if (state == State.LEFT)
+                else if (Input.GetButton(DX.PAD_INPUT_DOWN))
                 {
-                    lookX = x - 32;
-                    lookY = y + 24;
+                    vy = WalkSpeed;
+                    state = State.DOWN;
+                    if (Input.GetButton(DX.PAD_INPUT_LEFT))
+                    {
+                        vy = WalkSpeed;
+                        vx = -WalkSpeed;
+                        state = State.DOWNLEFT;
+                    }
+                    else if (Input.GetButton(DX.PAD_INPUT_RIGHT))
+                    {
+                        vy = WalkSpeed;
+                        vx = WalkSpeed;
+                        state = State.DOWNRIGHT;
+                    }
+                    else
+                    {
+                        vx = 0;
+                    }
+                    Animesion = true;
                 }
-                if (state == State.UP)
+                else if (Input.GetButton(DX.PAD_INPUT_LEFT))
                 {
-                    lookX = x + 24;
-                    lookY = y - 32;
+                    vx = -WalkSpeed;
+                    state = State.LEFT;
+                    Animesion = true;
+                    if (!Input.GetButton(DX.PAD_INPUT_UP) && !Input.GetButton(DX.PAD_INPUT_DOWN))
+                    {
+                        vy = 0;
+                    }
                 }
-                if (state == State.DOWN)
+                else if (Input.GetButton(DX.PAD_INPUT_RIGHT))
                 {
-                    lookX = x + 24;
-                    lookY = y + 80;
-                }
-
-                playScene.bm.StoreBlock(lookX, lookY);
-                playScene.gameObjects.Add(new Empty(playScene, lookX, lookY));
-            }
-
-            if ((MouseInput & DX.MOUSE_INPUT_RIGHT) != 0 && !IsMouseRightClick)
-            {
-                IsMouseRightClick = true;
-                float lookX = 0;
-                float lookY = 0;
-
-                if (state == State.RIGHT)
-                {
-                    lookX = x + 112;
-                    lookY = y + 32;
-                }
-                if (state == State.LEFT)
-                {
-                    lookX = x - 64;
-                    lookY = y + 32;
-                }
-                if (state == State.UP)
-                {
-                    lookX = x + 32;
-                    lookY = y - 64;
-                }
-                if (state == State.DOWN)
-                {
-                    lookX = x + 32;
-                    lookY = y + 112;
-                }
-
-                playScene.bm.PlaceBlock(lookX, lookY);
-            }
-
-            if (Input.GetButton(DX.PAD_INPUT_6) && (Input.GetButton(DX.PAD_INPUT_5)))
-            {
-                if (xycount < 0)
-                    xycount = 0;
-                ++xycount;
-                state = State.DOWNRIGHT;
-            }
-            if (Input.GetButton(DX.PAD_INPUT_6) && (Input.GetButton(DX.PAD_INPUT_8)))
-            {
-                if (xycount > 0)
-                    xycount = 0;
-                --xycount;
-                state = State.UPRIGTH;
-            }
-            if (Input.GetButton(DX.PAD_INPUT_4) && (Input.GetButton(DX.PAD_INPUT_5)))
-            {
-                if (yxcount < 0)
-                    yxcount = 0;
-                ++yxcount;
-                state = State.DOWNLEFT;
-            }
-            if (Input.GetButton(DX.PAD_INPUT_4) && (Input.GetButton(DX.PAD_INPUT_8)))
-            {
-                if (yxcount > 0)
-                    yxcount = 0;
-                --yxcount;
-                state = State.UPLEFT;
-            }
-
-            //count数から添字を求める
-            ix = Math.Abs(xcount) % 30 / 10;
-            iy = Math.Abs(ycount) % 30 / 10;
-            ixy = Math.Abs(xycount) % 30 / 10;
-            iyx = Math.Abs(yxcount) % 30 / 10;
-        }
-
-        void MouseShot()
-        {
-            if ((MouseInput & DX.MOUSE_INPUT_LEFT) != 0 && !IsMouseClick)
-            {
-                playScene.bm.ThrowBlock(x, y, angle);
-                IsMouseClick = true;
-            }
-        }
-
-        void KeyboardAnimesion()
-        {
-            if (state == State.RIGHT)
-            {
-                if (xcount >= 0)
-                {
-                    ix += 18;
-                    resultAnimation = ix;
-                }
-            }
-            if (state == State.LEFT)
-            {
-                if (xcount <= 1)
-                {
-                    ix += 6;
-                    resultAnimation = ix;
-                }
-            }
-            if (state == State.UP)
-            {
-                if (ycount >= 0)
-                {
-                    iy += 9;
-                    resultAnimation = iy;
-                }
-            }
-            if (state == State.DOWN)
-            {
-                if (ycount <= 1)
-                {
-                    resultAnimation = iy;
-                }
-            }
-            if (state == State.DOWNRIGHT)
-            {
-                if (xycount >= 0)
-                {
-                    ixy += 21;
-                    resultAnimation = ixy;
-                }
-            }
-            if (state == State.UPRIGTH)
-            {
-                if (xycount <= 1)
-                {
-                    ixy += 15;
-                    resultAnimation = ixy;
-                }
-            }
-            if (state == State.DOWNLEFT)
-            {
-                if (yxcount >= 0)
-                {
-                    iy += 3;
-                    resultAnimation = iy;
-                }
-            }
-            if (state == State.UPLEFT)
-            {
-                if (yxcount <= 1)
-                {
-                    iy += 9;
-                    resultAnimation = iy;
-                }
-            }
-        }
-
-        void MouseAnimesion()
-        {
-            MouseAngle = angle * (float)(180 / Math.PI);
-
-            if (MouseAngle <= 0)
-            {
-                MouseAngle = MouseAngle + 360;
-            }
-
-            //角度でキャラのアニメーションを決める
-            if (IsMouseClick)
-            {
-                if (MouseAngle >= 340 || MouseAngle <= 22.5)
-                {
-                    resultAnimation = 18;
-                }
-                else if (MouseAngle <= 67.5)
-                {
-                    resultAnimation = 21;
-                }
-                else if (MouseAngle <= 112.5)
-                {
-                    resultAnimation = 0;
-                }
-                else if (MouseAngle <= 157.5)
-                {
-                    resultAnimation = 3;
-                }
-                else if (MouseAngle <= 202.5)
-                {
-                    resultAnimation = 6;
-                }
-                else if (MouseAngle <= 247.5)
-                {
-                    resultAnimation = 9;
-                }
-                else if (MouseAngle <= 292.5)
-                {
-                    resultAnimation = 12;
+                    vx = WalkSpeed;
+                    state = State.RIGHT;
+                    Animesion = true;
+                    if (!Input.GetButton(DX.PAD_INPUT_UP) && !Input.GetButton(DX.PAD_INPUT_DOWN))
+                    {
+                        vy = 0;
+                    }
                 }
                 else
                 {
-                    resultAnimation = 15;
+                    Animesion = false;
+                    vy = 0;
+                    vx = 0;
+                }
+            }
+        }
+
+        void ThrowPutDig()
+        {
+            if (!AnimesionTsuruhashi)
+            {
+                if (Input.GetButtonDown(DX.PAD_INPUT_2))
+                {
+                    angle = 0;
+
+                    //if (state == State.UP) playScene.gameObjects.Add(new PlayerShot(playScene, x, y, 270 * MyMath.Deg2Rad));
+                    //if (state == State.DOWN) playScene.gameObjects.Add(new PlayerShot(playScene, x, y, 90 * MyMath.Deg2Rad));
+                    //if (state == State.LEFT) playScene.gameObjects.Add(new PlayerShot(playScene, x, y, 180 * MyMath.Deg2Rad));
+                    //if (state == State.RIGHT) playScene.gameObjects.Add(new PlayerShot(playScene, x, y, 0 * MyMath.Deg2Rad));
+                    //if (state == State.UPLEFT) playScene.gameObjects.Add(new PlayerShot(playScene, x, y, 225 * MyMath.Deg2Rad));
+                    //if (state == State.UPRIGTH) playScene.gameObjects.Add(new PlayerShot(playScene, x, y, 315 * MyMath.Deg2Rad));
+                    //if (state == State.DOWNLEFT) playScene.gameObjects.Add(new PlayerShot(playScene, x, y, 135 * MyMath.Deg2Rad));
+                    //if (state == State.DOWNRIGHT) playScene.gameObjects.Add(new PlayerShot(playScene, x, y, 45 * MyMath.Deg2Rad));
+                    if (state == State.UP) angle = 270;
+                    if (state == State.DOWN) angle = 90;
+                    if (state == State.LEFT) angle = 180;
+                    if (state == State.RIGHT) angle = 0;
+                    if (state == State.UPLEFT) angle = 225;
+                    if (state == State.UPRIGTH) angle = 315;
+                    if (state == State.DOWNLEFT) angle = 135;
+                    if (state == State.DOWNRIGHT) angle = 45;
+
+                    angle *= MyMath.Deg2Rad;
+                    playScene.bm.ThrowBlock(x, y, angle);
+                }
+                
+                if (Input.GetButtonDown(DX.PAD_INPUT_5))
+                {
+                    float lookX = 0;
+                    float lookY = 0;
+                    if (state == State.UP)
+                    {
+                        //playScene.map.CreateBlockPlayer(x + 32, y - 64, 0);
+                        lookX = x + 32;
+                        lookY = y - 64;
+                    }
+                    if (state == State.DOWN)
+                    {
+                        //playScene.map.CreateBlockPlayer(x + 32, y + 112, 0);
+                        lookX = x + 32;
+                        lookY = y + 112;
+                    }
+                    if (state == State.LEFT) 
+                    {
+                        //playScene.map.CreateBlockPlayer(x - 64, y + 32, 0);
+                        lookX = x - 64;
+                        lookY = y + 32;
+                    }
+                    if (state == State.RIGHT) 
+                    {
+                        //playScene.map.CreateBlockPlayer(x + 112, y + 32, 0);
+                        lookX = x + 112;
+                        lookY = y + 32;
+                    }
+
+                    playScene.bm.PlaceBlock(lookX, lookY);
+                }
+            }
+
+            if (state != State.UPLEFT && state != State.UPRIGTH && state != State.DOWNLEFT && state != State.DOWNRIGHT)
+            {
+                if (Input.GetButtonDown(DX.PAD_INPUT_6))
+                {
+                    AnimesionTsuruhashi = true;
+                    Animesion = false;
+                    Animeisoncounter = 0;
+                    counter = 0;
+                    vy = 0;
+                    vx = 0;
+                    float lookX = 0;
+                    float lookY = 0;
+
+                    if (state == State.UP)
+                    {
+                        //playScene.gameObjects.Add(new Empty(playScene, x + 24, y - 32));
+                        //playScene.map.DeleteWallPlayer(x + 24, y - 32);
+                        lookX = x + 24;
+                        lookY = y - 32;
+                    }
+                    if (state == State.DOWN)
+                    {
+                        //playScene.gameObjects.Add(new Empty(playScene, x + 24, y + 80));
+                        //playScene.map.DeleteWallPlayer(x + 24, y + 80);
+                        lookX = x + 24;
+                        lookY = y + 80;
+                    }
+                    if (state == State.LEFT)
+                    {
+                        //playScene.gameObjects.Add(new Empty(playScene, x - 32, y + 24));
+                        //playScene.map.DeleteWallPlayer(x - 32, y + 24);
+                        lookX = x - 32;
+                        lookY = y + 24;
+                    }
+                    if (state == State.RIGHT)
+                    {
+                        //playScene.gameObjects.Add(new Empty(playScene, x + 80, y + 24));
+                        //playScene.map.DeleteWallPlayer(x + 80, y + 24);
+                        lookX = x + 80;
+                        lookY = y + 24;
+                    }
+
+                    playScene.bm.StoreBlock(lookX, lookY);
+                    playScene.gameObjects.Add(new Empty(playScene, lookX, lookY));
                 }
             }
         }
@@ -372,14 +289,14 @@ namespace Group_Project_2
             if (playScene.map.IsWall(left, top) ||
                 playScene.map.IsWall(left, middle) ||
                 playScene.map.IsWall(left, bottom))
-            {//check right
+            {
                 float wallRight = left - left % Map.CellSize + Map.CellSize;
                 SetLeft(wallRight);
             }
             else if (playScene.map.IsWall(right, top) ||
                 playScene.map.IsWall(right, middle) ||
                 playScene.map.IsWall(right, bottom))
-            {//check left
+            {
                 float wallLeft = right - right % Map.CellSize;
                 SetRight(wallLeft);
             }
@@ -398,14 +315,14 @@ namespace Group_Project_2
             if (playScene.map.IsWall(left, top) ||
                 playScene.map.IsWall(middle, top) ||
                 playScene.map.IsWall(right, top))
-            {//check up
+            {
                 float wallUp = top - top % Map.CellSize + Map.CellSize;
                 SetTop(wallUp);
             }
             else if (playScene.map.IsWall(left, bottom) ||
                 playScene.map.IsWall(middle, bottom) ||
                 playScene.map.IsWall(right, bottom))
-            {//check down
+            {
                 float wallDown = bottom - bottom % Map.CellSize;
                 SetBottom(wallDown);
             }
@@ -413,7 +330,24 @@ namespace Group_Project_2
 
         public override void Draw()
         {
-            Camera.DrawGraph(x, y, Image.player[resultAnimation]);
+            if (!AnimesionTsuruhashi)
+            {
+                if (state == State.UP) Camera.DrawGraph(x, y, Image.player[12 + Animeisoncounter]);
+                if (state == State.DOWN) Camera.DrawGraph(x, y, Image.player[0 + Animeisoncounter]);
+                if (state == State.LEFT) Camera.DrawGraph(x, y, Image.player[6 + Animeisoncounter]);
+                if (state == State.RIGHT) Camera.DrawGraph(x, y, Image.player[18 + Animeisoncounter]);
+                if (state == State.UPLEFT) Camera.DrawGraph(x, y, Image.player[9 + Animeisoncounter]);
+                if (state == State.UPRIGTH) Camera.DrawGraph(x, y, Image.player[15 + Animeisoncounter]);
+                if (state == State.DOWNLEFT) Camera.DrawGraph(x, y, Image.player[3 + Animeisoncounter]);
+                if (state == State.DOWNRIGHT) Camera.DrawGraph(x, y, Image.player[21 + Animeisoncounter]);
+            }
+            else
+            {
+                if (state == State.UP) Camera.DrawGraph(x, y, Image.playertsuruhasi[9 + Animeisoncounter]);
+                if (state == State.DOWN) Camera.DrawGraph(x, y, Image.playertsuruhasi[6 + Animeisoncounter]);
+                if (state == State.LEFT) Camera.DrawGraph(x, y, Image.playertsuruhasi[0 + Animeisoncounter]);
+                if (state == State.RIGHT) Camera.DrawGraph(x, y, Image.playertsuruhasi[3 + Animeisoncounter]);
+            }
         }
 
         public override void OnCollision(GameObject other)
@@ -427,7 +361,7 @@ namespace Group_Project_2
             }
         }
 
-        public override void TakeDamage(int damage)
+        public void TakeDamage(int damage)
         {
             if (mutekiTimer <= 0)
             {

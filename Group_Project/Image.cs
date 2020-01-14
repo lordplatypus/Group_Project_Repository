@@ -6,6 +6,7 @@ namespace Group_Project_2
     {
         //プレイヤー
         public static int[] player = new int[24];
+        public static int[] playertsuruhasi = new int[12];
 
         //プレイヤー弾
         public static int playerbaretto;
@@ -68,6 +69,7 @@ namespace Group_Project_2
 
             //プレイヤー
             DX.LoadDivGraph("Image/player/player.png", player.Length, 3, 8, 48, 48, player);
+            DX.LoadDivGraph("Image/player/tsuruhashi.png", playertsuruhasi.Length, 3, 4, 64, 64, playertsuruhasi);
 
             //プレイヤー弾
             playerbaretto = DX.LoadGraph("Image/Player/playerbaretto.png");
