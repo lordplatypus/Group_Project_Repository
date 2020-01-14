@@ -9,6 +9,9 @@ namespace Group_Project_2
     class Boss3RightShoulder : GameObject
     {
         Boss3 b;
+        float xOffset = 0;
+        float yOffset = 0;
+        bool visible = true;
 
         public Boss3RightShoulder(PlayScene playScene, Boss3 b, float x, float y) : base(playScene)
         {
@@ -27,17 +30,62 @@ namespace Group_Project_2
 
         public override void Update()
         {
-            throw new NotImplementedException();
+        }
+
+        void ChangeOffset()
+        {
+            if (b.direction == Boss3.Direction.Left)
+            {
+                xOffset = 0;
+                yOffset = 0;
+            }
+            else if (b.direction == Boss3.Direction.Right)
+            {
+                xOffset = 0;
+                yOffset = 0;
+            }
+            else if (b.direction == Boss3.Direction.Up)
+            {
+                xOffset = 0;
+                yOffset = 0;
+            }
+            else if (b.direction == Boss3.Direction.Down)
+            {
+                xOffset = 0;
+                yOffset = 0;
+            }
+
+            if (b.direction == Boss3.Direction.Right) visible = false;
+            else visible = true;
+        }
+
+        public void Move(float bossX, float bossY)
+        {
+            ChangeOffset();
+            MoveX(bossX);
+            MoveY(bossY);
+        }
+
+        void MoveX(float bossX)
+        {
+            x = bossX + xOffset;
+        }
+
+        void MoveY(float bossY)
+        {
+            y = bossY + yOffset;
         }
 
         public override void Draw()
         {
-            throw new NotImplementedException();
+            if (visible)
+            {
+
+            }
         }
 
         public override void OnCollision(GameObject other)
         {
-            throw new NotImplementedException();
         }
 
         public override void Kill()
