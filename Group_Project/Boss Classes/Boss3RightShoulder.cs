@@ -12,7 +12,13 @@ namespace Group_Project_2
         float xOffset = 0;
         float yOffset = 0;
         bool visible = true;
-        bool flip = false;
+        bool destroyed = false;
+        int flip = 0;
+        float centerX = 18;
+        float centerY = 18;
+        float[] rightX = new float[] { 93, 84, 92, 166, 174, 166, 0, 0, 0, 127, 149, 138, 100, 88 };
+        float[] rightY = new float[] { 65, 71, 72, 60, 58, 62, 0, 0, 0, 77, 82, 81, 75, 88 };
+        //don't use animation count 6, 7, 8
 
         public Boss3RightShoulder(PlayScene playScene, Boss3 b, float x, float y) : base(playScene)
         {
@@ -33,57 +39,67 @@ namespace Group_Project_2
         {
         }
 
-        void ChangeOffset()
+        public void Move(float bossX, float bossY, int animationCount)
         {
-            if (b.state == Boss3.State.Left)
+            int convert = ConvertAnimationCount(animationCount);
+
+            if (flip == 1)
             {
-                xOffset = 0;
-                yOffset = 0;
+                centerX = 18;
             }
-            else if (b.state == Boss3.State.Right)
+            else
             {
-                xOffset = 0;
-                yOffset = 0;
+                centerX = -18;
             }
-            else if (b.state == Boss3.State.Up)
+
+            xOffset = rightX[convert] - centerX;
+            yOffset = rightY[convert] - centerY;
+
+            x = bossX + xOffset;
+            y = bossY + yOffset;
+        }
+
+        int ConvertAnimationCount(int animationCount)
+        {
+            int convert = animationCount;
+
+            if (animationCount > 11)
             {
-                xOffset = 100;
-                yOffset = 30;
-                flip = false;
+                flip = 1;
+                visible = true;
             }
             else if (b.state == Boss3.State.Down)
             {
-                xOffset = 180;
-                yOffset = 30;
-                flip = true;
+                flip = 1;
+                visible = true;
+            }
+            else if (b.state == Boss3.State.Up)
+            {
+                convert += 3;
+                flip = 0;
+                visible = true;
+            }
+            else if (b.state == Boss3.State.Left)
+            {
+                convert += 6;
+                flip = 0;
+                visible = false;
+            }
+            else if (b.state == Boss3.State.Right)
+            {
+                convert += 9;
+                flip = 1;
+                visible = true;
             }
 
-            if (b.state == Boss3.State.Right) visible = false;
-            else visible = true;
-        }
-
-        public void Move(float bossX, float bossY)
-        {
-            ChangeOffset();
-            MoveX(bossX);
-            MoveY(bossY);
-        }
-
-        void MoveX(float bossX)
-        {
-            x = bossX + xOffset;
-        }
-
-        void MoveY(float bossY)
-        {
-            y = bossY + yOffset;
+            return convert;
         }
 
         public override void Draw()
         {
             if (visible)
             {
-                Camera.DrawGraph(x, y, Image.boss3Shoulders[1], flip);
+                Camera.DrawRotaGraph(x, y, Image.rightShoulder, flip);
             }
         }
 
@@ -91,10 +107,18 @@ namespace Group_Project_2
         {
         }
 
-        public override void Kill()
+        public override void TakeDamage(int damage)
         {
-            base.Kill();
-            b.rightShoulderDead = true;
+            if (destroyed)
+            {
+                b.TakeDamage(damage);
+            }
+            else hp = -damage;
+
+            if (hp <= 0)
+            {
+                destroyed = true;
+            }
         }
     }
 }

@@ -875,14 +875,14 @@ namespace Group_Project_2
             }
         }
 
-        public void Smoke(float x, float y)
+        public void Smoke(float x, float y, int num, float width, float height)
         {
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < num; i++)
             {
                 particles.Add(new Particle()
                 {
-                    x = x + MyRandom.PlusMinus(10),
-                    y = y + MyRandom.PlusMinus(10),
+                    x = x + MyRandom.PlusMinus(width),
+                    y = y + MyRandom.PlusMinus(height),
                     lifeSpan = MyRandom.Range(15, 40),
                     imageHandle = Image.particleSmoke,
                     vx = MyRandom.PlusMinus(3f),

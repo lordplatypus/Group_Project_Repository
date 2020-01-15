@@ -209,13 +209,13 @@ namespace Group_Project_2
             ////check if there is blocks within the explosion radius
             playScene.map.BlowUpWall(enemyCenterX, enemyCenterY);
             ////checks to see if the player is within the explosion radius
-            //Player player = playScene.player;
-            //if (MyMath.RectRectIntersection(
-            //            GetLeft() - 2 * CellSize, GetTop() - 2 * CellSize, GetRight() + 2 * CellSize, GetBottom() + 2 * CellSize,
-            //            player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
-            //{
-            //    player.TakeDamage(1);
-            //}
+            Player player = playScene.player;
+            if (MyMath.RectRectIntersection(
+                        GetLeft() - 2 * CellSize, GetTop() - 2 * CellSize, GetRight() + 2 * CellSize, GetBottom() + 2 * CellSize,
+                        player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
+            {
+                player.TakeDamage(1);
+            }
         }
     }
 }

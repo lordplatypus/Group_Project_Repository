@@ -31,6 +31,8 @@ namespace Group_Project_2
             {
                 storedBlocks[i] = 0;
             }
+
+            storedBlocks[2] = 100;//cheating
         }
 
         public void StoreBlock(float worldX, float worldY)
@@ -65,7 +67,7 @@ namespace Group_Project_2
                 green = 215;
                 blue = 208;
             }
-            playScene.pm.Smoke(worldX, worldY);
+            playScene.pm.Smoke(worldX, worldY, 30, 10, 10);
             playScene.pm.Spark(worldX, worldY, red, green, blue);
             playScene.pm.BreakWall(worldX, worldY, red, green, blue);
 

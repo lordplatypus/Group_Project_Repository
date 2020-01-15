@@ -100,7 +100,7 @@ namespace Group_Project_2
 
         public override void OnCollision(GameObject other)
         {
-            if (other is Player || other is StoneBlock) return;
+            if (other is Player || other is StoneBlock || other is Boss3) return;
 
             Kill();
 

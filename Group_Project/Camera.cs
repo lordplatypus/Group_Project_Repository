@@ -18,6 +18,11 @@ namespace Group_Project_2
             DX.DrawGraphF(worldX - x, worldY - y, handle);
         }
 
+        public static void DrawRotaGraph(float worldX, float worldY, int handle, int flip)
+        {
+            DX.DrawRotaGraphF(worldX - x, worldY - y, 1, 0, handle, 1, flip);
+        }
+
         public static void DrawLineBox(float left, float top, float right, float bottom, uint color)
         {
             DX.DrawBox(

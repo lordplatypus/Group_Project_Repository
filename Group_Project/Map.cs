@@ -460,7 +460,7 @@ namespace Group_Project_2
                     //}
                     if (objectMap[x, y] == 8)
                     {
-                        playScene.gameObjects.Add(new Boss3(playScene, worldX, worldY));
+                        playScene.gameObjects.Insert(0, new Boss3(playScene, worldX, worldY));
                     }
                 }
             }
@@ -546,10 +546,13 @@ namespace Group_Project_2
 
         public void CreateBlock(float worldX, float worldY, int blockType)
         {
+            int mapX = (int)(worldX / CellSize);
+            int mapY = (int)(worldY / CellSize);
+
+            if (mapX < 1 || mapX > width - 2 || mapY < 1 || mapY > height - 2) return;
+
             if (GetTerrain(worldX, worldY) == -1)
             {
-                int mapX = (int)(worldX / CellSize);
-                int mapY = (int)(worldY / CellSize);
                 map[mapX, mapY] = blockType;
             }
         }

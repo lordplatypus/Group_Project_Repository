@@ -8,7 +8,7 @@ namespace Group_Project_2
 {
     public class FloorManager
     {
-        int floor;
+        public int floor;
         PlayScene playScene;
 
         public FloorManager(PlayScene playScene)
@@ -56,7 +56,7 @@ namespace Group_Project_2
             //num of enemy 3
             floorInfo[8] = 3;
             //num of enemy 4
-            floorInfo[9] = 0;
+            floorInfo[9] = 10;
             //num of enemy 5
             floorInfo[10] = 0;
             //boss id / 6 = boss1 / 7 = boss2 / 8 = boss3

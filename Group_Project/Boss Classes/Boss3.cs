@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyLib;
 
 namespace Group_Project_2
 {
@@ -47,8 +48,8 @@ namespace Group_Project_2
             imageHeight = 256;
             hitboxOffsetLeft = 0;
             hitboxOffsetRight = 0;
-            hitboxOffsetTop = 0;
-            hitboxOffsetBottom = 0;
+            hitboxOffsetTop = 128;
+            hitboxOffsetBottom = 30;
 
             this.x = x;
             this.y = y;
@@ -66,17 +67,21 @@ namespace Group_Project_2
             if (IsVisible())
             {
                 if (attackTimer > 0) attackTimer--;
+                //else if (animationCounter > 2) animationCounter = 0;
 
                 if (state == State.ReadyAttack)
                 {
+                    animationCounter = 12;
                     if (attackTimer <= 0)
                     {
                         state = State.Attack;
                         attackTimer = AttackTime;
+                        Attack();                       
                     }
                 }
                 else if (state == State.Attack)
                 {
+                    animationCounter = 13;
                     if (attackTimer <= 0)
                     {
                         state = State.Down;
@@ -88,35 +93,66 @@ namespace Group_Project_2
                     timer++;
                     if (timer % 10 == 0)
                     {
-                        animationCounter++;
-                        if (animationCounter >= 3) animationCounter = 0;
-                    }                   
+                        animationCounter++;                       
+                    }
+                    if (animationCounter >= 3) animationCounter = 0;
 
                     float centerX = x + imageWidth / 2;
                     float centerY = y + imageHeight / 2;
                     angleToPlayer = MyMath.PointToPointAngle(centerX, centerY, playScene.player.x, playScene.player.y);
-
-                    MoveX();
-                    MoveY();
+                   
                     AnimationHandle();
-                    if (!rightShoulderDead) rShoulder.Move(x, y);
-                    if (!leftShoulderDead) lShoulder.Move(x, y);
-
-                    if (attackTimer <= 0) AttackRange();
+                    
+                    if (AttackRange())
+                    {
+                        if (attackTimer <= 0)
+                        {
+                            state = State.ReadyAttack;
+                            attackTimer = AttackTime;
+                        }
+                        animationCounter = 0;
+                    }
+                    else
+                    {
+                        MoveX();
+                        MoveY();
+                    }
                 }
+                if (!rightShoulderDead) rShoulder.Move(x, y, animationCounter);
+                if (!leftShoulderDead) lShoulder.Move(x, y, animationCounter);
             }
         }
 
-        void AttackRange()
+        void Attack()
         {
             Player player = playScene.player;
             if (MyMath.RectRectIntersection(
                         GetLeft() - 1 * CellSize, GetTop() - 1 * CellSize, GetRight() + 1 * CellSize, GetBottom() + 1 * CellSize,
                         player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
             {
-                state = State.ReadyAttack;
-                attackTimer = AttackTime;
+                player.TakeDamage(3);
             }
+            playScene.pm.Smoke(x + imageWidth / 2, y + imageHeight, 300, 100, 50);
+
+            for (int i = 0; i < 10; i++)
+            {
+                float blockLocX = x + imageWidth / 2 + MyRandom.PlusMinus(10*CellSize);
+                float blockLocY = y + imageHeight + MyRandom.PlusMinus(10*CellSize);
+                int blockID = MyRandom.Range(0, 4);
+                playScene.map.CreateBlock(blockLocX, blockLocY, blockID);
+            }
+        }
+
+        bool AttackRange()
+        {
+            Player player = playScene.player;
+            if (MyMath.RectRectIntersection(
+                        GetLeft() - 1 * CellSize, GetTop() - 1 * CellSize, GetRight() + 1 * CellSize, GetBottom() + 1 * CellSize,
+                        player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
+            {
+                return true;
+            }
+            else return false;
         }
 
         void MoveX()
@@ -181,7 +217,7 @@ namespace Group_Project_2
         {    
             if (angleToPlayer >= -(MyMath.PI / 4) && angleToPlayer < MyMath.PI / 4)
             {
-                state = State.Left;
+                state = State.Right;
             }
             else if (angleToPlayer >= -(3 * MyMath.PI / 4) && angleToPlayer < -(MyMath.PI / 4))
             {
@@ -193,7 +229,7 @@ namespace Group_Project_2
             }
             else
             {
-                state = State.Right;
+                state = State.Left;
             }
         }
 
@@ -201,19 +237,19 @@ namespace Group_Project_2
         {
             if (state == State.ReadyAttack)
             {
-                Camera.DrawGraph(x, y, Image.boss3[12]);
+                Camera.DrawGraph(x, y, Image.boss3[animationCounter]);
             }
             else if (state == State.Attack)
             {
-                Camera.DrawGraph(x, y, Image.boss3[13]);
+                Camera.DrawGraph(x, y, Image.boss3[animationCounter]);
             }
             else if (state == State.Left)
             {
-                Camera.DrawGraph(x, y, Image.boss3[9 + animationCounter]);
+                Camera.DrawGraph(x, y, Image.boss3[6 + animationCounter]);
             }
             else if (state == State.Right)
             {
-                Camera.DrawGraph(x, y, Image.boss3[6 + animationCounter]);
+                Camera.DrawGraph(x, y, Image.boss3[9 + animationCounter]);
             }
             else if (state == State.Up)
             {
@@ -229,9 +265,11 @@ namespace Group_Project_2
         {
         }
 
-        public override void TakeDamage(int damage)
+        public override void Kill()
         {
-            if (rightShoulderDead && leftShoulderDead) base.TakeDamage(damage);
+            base.Kill();
+            lShoulder.Kill();
+            rShoulder.Kill();
         }
     }
 }
