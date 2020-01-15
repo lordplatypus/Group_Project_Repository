@@ -96,7 +96,7 @@ namespace Group_Project_2
 
         public override void OnCollision(GameObject other)
         {
-            if (other is Player) return;
+            if (other is Player || other is DiamondBlock) return;
 
             Kill();
 

@@ -15,8 +15,8 @@ namespace Group_Project_2
 
         public Boss3LeftShoulder(PlayScene playScene, Boss3 b, float x, float y) : base(playScene)
         {
-            imageWidth = 128;
-            imageHeight = 128;
+            imageWidth = 64;
+            imageHeight = 64;
             hitboxOffsetLeft = 0;
             hitboxOffsetRight = 0;
             hitboxOffsetTop = 0;
@@ -34,28 +34,28 @@ namespace Group_Project_2
 
         void ChangeOffset()
         {
-            if (b.direction == Boss3.Direction.Left)
+            if (b.state == Boss3.State.Left)
             {
                 xOffset = 0;
                 yOffset = 0;
             }
-            else if (b.direction == Boss3.Direction.Right)
+            else if (b.state == Boss3.State.Right)
             {
                 xOffset = 0;
                 yOffset = 0;
             }
-            else if (b.direction == Boss3.Direction.Up)
+            else if (b.state == Boss3.State.Up)
             {
                 xOffset = 0;
                 yOffset = 0;
             }
-            else if (b.direction == Boss3.Direction.Down)
+            else if (b.state == Boss3.State.Down)
             {
                 xOffset = 0;
                 yOffset = 0;
             }
 
-            if (b.direction == Boss3.Direction.Right) visible = false;
+            if (b.state == Boss3.State.Right) visible = false;
             else visible = true;
         }
 
@@ -80,7 +80,7 @@ namespace Group_Project_2
         {
             if (visible)
             {
-
+                Camera.DrawGraph(x, y, Image.boss3Shoulders[0]);
             }
         }
 

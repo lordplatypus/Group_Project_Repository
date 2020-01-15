@@ -8,28 +8,43 @@ namespace Group_Project_2
 {
     class Boss3 : GameObject
     {
-        public enum Direction
+        public enum State
         {
             Left,
             Right,
             Up,
             Down,
+            ReadyAttack,
+            Attack,
         }
 
-        public Direction direction = Direction.Down;
+        const int CellSize = 64;
+        const float Speed = 2f;
+        const int AttackTime = 30;
+        const int AttackCooldown = 120;
+
+        float[] rightX = new float[] { 93, 84, 92, 166, 174, 166, 127, 149, 138, 176, 164 };
+        float[] rightY = new float[] { 65, 71, 72, 60, 58, 62, 77, 82, 81, 73, 86 };
+        float[] leftX = new float[] { 169, 160, 168, 90, 98, 90, 131, 137, 140, 100, 88 };
+        float[] leftY = new float[] { 63, 69, 70, 60, 65, 60, 76, 76, 77, 75, 88 };
+
+        public State state = State.Down;
         public bool rightShoulderDead = false;
         public bool leftShoulderDead = false;
         Boss3RightShoulder rShoulder;
         Boss3LeftShoulder lShoulder;
-        const float Speed = 2f;
+        
         float angleToPlayer = 0;
         float vx = 0;
         float vy = 0;
+        int timer = 0;
+        int animationCounter = 0;
+        int attackTimer;
 
         public Boss3(PlayScene playScene, float x, float y) : base(playScene)
         {
-            imageWidth = 128;
-            imageHeight = 128;
+            imageWidth = 256;
+            imageHeight = 256;
             hitboxOffsetLeft = 0;
             hitboxOffsetRight = 0;
             hitboxOffsetTop = 0;
@@ -50,13 +65,57 @@ namespace Group_Project_2
         {
             if (IsVisible())
             {
-                angleToPlayer = MyMath.PointToPointAngle(x, y, playScene.player.x, playScene.player.y);
+                if (attackTimer > 0) attackTimer--;
 
-                MoveX();
-                MoveY();
-                AnimationHandle();
-                if (!rightShoulderDead) rShoulder.Move(x, y);
-                if (!leftShoulderDead) lShoulder.Move(x, y);
+                if (state == State.ReadyAttack)
+                {
+                    if (attackTimer <= 0)
+                    {
+                        state = State.Attack;
+                        attackTimer = AttackTime;
+                    }
+                }
+                else if (state == State.Attack)
+                {
+                    if (attackTimer <= 0)
+                    {
+                        state = State.Down;
+                        attackTimer = AttackCooldown;
+                    }
+                }
+                else
+                {
+                    timer++;
+                    if (timer % 10 == 0)
+                    {
+                        animationCounter++;
+                        if (animationCounter >= 3) animationCounter = 0;
+                    }                   
+
+                    float centerX = x + imageWidth / 2;
+                    float centerY = y + imageHeight / 2;
+                    angleToPlayer = MyMath.PointToPointAngle(centerX, centerY, playScene.player.x, playScene.player.y);
+
+                    MoveX();
+                    MoveY();
+                    AnimationHandle();
+                    if (!rightShoulderDead) rShoulder.Move(x, y);
+                    if (!leftShoulderDead) lShoulder.Move(x, y);
+
+                    if (attackTimer <= 0) AttackRange();
+                }
+            }
+        }
+
+        void AttackRange()
+        {
+            Player player = playScene.player;
+            if (MyMath.RectRectIntersection(
+                        GetLeft() - 1 * CellSize, GetTop() - 1 * CellSize, GetRight() + 1 * CellSize, GetBottom() + 1 * CellSize,
+                        player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
+            {
+                state = State.ReadyAttack;
+                attackTimer = AttackTime;
             }
         }
 
@@ -119,39 +178,50 @@ namespace Group_Project_2
         }
 
         void AnimationHandle()
-        {
-            //for animations
+        {    
             if (angleToPlayer >= -(MyMath.PI / 4) && angleToPlayer < MyMath.PI / 4)
             {
-                direction = Direction.Right;
+                state = State.Left;
             }
             else if (angleToPlayer >= -(3 * MyMath.PI / 4) && angleToPlayer < -(MyMath.PI / 4))
             {
-                direction = Direction.Up;
+                state = State.Up;
             }
             else if (angleToPlayer >= MyMath.PI / 4 && angleToPlayer < 3 * MyMath.PI / 4)
             {
-                direction = Direction.Down;
+                state = State.Down;
             }
             else
             {
-                direction = Direction.Left;
+                state = State.Right;
             }
         }
 
         public override void Draw()
         {
-            if (direction == Direction.Left)
+            if (state == State.ReadyAttack)
             {
+                Camera.DrawGraph(x, y, Image.boss3[12]);
             }
-            else if (direction == Direction.Right)
+            else if (state == State.Attack)
             {
+                Camera.DrawGraph(x, y, Image.boss3[13]);
             }
-            else if (direction == Direction.Up)
+            else if (state == State.Left)
             {
+                Camera.DrawGraph(x, y, Image.boss3[9 + animationCounter]);
+            }
+            else if (state == State.Right)
+            {
+                Camera.DrawGraph(x, y, Image.boss3[6 + animationCounter]);
+            }
+            else if (state == State.Up)
+            {
+                Camera.DrawGraph(x, y, Image.boss3[3 + animationCounter]);
             }
             else
             {
+                Camera.DrawGraph(x, y, Image.boss3[0 + animationCounter]);
             }
         }
 

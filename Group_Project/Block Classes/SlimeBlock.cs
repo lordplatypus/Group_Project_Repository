@@ -12,7 +12,7 @@ namespace Group_Project_2
         int damage = 1;
         float vx; // 横移動速度
         float vy; // 縦方向速度
-        int lifeSpan = 120;
+        int lifeSpan = 30;
 
         public SlimeBlock(PlayScene playScene, float x, float y, float angle) : base(playScene)
         {
@@ -100,7 +100,7 @@ namespace Group_Project_2
 
         public override void OnCollision(GameObject other)
         {
-            if (other is Player) return;
+            if (other is Player || other is SlimeBlock) return;
 
             Kill();
 

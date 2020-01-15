@@ -458,10 +458,10 @@ namespace Group_Project_2
                     //{
                     //    playScene.gameObjects.Add(new Boss2(playScene, worldX, worldY));
                     //}
-                    //if (objectMap[x, y] == 8)
-                    //{
-                    //    playScene.gameObjects.Add(new Boss3(playScene, worldX, worldY));
-                    //}
+                    if (objectMap[x, y] == 8)
+                    {
+                        playScene.gameObjects.Add(new Boss3(playScene, worldX, worldY));
+                    }
                 }
             }
         }
