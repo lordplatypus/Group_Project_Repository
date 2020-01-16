@@ -40,6 +40,9 @@ namespace Group_Project_2
         const int MutekiJikan = 30;
         int mutekiTimer = 0;
 
+        bool isDying = false;
+        int dyingTimer = 300;
+
         public Boss3(PlayScene playScene, float x, float y) : base(playScene)
         {
             imageWidth = 256;
@@ -51,7 +54,8 @@ namespace Group_Project_2
 
             this.x = x;
             this.y = y;
-            hp = 35;
+            //hp = 35;
+            hp = 1;
 
             rShoulder = new Boss3RightShoulder(playScene, this, x, y);
             lShoulder = new Boss3LeftShoulder(playScene, this, x, y);
@@ -62,7 +66,43 @@ namespace Group_Project_2
 
         public override void Update()
         {
-            if (IsVisible())
+            if (isDying)
+            {//death animation
+                dyingTimer--;
+
+                float centerX = x + imageWidth / 2;
+                float centerY = y + imageHeight / 2;
+
+                if (dyingTimer > 100)
+                {
+                    playScene.pm.Charge(centerX, centerY);
+                    if (dyingTimer % 10 == 0) playScene.pm.Explosion(centerX + MyRandom.PlusMinus(100), centerY + MyRandom.PlusMinus(100), 0);
+                    x += MyRandom.PlusMinus(5);
+                    y += MyRandom.PlusMinus(5);
+                    rShoulder.Move(x, y, animationCounter);
+                    lShoulder.Move(x, y, animationCounter);
+                }
+                else if (dyingTimer == 100)
+                {
+                    playScene.pm.ReverseShockWave(centerX, centerY);
+                }
+                else if (dyingTimer == 50)
+                {
+                    for (int i = 0; i < 100; i++)
+                    {
+                        playScene.pm.Explosion(centerX + MyRandom.PlusMinus(100), centerY + MyRandom.PlusMinus(100), 10);
+                    }
+                    animationCounter = 19; //empty - won't draw anything
+                    rShoulder.TakeDamage(3); //to remove the shoulder image, just in case it wasn't destroyed earlier
+                    lShoulder.TakeDamage(3); //same as above
+                }
+                else if (dyingTimer < 50 && dyingTimer % 10 == 0)
+                {
+                    playScene.pm.FireWork(centerX + MyRandom.PlusMinus(100), centerY + MyRandom.PlusMinus(100));
+                }
+                else if (dyingTimer <= 0) Kill();
+            }
+            else if (IsVisible())
             {//won't do anything unless it is witin the player's screen
                 if (attackTimer > 0) attackTimer--; //timer for boss attacks that don't involve missiles
                 if (missileTimer > 0) missileTimer--; //timer for missile attack
@@ -293,7 +333,8 @@ namespace Group_Project_2
         {
             if (mutekiTimer <= 0)
             {
-                base.TakeDamage(damage);
+                hp -= damage;
+                if (hp <= 0) isDying = true;
                 mutekiTimer = MutekiJikan;
             }
         }

@@ -73,40 +73,7 @@ namespace Group_Project_2
             });
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="distanceAway">How far away the explosion can happen</param>
-        public void Explosion(float x, float y, int distanceAway)
-        {
-            for (int i = 0; i < 70; i++)
-            {
-                float angle = MyRandom.PlusMinus(MyMath.PI);
-                float speed = MyRandom.Range(0f, 8f);
-                float startScale = MyRandom.Range(0.5f, 1.3f);
-
-                particles.Add(
-                    new Particle()
-                    {
-                        x = x + MyRandom.PlusMinus(distanceAway),
-                        y = y + MyRandom.PlusMinus(distanceAway),
-                        lifeSpan = MyRandom.Range(15, 45),
-                        imageHandle = Image.particleFire,
-                        vx = (float)Math.Cos(angle) * speed,
-                        vy = (float)Math.Sin(angle) * speed,
-                        damp = 0.88f,
-                        startScale = startScale,
-                        endScale = startScale * 0.75f,
-                        endAlpha = 0,
-                        blendMode = DX.DX_BLENDMODE_ADD,
-                        angle = MyRandom.PlusMinus(3.14f),
-                        angularVelocity = MyRandom.PlusMinus(0.15f),
-                        angularDamp = 0.94f,
-                    });
-            }
-        }
+        
 
         public void Steam(float x, float y)
         {
@@ -130,7 +97,20 @@ namespace Group_Project_2
             });
         }
 
-        
+        public void ShockWave(float x, float y)
+        {
+            particles.Add(new Particle()
+            {
+                x = x,
+                y = y,
+                lifeSpan = 10,
+                imageHandle = Image.particleRing4,
+                startScale = 0.15f,
+                endScale = 0.8f,
+                endAlpha = 0,
+                angle = 3.14f / 180f * 0f,
+            });
+        }
 
         public void PickupItem(float x, float y)
         {
@@ -182,21 +162,6 @@ namespace Group_Project_2
                     forceY = 0.15f,
                 });
             }
-        }
-
-        public void ShockWave(float x, float y)
-        {
-            particles.Add(new Particle()
-            {
-                x = x,
-                y = y,
-                lifeSpan = 10,
-                imageHandle = Image.particleRing4,
-                startScale = 0.15f,
-                endScale = 0.8f,
-                endAlpha = 0,
-                angle = 3.14f / 180f * 0f,
-            });
         }
 
         public void Blood(float x, float y)
@@ -673,29 +638,7 @@ namespace Group_Project_2
             }
         }
 
-        public void Charge(float x, float y)
-        {
-            float angle = MyRandom.PlusMinus(MyMath.PI);
-            float distance = MyRandom.Range(20f, 80f);
-            float distanceX = (float)Math.Cos(angle) * distance;
-            float distanceY = (float)Math.Sin(angle) * distance;
-            int lifeSpan = MyRandom.Range(15, 40);
-
-            particles.Add(new Particle()
-            {
-                x = x + distanceX,
-                y = y + distanceY,
-                lifeSpan = lifeSpan,
-                imageHandle = Image.particleDot2,
-                vx = -distanceX / lifeSpan,
-                vy = -distanceY / lifeSpan,
-                startScale = MyRandom.Range(0.13f, 0.25f),
-                endScale = 0.0f,
-                startAlpha = 0,
-                endAlpha = 255,
-                angle = angle,
-            });
-        }
+        
 
         public void Claw(float x, float y)
         {
@@ -824,6 +767,41 @@ namespace Group_Project_2
 
         //Currently Used
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="distanceAway">How far away the explosion can happen</param>
+        public void Explosion(float x, float y, int distanceAway)
+        {
+            for (int i = 0; i < 70; i++)
+            {
+                float angle = MyRandom.PlusMinus(MyMath.PI);
+                float speed = MyRandom.Range(0f, 8f);
+                float startScale = MyRandom.Range(0.5f, 1.3f);
+
+                particles.Add(
+                    new Particle()
+                    {
+                        x = x + MyRandom.PlusMinus(distanceAway),
+                        y = y + MyRandom.PlusMinus(distanceAway),
+                        lifeSpan = MyRandom.Range(15, 45),
+                        imageHandle = Image.particleFire,
+                        vx = (float)Math.Cos(angle) * speed,
+                        vy = (float)Math.Sin(angle) * speed,
+                        damp = 0.88f,
+                        startScale = startScale,
+                        endScale = startScale * 0.75f,
+                        endAlpha = 0,
+                        blendMode = DX.DX_BLENDMODE_ADD,
+                        angle = MyRandom.PlusMinus(3.14f),
+                        angularVelocity = MyRandom.PlusMinus(0.15f),
+                        angularDamp = 0.94f,
+                    });
+            }
+        }
+
         public void BreakWall(float x, float y, int red, int green, int blue)
         {
             for (int i = 0; i < 20; i++)
@@ -898,6 +876,48 @@ namespace Group_Project_2
                     angularDamp = 0.98f,
                 });
             }
+        }
+
+
+        //Boss Death
+
+        public void Charge(float x, float y)
+        {
+            float angle = MyRandom.PlusMinus(MyMath.PI);
+            float distance = MyRandom.Range(200f, 300f);
+            float distanceX = (float)Math.Cos(angle) * distance;
+            float distanceY = (float)Math.Sin(angle) * distance;
+            int lifeSpan = MyRandom.Range(15, 40);
+
+            particles.Add(new Particle()
+            {
+                x = x + distanceX,
+                y = y + distanceY,
+                lifeSpan = lifeSpan,
+                imageHandle = Image.particleDot2,
+                vx = -distanceX / lifeSpan,
+                vy = -distanceY / lifeSpan,
+                startScale = MyRandom.Range(0.13f, 0.25f),
+                endScale = 0.0f,
+                startAlpha = 0,
+                endAlpha = 255,
+                angle = angle,
+            });
+        }
+
+        public void ReverseShockWave(float x, float y)
+        {
+            particles.Add(new Particle()
+            {
+                x = x,
+                y = y,
+                lifeSpan = 30,
+                imageHandle = Image.particleRing4,
+                startScale = 5f,
+                endScale = 0.15f,
+                endAlpha = 0,
+                angle = 90f * MyMath.Deg2Rad,
+            });
         }
     }
 }

@@ -67,12 +67,12 @@ namespace Group_Project_2
 
         public override void Draw()
         {
-            map.DrawMap();
-            pm.Draw();
+            map.DrawMap();            
             foreach (GameObject go in gameObjects)
             {
                 go.Draw();
             }
+            pm.Draw();
             bm.Draw();
             //DX.DrawString(Screen.Width - 120, 5, "ブロック数" + blockcount.ToString("0"), DX.GetColor(255, 255, 255));
             DX.DrawBox(950, 5, 950 + (10 * player.life), 20, DX.GetColor(0, 255, 0), DX.TRUE);
