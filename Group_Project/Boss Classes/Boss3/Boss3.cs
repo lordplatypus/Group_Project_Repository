@@ -143,8 +143,10 @@ namespace Group_Project_2
             {//randomly spawn (at most) 10 blocks somewhere on the map
                 float blockLocX = x + imageWidth / 2 + MyRandom.PlusMinus(10*CellSize);
                 float blockLocY = y + imageHeight + MyRandom.PlusMinus(10*CellSize);
-                int blockID = MyRandom.Range(0, 4);
-                playScene.map.CreateBlock(blockLocX, blockLocY, blockID);
+                if (playScene.map.GetTerrain(blockLocX, blockLocY) == -2 || playScene.map.GetTerrain(blockLocX, blockLocY) == 5) continue;
+                //int blockID = MyRandom.Range(0, 4);
+                //playScene.map.CreateBlock(blockLocX, blockLocY, blockID);
+                playScene.gameObjects.Add(new Boss3SmashAttack(playScene, blockLocX, blockLocY));
             }
         }
 

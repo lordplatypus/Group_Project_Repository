@@ -23,7 +23,7 @@ namespace Group_Project_2
             DX.DrawRotaGraphF(worldX - x, worldY - y, 1, 0, handle, 1, flip);
         }
 
-        public static void DrawLineBox(float left, float top, float right, float bottom, uint color)
+        public static void DrawBox(float left, float top, float right, float bottom, uint color, int fill)
         {
             DX.DrawBox(
                 (int)(left - x + .5f),
@@ -31,7 +31,7 @@ namespace Group_Project_2
                 (int)(right - x + .5f),
                 (int)(bottom - y + .5f),
                 color,
-                DX.FALSE);
+                fill);
         }
 
         public static void DrawParticle(float worldX, float worldY, bool isDead, int red, int green, int blue, int blendMode, int alpha, float scale, float angle, int imageHandle)

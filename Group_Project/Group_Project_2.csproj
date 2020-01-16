@@ -73,6 +73,7 @@
     <Compile Include="Boss Classes\Boss3\Boss3LeftShoulder.cs" />
     <Compile Include="Boss Classes\Boss3\Boss3RightShoulder.cs" />
     <Compile Include="Boss Classes\Boss3\Boss3Missile.cs" />
+    <Compile Include="Boss Classes\Boss3\Boss3SmashAttack.cs" />
     <Compile Include="BossBullet.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="DxDLLW.cs" />

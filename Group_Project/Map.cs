@@ -7,6 +7,7 @@ using MyLib;
 
 //Note
 //Map
+//-2 = out of bounds
 //-1 = empty
 //0 = slime (スライム)
 //1 = soil (土)
@@ -497,7 +498,7 @@ namespace Group_Project_2
             int mapY = (int)(worldY / CellSize);
 
             if (mapX < 0 || mapX >= width || mapY < 0 || mapY >= height)
-                return None;
+                return -2;
 
             return map[mapX, mapY];
         }
