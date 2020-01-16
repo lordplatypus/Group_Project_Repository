@@ -69,9 +69,10 @@
     <Compile Include="Block Classes\SoilBlock.cs" />
     <Compile Include="Block Classes\StoneBlock.cs" />
     <Compile Include="Boss.cs" />
-    <Compile Include="Boss Classes\Boss3.cs" />
-    <Compile Include="Boss Classes\Boss3LeftShoulder.cs" />
-    <Compile Include="Boss Classes\Boss3RightShoulder.cs" />
+    <Compile Include="Boss Classes\Boss3\Boss3.cs" />
+    <Compile Include="Boss Classes\Boss3\Boss3LeftShoulder.cs" />
+    <Compile Include="Boss Classes\Boss3\Boss3RightShoulder.cs" />
+    <Compile Include="Boss Classes\Boss3\Boss3Missile.cs" />
     <Compile Include="BossBullet.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="DxDLLW.cs" />
@@ -136,10 +137,10 @@
     <Content Include="Image\Enemys\move_enemy.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Image\Enemys\StoneBoss shoulder.png">
+    <Content Include="Image\Enemys\StoneBoss.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Image\Enemys\StoneBoss.png">
+    <Content Include="Image\Enemys\StoneBossv2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Image\Enemys\teki3.png">
@@ -269,6 +270,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Boss Classes\Boss1\" />
+    <Folder Include="Boss Classes\Boss2\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

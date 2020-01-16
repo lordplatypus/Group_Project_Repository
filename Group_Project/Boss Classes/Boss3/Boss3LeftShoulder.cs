@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Group_Project_2
 {
-    class Boss3RightShoulder : GameObject
+    class Boss3LeftShoulder : GameObject
     {
         Boss3 b;
         float xOffset = 0;
@@ -14,13 +14,13 @@ namespace Group_Project_2
         bool visible = true;
         bool destroyed = false;
         int flip = 0;
-        float centerX = 18;
+        float centerX = -18;
         float centerY = 18;
-        float[] rightX = new float[] { 93, 84, 92, 166, 174, 166, 0, 0, 0, 127, 149, 138, 100, 88 };
-        float[] rightY = new float[] { 65, 71, 72, 60, 58, 62, 0, 0, 0, 77, 82, 81, 75, 88 };
-        //don't use animation count 6, 7, 8
+        float[] leftX = new float[] { 169, 160, 169, 168, 90, 98, 90, 90, 131, 137, 131, 140, 0, 0, 0, 0, 176, 164 };
+        float[] leftY = new float[] { 63, 69, 63, 70, 60, 56, 60, 60, 76, 76, 76, 77, 0, 0, 0, 0, 73, 86 };
+        //don't use animation count 12, 13, 14, 15
 
-        public Boss3RightShoulder(PlayScene playScene, Boss3 b, float x, float y) : base(playScene)
+        public Boss3LeftShoulder(PlayScene playScene, Boss3 b, float x, float y) : base(playScene)
         {
             imageWidth = 64;
             imageHeight = 64;
@@ -43,30 +43,28 @@ namespace Group_Project_2
         {
             int convert = ConvertAnimationCount(animationCount);
 
-            if (flip == 1)
-            {
-                centerX = 18;
-            }
-            else
-            {
-                centerX = -18;
-            }
+            //find the center of the shoulder (y is always the same)
+            if (flip == 1) centerX = -18;
+            else centerX = 18;
 
-            xOffset = rightX[convert] - centerX;
-            yOffset = rightY[convert] - centerY;
-
+            //using the 2 arrays with shoulder locations + the current boss image (frame) + the center of the shoulder
+            //find the correct position the shoulder should move to look like it is part of the boss
+            xOffset = leftX[convert] - centerX;
+            yOffset = leftY[convert] - centerY;
+            
+            //actaul movement
             x = bossX + xOffset;
-            y = bossY + yOffset;
+            y = bossY + yOffset;           
         }
 
         int ConvertAnimationCount(int animationCount)
-        {
+        {//converting the animationCount so I know the correct image (frame) currently playing.
             int convert = animationCount;
 
-            if (animationCount > 11)
+            if (animationCount > 15)
             {
-                flip = 1;
-                visible = true;
+                flip = 1; //0=false, 1=true - just flips the image if needed
+                visible = true; //can you see the shoulder in the current frame?
             }
             else if (b.state == Boss3.State.Down)
             {
@@ -75,21 +73,21 @@ namespace Group_Project_2
             }
             else if (b.state == Boss3.State.Up)
             {
-                convert += 3;
+                convert += 4; //the actual "conversion" part
                 flip = 0;
                 visible = true;
             }
             else if (b.state == Boss3.State.Left)
             {
-                convert += 6;
-                flip = 0;
-                visible = false;
+                convert += 8;
+                flip = 1;
+                visible = true;
             }
             else if (b.state == Boss3.State.Right)
             {
-                convert += 9;
-                flip = 1;
-                visible = true;
+                convert += 12;
+                flip = 0;
+                visible = false;
             }
 
             return convert;
@@ -97,9 +95,9 @@ namespace Group_Project_2
 
         public override void Draw()
         {
-            if (visible)
-            {
-                Camera.DrawRotaGraph(x, y, Image.rightShoulder, flip);
+            if (visible && !destroyed)
+            {//don't draw if not visible or when it is "destroyed"
+                Camera.DrawRotaGraph(x, y, Image.leftShoulder, flip);
             }
         }
 
@@ -110,13 +108,13 @@ namespace Group_Project_2
         public override void TakeDamage(int damage)
         {
             if (destroyed)
-            {
+            {//if "dead" boss takes damage instead
                 b.TakeDamage(damage);
             }
-            else hp = -damage;
+            else hp -= damage; //if not "dead"
 
             if (hp <= 0)
-            {
+            {//mark the shoulder as "dead" once hp hits 0
                 destroyed = true;
             }
         }

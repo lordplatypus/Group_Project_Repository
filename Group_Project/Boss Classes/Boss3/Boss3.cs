@@ -20,18 +20,12 @@ namespace Group_Project_2
         }
 
         const int CellSize = 64;
-        const float Speed = 2f;
+        const float Speed = 1.5f;
         const int AttackTime = 30;
         const int AttackCooldown = 120;
-
-        float[] rightX = new float[] { 93, 84, 92, 166, 174, 166, 127, 149, 138, 176, 164 };
-        float[] rightY = new float[] { 65, 71, 72, 60, 58, 62, 77, 82, 81, 73, 86 };
-        float[] leftX = new float[] { 169, 160, 168, 90, 98, 90, 131, 137, 140, 100, 88 };
-        float[] leftY = new float[] { 63, 69, 70, 60, 65, 60, 76, 76, 77, 75, 88 };
+        const int MissileCooldown = 420;
 
         public State state = State.Down;
-        public bool rightShoulderDead = false;
-        public bool leftShoulderDead = false;
         Boss3RightShoulder rShoulder;
         Boss3LeftShoulder lShoulder;
         
@@ -41,13 +35,17 @@ namespace Group_Project_2
         int timer = 0;
         int animationCounter = 0;
         int attackTimer;
+        int missileTimer;
+
+        const int MutekiJikan = 30;
+        int mutekiTimer = 0;
 
         public Boss3(PlayScene playScene, float x, float y) : base(playScene)
         {
             imageWidth = 256;
             imageHeight = 256;
-            hitboxOffsetLeft = 0;
-            hitboxOffsetRight = 0;
+            hitboxOffsetLeft = 56;
+            hitboxOffsetRight = 56;
             hitboxOffsetTop = 128;
             hitboxOffsetBottom = 30;
 
@@ -65,77 +63,84 @@ namespace Group_Project_2
         public override void Update()
         {
             if (IsVisible())
-            {
-                if (attackTimer > 0) attackTimer--;
-                //else if (animationCounter > 2) animationCounter = 0;
+            {//won't do anything unless it is witin the player's screen
+                if (attackTimer > 0) attackTimer--; //timer for boss attacks that don't involve missiles
+                if (missileTimer > 0) missileTimer--; //timer for missile attack
 
                 if (state == State.ReadyAttack)
-                {
-                    animationCounter = 12;
+                {//wind up for smash attack
+                    animationCounter = 16; //play correct animation
                     if (attackTimer <= 0)
-                    {
+                    {//once the timer hits 0 move from "ready" position to "attack" position
                         state = State.Attack;
-                        attackTimer = AttackTime;
+                        attackTimer = AttackTime; //reset timer
                         Attack();                       
                     }
                 }
                 else if (state == State.Attack)
-                {
-                    animationCounter = 13;
+                {//Smash attack (more like smash attack cooldown)
+                    animationCounter = 17; //play correct animation
                     if (attackTimer <= 0)
-                    {
+                    {//once the timer hits 0, move from the "attack" position to the normal walking animation
                         state = State.Down;
-                        attackTimer = AttackCooldown;
+                        attackTimer = AttackCooldown; //set attack cooldown so the boss dosen't immediately attack again
                     }
                 }
                 else
-                {
-                    timer++;
-                    if (timer % 10 == 0)
-                    {
-                        animationCounter++;                       
-                    }
-                    if (animationCounter >= 3) animationCounter = 0;
-
+                {                    
+                    //grab the center of the boss
                     float centerX = x + imageWidth / 2;
                     float centerY = y + imageHeight / 2;
+                    //find the angle to the player from the center of the boss
                     angleToPlayer = MyMath.PointToPointAngle(centerX, centerY, playScene.player.x, playScene.player.y);
                    
-                    AnimationHandle();
+                    AnimationHandle(); //animations are handled here
                     
                     if (AttackRange())
-                    {
+                    {//checks to see if the player is whithin smash attack range
                         if (attackTimer <= 0)
-                        {
+                        {//if the timer is 0 start the smash attack
                             state = State.ReadyAttack;
                             attackTimer = AttackTime;
                         }
-                        animationCounter = 0;
+                        //if the player is within smash attack range, but the attack is on cooldown, the boss will just stand in one place
+                        //this makes it so the boss dosen't constantly run into / spaz on the player
+                        animationCounter = 0; 
                     }
                     else
-                    {
+                    {//not in smash attack range
+                        if (missileTimer <= 0)
+                        {//if the missile timer is 0, shoot missiles (2 of them)
+                            playScene.gameObjects.Add(new Boss3Missile(playScene, x + imageWidth / 2, y + imageHeight / 2 + 50));
+                            playScene.gameObjects.Add(new Boss3Missile(playScene, x + imageWidth / 2, y + imageHeight / 2 - 50));
+                            missileTimer = MissileCooldown; //missile attack cooldown
+                        }
+                        //actual boss movement
                         MoveX();
                         MoveY();
                     }
                 }
-                if (!rightShoulderDead) rShoulder.Move(x, y, animationCounter);
-                if (!leftShoulderDead) lShoulder.Move(x, y, animationCounter);
+                //movement for both shoulders
+                rShoulder.Move(x, y, animationCounter);
+                lShoulder.Move(x, y, animationCounter);
             }
+
+            if (mutekiTimer > 0) mutekiTimer--; //invinciblity frames
         }
 
         void Attack()
-        {
+        {//Smash attack
             Player player = playScene.player;
             if (MyMath.RectRectIntersection(
                         GetLeft() - 1 * CellSize, GetTop() - 1 * CellSize, GetRight() + 1 * CellSize, GetBottom() + 1 * CellSize,
                         player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
-            {
-                player.TakeDamage(3);
+            {//if player is within the range of the attack, the player takes damage
+                player.TakeDamage(0); //change this - currently deals 0 damage for testing
             }
-            playScene.pm.Smoke(x + imageWidth / 2, y + imageHeight, 300, 100, 50);
+            playScene.pm.Smoke(x + imageWidth / 2, y + imageHeight, 300, 100, 50); //particle effect
 
             for (int i = 0; i < 10; i++)
-            {
+            {//randomly spawn (at most) 10 blocks somewhere on the map
                 float blockLocX = x + imageWidth / 2 + MyRandom.PlusMinus(10*CellSize);
                 float blockLocY = y + imageHeight + MyRandom.PlusMinus(10*CellSize);
                 int blockID = MyRandom.Range(0, 4);
@@ -144,7 +149,7 @@ namespace Group_Project_2
         }
 
         bool AttackRange()
-        {
+        {//checks to see if the player is within "attack" range - true/false
             Player player = playScene.player;
             if (MyMath.RectRectIntersection(
                         GetLeft() - 1 * CellSize, GetTop() - 1 * CellSize, GetRight() + 1 * CellSize, GetBottom() + 1 * CellSize,
@@ -214,7 +219,14 @@ namespace Group_Project_2
         }
 
         void AnimationHandle()
-        {    
+        {//animations are handled here
+            timer++;
+            if (timer % 10 == 0)
+            {
+                animationCounter++;
+            }
+            if (animationCounter >= 4) animationCounter = 0;
+
             if (angleToPlayer >= -(MyMath.PI / 4) && angleToPlayer < MyMath.PI / 4)
             {
                 state = State.Right;
@@ -235,29 +247,32 @@ namespace Group_Project_2
 
         public override void Draw()
         {
-            if (state == State.ReadyAttack)
+            if (mutekiTimer % 2 == 0)
             {
-                Camera.DrawGraph(x, y, Image.boss3[animationCounter]);
-            }
-            else if (state == State.Attack)
-            {
-                Camera.DrawGraph(x, y, Image.boss3[animationCounter]);
-            }
-            else if (state == State.Left)
-            {
-                Camera.DrawGraph(x, y, Image.boss3[6 + animationCounter]);
-            }
-            else if (state == State.Right)
-            {
-                Camera.DrawGraph(x, y, Image.boss3[9 + animationCounter]);
-            }
-            else if (state == State.Up)
-            {
-                Camera.DrawGraph(x, y, Image.boss3[3 + animationCounter]);
-            }
-            else
-            {
-                Camera.DrawGraph(x, y, Image.boss3[0 + animationCounter]);
+                if (state == State.ReadyAttack)
+                {
+                    Camera.DrawGraph(x, y, Image.boss3[animationCounter]);
+                }
+                else if (state == State.Attack)
+                {
+                    Camera.DrawGraph(x, y, Image.boss3[animationCounter]);
+                }
+                else if (state == State.Left)
+                {
+                    Camera.DrawGraph(x, y, Image.boss3[8 + animationCounter]);
+                }
+                else if (state == State.Right)
+                {
+                    Camera.DrawGraph(x, y, Image.boss3[12 + animationCounter]);
+                }
+                else if (state == State.Up)
+                {
+                    Camera.DrawGraph(x, y, Image.boss3[4 + animationCounter]);
+                }
+                else
+                {
+                    Camera.DrawGraph(x, y, Image.boss3[0 + animationCounter]);
+                }
             }
         }
 
@@ -266,10 +281,19 @@ namespace Group_Project_2
         }
 
         public override void Kill()
-        {
+        {//once the boss dies, so does the shoulders
             base.Kill();
             lShoulder.Kill();
             rShoulder.Kill();
+        }
+
+        public override void TakeDamage(int damage)
+        {
+            if (mutekiTimer <= 0)
+            {
+                base.TakeDamage(damage);
+                mutekiTimer = MutekiJikan;
+            }
         }
     }
 }

@@ -25,8 +25,7 @@ namespace Group_Project_2
 
         //ボース
         public static int[] boss = new int[4];
-        public static int[] boss3 = new int[15];
-        public static int[] boss3Shoulders = new int[2];
+        public static int[] boss3 = new int[20];
         public static int rightShoulder;
         public static int leftShoulder;
 
@@ -92,8 +91,8 @@ namespace Group_Project_2
 
             //ボス
             DX.LoadDivGraph("Image/Enemys/boss1.png", boss.Length, 2, 2, 128, 128, boss);
-            DX.LoadDivGraph("Image/Enemys/StoneBoss.png", boss3.Length, 3, 5, 256, 256, boss3);
-            DX.LoadDivGraph("Image/Enemys/StoneBoss shoulder.png", boss3Shoulders.Length, 2, 1, 64, 64, boss3Shoulders);
+            //DX.LoadDivGraph("Image/Enemys/StoneBoss.png", boss3.Length, 3, 5, 256, 256, boss3);
+            DX.LoadDivGraph("Image/Enemys/StoneBossv2.png", boss3.Length, 4, 5, 256, 256, boss3);
             rightShoulder = DX.LoadGraph("Image/Enemys/StoneBossRightShoulder.png");
             leftShoulder = DX.LoadGraph("Image/Enemys/StoneBossLeftShoulder.png");
 
