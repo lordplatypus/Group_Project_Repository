@@ -1,9 +1,12 @@
 ﻿using System;
-
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Group_Project_2
 {
-    public class MissileBlock : GameObject
+    public class PlayerMissileBullet : GameObject
     {
         const int CellSize = 64;
         const float Speed = 10f;
@@ -11,7 +14,7 @@ namespace Group_Project_2
         float vy = 0;
         int lifespan = 120;
 
-        public MissileBlock(PlayScene playScene, float x, float y, float angle) : base(playScene)
+        public PlayerMissileBullet(PlayScene playScene, float x, float y, float angle) : base(playScene)
         {
             this.x = x;
             this.y = y;

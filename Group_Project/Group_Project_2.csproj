@@ -104,6 +104,7 @@
     <Compile Include="Particle.cs" />
     <Compile Include="ParticleManager.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="PlayerMissileBullet.cs" />
     <Compile Include="PlayerShot.cs" />
     <Compile Include="PlayScene.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
