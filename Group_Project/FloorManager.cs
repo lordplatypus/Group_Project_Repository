@@ -15,7 +15,7 @@ namespace Group_Project_2
         {
             this.playScene = playScene;
 
-            floor = 2;
+            floor = 3;
         }
 
         public void MoveFloor()

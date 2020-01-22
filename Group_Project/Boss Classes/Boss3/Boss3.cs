@@ -43,7 +43,7 @@ namespace Group_Project_2
 
         bool isDying = false;
         bool exploded = false;
-        int dyingTimer = 300;
+        int dyingTimer = 400;
 
         public Boss3(PlayScene playScene, float x, float y) : base(playScene)
         {
@@ -56,8 +56,8 @@ namespace Group_Project_2
 
             this.x = x;
             this.y = y;
-            hp = 35;
-            //hp = 1;
+            //hp = 35;
+            hp = 1;
 
             rShoulder = new Boss3RightShoulder(playScene, this, x, y);
             lShoulder = new Boss3LeftShoulder(playScene, this, x, y);
@@ -75,20 +75,22 @@ namespace Group_Project_2
                 float centerX = x + imageWidth / 2;
                 float centerY = y + imageHeight / 2;
 
-                if (dyingTimer > 100)
+                if (dyingTimer > 200)
                 {
                     playScene.pm.Charge(centerX, centerY);
+                    if (dyingTimer%5 == 0) Sound.PlaySE(Sound.basicExplosion);
                     if (dyingTimer % 10 == 0) playScene.pm.Explosion(centerX + MyRandom.PlusMinus(100), centerY + MyRandom.PlusMinus(100), 0);
                     x += MyRandom.PlusMinus(5);
                     y += MyRandom.PlusMinus(5);
                     rShoulder.Move(x, y, animationCounter);
                     lShoulder.Move(x, y, animationCounter);
                 }
-                else if (dyingTimer == 100)
+                else if (dyingTimer == 200)
                 {
                     playScene.pm.ReverseShockWave(centerX, centerY);
+                    Sound.PlaySE(Sound.implosions);
                 }
-                else if (dyingTimer == 50)
+                else if (dyingTimer == 150)
                 {
                     for (int i = 0; i < 100; i++)
                     {
@@ -97,8 +99,9 @@ namespace Group_Project_2
                     exploded = true; //won't draw anything
                     rShoulder.TakeDamage(3); //to remove the shoulder image, just in case it wasn't destroyed earlier
                     lShoulder.TakeDamage(3); //same as above
+                    Sound.PlaySE(Sound.finalExplosion);
                 }
-                else if (dyingTimer < 50 && dyingTimer % 10 == 0)
+                else if (dyingTimer < 150 && dyingTimer % 10 == 0)
                 {
                     playScene.pm.FireWork(centerX + MyRandom.PlusMinus(100), centerY + MyRandom.PlusMinus(100));
                 }
@@ -156,6 +159,7 @@ namespace Group_Project_2
                             playScene.gameObjects.Add(new Boss3Missile(playScene, x + imageWidth / 2, y + imageHeight / 2 + 50));
                             playScene.gameObjects.Add(new Boss3Missile(playScene, x + imageWidth / 2, y + imageHeight / 2 - 50));
                             missileTimer = MissileCooldown; //missile attack cooldown
+                            Sound.PlaySE(Sound.missileLaunch); //missile launch sound effect
                         }
                         //actual boss movement
                         MoveX();
@@ -191,6 +195,8 @@ namespace Group_Project_2
                 //playScene.map.CreateBlock(blockLocX, blockLocY, blockID);
                 playScene.gameObjects.Add(new Boss3SmashAttack(playScene, blockLocX, blockLocY));
             }
+
+            Sound.PlaySE(Sound.smashAttack); //smash sound effect
         }
 
         bool AttackRange()
@@ -342,6 +348,7 @@ namespace Group_Project_2
             if (mutekiTimer <= 0)
             {
                 hp -= damage;
+                Sound.PlaySE(Sound.takeDamage);
                 if (hp <= 0) isDying = true;
                 mutekiTimer = MutekiJikan;
             }

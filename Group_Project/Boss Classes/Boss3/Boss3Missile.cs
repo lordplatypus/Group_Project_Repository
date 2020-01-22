@@ -173,6 +173,7 @@ namespace Group_Project_2
             {
                 player.TakeDamage(1);
             }
+            Sound.PlaySE(Sound.basicExplosion);
         }
     }
 }
