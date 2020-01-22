@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DxLibDLL;
 
 namespace Group_Project_2
 {
@@ -16,18 +17,18 @@ namespace Group_Project_2
         int flip = 0;
         float centerX = -18;
         float centerY = 18;
-        float[] leftX = new float[] { 169, 160, 169, 168, 90, 98, 90, 90, 131, 137, 131, 140, 0, 0, 0, 0, 176, 164 };
-        float[] leftY = new float[] { 63, 69, 63, 70, 60, 56, 60, 60, 76, 76, 76, 77, 0, 0, 0, 0, 73, 86 };
+        float[] leftX = new float[] { 169, 160, 169, 168, 90, 98, 90, 90, 131, 137, 131, 140, 100, 100, 100, 100, 176, 164 };
+        float[] leftY = new float[] { 63, 69, 63, 70, 60, 56, 60, 60, 76, 76, 76, 77, 50, 50, 50, 50, 73, 86 };
         //don't use animation count 12, 13, 14, 15
 
         public Boss3LeftShoulder(PlayScene playScene, Boss3 b, float x, float y) : base(playScene)
         {
             imageWidth = 64;
             imageHeight = 64;
-            hitboxOffsetLeft = 0;
-            hitboxOffsetRight = 0;
-            hitboxOffsetTop = 0;
-            hitboxOffsetBottom = 0;
+            hitboxOffsetLeft = -36;
+            hitboxOffsetRight = 36;
+            hitboxOffsetTop = -36;
+            hitboxOffsetBottom = 36;
 
             this.x = x;
             this.y = y;
@@ -42,6 +43,7 @@ namespace Group_Project_2
         public void Move(float bossX, float bossY, int animationCount)
         {
             int convert = ConvertAnimationCount(animationCount);
+            ChangeHitBox();
 
             //find the center of the shoulder (y is always the same)
             if (flip == 1) centerX = -18;
@@ -93,12 +95,31 @@ namespace Group_Project_2
             return convert;
         }
 
+        void ChangeHitBox()
+        {
+            if (b.state == Boss3.State.Right)
+            {
+                hitboxOffsetLeft = 32;
+                hitboxOffsetRight = 32;
+                hitboxOffsetTop = 32;
+                hitboxOffsetBottom = 32;
+            }
+            else
+            {
+                hitboxOffsetLeft = -36;
+                hitboxOffsetRight = 36;
+                hitboxOffsetTop = -36;
+                hitboxOffsetBottom = 36;
+            }
+        }
+
         public override void Draw()
         {
             if (visible && !destroyed)
             {//don't draw if not visible or when it is "destroyed"
                 Camera.DrawRotaGraph(x, y, Image.leftShoulder, flip);
             }
+            Camera.DrawBox(GetLeft(), GetTop(), GetRight(), GetBottom(), DX.GetColor(0, 250, 0), 0);
         }
 
         public override void OnCollision(GameObject other)

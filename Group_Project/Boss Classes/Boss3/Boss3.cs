@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MyLib;
+using DxLibDLL;
 
 namespace Group_Project_2
 {
@@ -41,6 +42,7 @@ namespace Group_Project_2
         int mutekiTimer = 0;
 
         bool isDying = false;
+        bool exploded = false;
         int dyingTimer = 300;
 
         public Boss3(PlayScene playScene, float x, float y) : base(playScene)
@@ -92,7 +94,7 @@ namespace Group_Project_2
                     {
                         playScene.pm.Explosion(centerX + MyRandom.PlusMinus(100), centerY + MyRandom.PlusMinus(100), 10);
                     }
-                    animationCounter = 19; //empty - won't draw anything
+                    exploded = true; //won't draw anything
                     rShoulder.TakeDamage(3); //to remove the shoulder image, just in case it wasn't destroyed earlier
                     lShoulder.TakeDamage(3); //same as above
                 }
@@ -171,11 +173,12 @@ namespace Group_Project_2
         void Attack()
         {//Smash attack
             Player player = playScene.player;
+            int range = 1;
             if (MyMath.RectRectIntersection(
-                        GetLeft() - 1 * CellSize, GetTop() - 1 * CellSize, GetRight() + 1 * CellSize, GetBottom() + 1 * CellSize,
+                        GetLeft() - range * CellSize, GetTop() - range * CellSize, GetRight() + range * CellSize, GetBottom() + range * CellSize,
                         player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
             {//if player is within the range of the attack, the player takes damage
-                player.TakeDamage(0); //change this - currently deals 0 damage for testing
+                player.TakeDamage(2);
             }
             playScene.pm.Smoke(x + imageWidth / 2, y + imageHeight, 300, 100, 50); //particle effect
 
@@ -193,8 +196,9 @@ namespace Group_Project_2
         bool AttackRange()
         {//checks to see if the player is within "attack" range - true/false
             Player player = playScene.player;
+            int range = 2;
             if (MyMath.RectRectIntersection(
-                        GetLeft() - 1 * CellSize, GetTop() - 1 * CellSize, GetRight() + 1 * CellSize, GetBottom() + 1 * CellSize,
+                        GetLeft() - range * CellSize, GetTop() - range * CellSize, GetRight() + range * CellSize, GetBottom() + range * CellSize,
                         player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
             {
                 return true;
@@ -289,6 +293,8 @@ namespace Group_Project_2
 
         public override void Draw()
         {
+            if (exploded) return; //the moment the boss should be gone but isn't "dead" yet - still need to play fireworks before removing this class/object
+
             if (mutekiTimer % 2 == 0)
             {
                 if (state == State.ReadyAttack)
@@ -316,6 +322,7 @@ namespace Group_Project_2
                     Camera.DrawGraph(x, y, Image.boss3[0 + animationCounter]);
                 }
             }
+            Camera.DrawBox(GetLeft(), GetTop(), GetRight(), GetBottom(), DX.GetColor(0, 250, 250), 0);
         }
 
         public override void OnCollision(GameObject other)

@@ -107,7 +107,10 @@ namespace Group_Project_2
             if (limiter % 10 == 0)
             {
                 animCount++;
-                if (animCount > 3) animCount = 0;
+                if (animCount > 3)
+                {
+                    animCount = 0;
+                }
             }
             if (angleToPlayer >= -(MyMath.PI / 4) && angleToPlayer < MyMath.PI / 4)
             {
