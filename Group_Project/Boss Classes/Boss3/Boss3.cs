@@ -334,6 +334,7 @@ namespace Group_Project_2
             base.Kill();
             lShoulder.Kill();
             rShoulder.Kill();
+            Game.ChangeScene(new GameClearScene());
         }
 
         public override void TakeDamage(int damage)

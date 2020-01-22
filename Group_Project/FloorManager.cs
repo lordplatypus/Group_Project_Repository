@@ -52,11 +52,11 @@ namespace Group_Project_2
             //num of enemy 1
             floorInfo[6] = 4;
             //num of enemy 2
-            floorInfo[7] = 0;
+            floorInfo[7] = 3;
             //num of enemy 3
-            floorInfo[8] = 3;
+            floorInfo[8] = 0;
             //num of enemy 4
-            floorInfo[9] = 10;
+            floorInfo[9] = 0;
             //num of enemy 5
             floorInfo[10] = 0;
             //boss id / 6 = boss1 / 7 = boss2 / 8 = boss3
@@ -90,9 +90,9 @@ namespace Group_Project_2
             //num of enemy 1
             floorInfo[6] = 0;
             //num of enemy 2
-            floorInfo[7] = 3;
+            floorInfo[7] = 0;
             //num of enemy 3
-            floorInfo[8] = 0;
+            floorInfo[8] = 3;
             //num of enemy 4
             floorInfo[9] = 3;
             //num of enemy 5

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DxLibDLL;
 
 namespace Group_Project_2
@@ -12,12 +9,13 @@ namespace Group_Project_2
         public Map map;
         public Player player;
         public List<GameObject> gameObjects = new List<GameObject>();
-
         public ParticleManager pm;
-
         public FloorManager fm;
-
         public BlockManager bm;
+        //ピッケルレベル
+        public int pickaxelevel = 3;
+        //ピッケルカウント
+        public int pickaxeCount = 0;
 
         public PlayScene()
         {
@@ -67,15 +65,62 @@ namespace Group_Project_2
 
         public override void Draw()
         {
-            map.DrawMap();            
+            if (fm.floor == 1)
+            {
+                Camera.DrawGraph(player.x - Screen.Width / 2, player.y - Screen.Height / 2, Image.playbackground1);
+            }
+            else if (fm.floor == 2)
+            {
+                Camera.DrawGraph(player.x - Screen.Width / 2, player.y - Screen.Height / 2, Image.playbackground2);
+            }
+            else
+            {
+            }
+
+            map.DrawMap();
+            pm.Draw();
             foreach (GameObject go in gameObjects)
             {
                 go.Draw();
             }
-            pm.Draw();
-            bm.Draw();
-            //DX.DrawString(Screen.Width - 120, 5, "ブロック数" + blockcount.ToString("0"), DX.GetColor(255, 255, 255));
-            DX.DrawBox(950, 5, 950 + (10 * player.life), 20, DX.GetColor(0, 255, 0), DX.TRUE);
+            if (player.isitem)
+            {
+                //ライフ画像
+                DX.DrawGraph(1125, 15, Image.playitem);
+                DX.DrawString(1180, 20, "" + player.itemcount, DX.GetColor(255, 255, 255));
+            }
+            else
+            {
+                bm.Draw();
+            }
+
+            //枠
+            DX.DrawGraph(948, 8, Image.playerexperienc);
+            //ライフ
+            DX.DrawBox(950, 10, 950 + (15 * player.life), 25, DX.GetColor(0, 255, 0), DX.TRUE);
+            //ライフ画像
+            DX.DrawGraph(915, 10, Image.hp);
+
+            //枠
+            DX.DrawGraph(948, 48, Image.playerexperienc);
+            //level画像
+            DX.DrawGraph(895, 50, Image.lv);
+            //ピッケル経験値
+            if (pickaxelevel == 1)
+            {
+                DX.DrawBox(950, 50, 950 + (pickaxeCount / 2), 65, DX.GetColor(255, 255, 0), DX.TRUE);
+                DX.DrawString(935, 50, "1", DX.GetColor(255, 255, 255));
+            }
+            else if (pickaxelevel == 2)
+            {
+                DX.DrawBox(950, 50, 950 + pickaxeCount / 4, 65, DX.GetColor(255, 255, 0), DX.TRUE);
+                DX.DrawString(935, 50, "2", DX.GetColor(255, 255, 255));
+            }
+            else
+            {
+                DX.DrawBox(950, 50, 1100, 65, DX.GetColor(255, 255, 65), DX.TRUE);
+                DX.DrawString(935, 50, "3", DX.GetColor(255, 255, 255));
+            }
         }
     }
 }

@@ -18,16 +18,28 @@ namespace Group_Project_2
         public static int blockenemy;
 
         //エネミー3
-        public static int[] teki3 = new int[4];
+        public static int[] teki3 = new int[12];
 
         //エネミー4
         public static int[] teki4 = new int[24];
 
-        //ボース
+        // エネミー５
+        public static int[] enemy5 = new int[4];
+
+        //ボス1
+        public static int[] Slime = new int[10];
+
+        //ボス2
         public static int[] boss = new int[4];
+
+        //ボス３
         public static int[] boss3 = new int[20];
         public static int rightShoulder;
         public static int leftShoulder;
+
+        //アイテム
+        public static int item;
+        public static int playitem;
 
         //パーティクル
         public static int particleDot1;
@@ -58,6 +70,32 @@ namespace Group_Project_2
         public static int ironBullet;
         public static int diamondBullet;
 
+        //プレイヤーシーン
+        public static int playbackground1;
+        public static int playbackground2;
+        //ピッケル必要経験値
+        public static int playerexperienc;
+        //HP表示
+        public static int hp;
+        //経験値表示
+        public static int lv;
+        //タイトルシーン
+        public static int titlebg;
+        public static int title;
+        public static int pushanybutton;
+        public static int team;
+
+        //ゲームオーバーシーン
+        public static int gameovergroundback;
+        public static int gameover;
+        public static int gameoverreturntitle;
+        //ゲームクリアシーン
+        public static int gamecleargroundback;
+        public static int gameclear;
+        public static int gameclearreturntitle;
+        //階段
+        public static int Stairs;
+
 
         public static void Load()
         {
@@ -70,6 +108,10 @@ namespace Group_Project_2
             ironBullet = DX.LoadGraph("Image/Objects/IronBullet.png");
             diamondBullet = DX.LoadGraph("Image/Objects/DiamondBullet.png");
 
+            //アイテム
+            playitem = DX.LoadGraph("Image/Item/MissileI.png");
+            item = DX.LoadGraph("Image/Item/MissileIte.png");
+
             //プレイヤー
             DX.LoadDivGraph("Image/player/player.png", player.Length, 3, 8, 48, 48, player);
             DX.LoadDivGraph("Image/player/tsuruhashi.png", playertsuruhasi.Length, 3, 4, 64, 64, playertsuruhasi);
@@ -81,7 +123,7 @@ namespace Group_Project_2
             DX.LoadDivGraph("Image/Enemys/move_enemy.png", moveEnemy.Length, 3, 8, 48, 48, moveEnemy);
 
             //敵２
-            DX.LoadDivGraph("Image/Enemys/teki3.png", teki3.Length, 4, 1, 48, 48, teki3);
+            DX.LoadDivGraph("Image/Enemys/teki3.png", teki3.Length, 3, 4, 48, 48, teki3);
 
             //敵３
             blockenemy = DX.LoadGraph("Image/Enemys/block_enemy.png");
@@ -89,12 +131,26 @@ namespace Group_Project_2
             //敵４
             DX.LoadDivGraph("Image/Enemys/teki4.png", teki4.Length, 4, 4, 48, 48, teki4);
 
-            //ボス
+            // 敵５
+            DX.LoadDivGraph("Image/Enemys/enemy5.png", enemy5.Length, 2, 2, 48, 48, enemy5);
+
+            //ボス1
+            DX.LoadDivGraph("Image/Enemys/Slime.png", Slime.Length, 2, 5, 128, 128, Slime);
+
+            //ボス2
             DX.LoadDivGraph("Image/Enemys/boss1.png", boss.Length, 2, 2, 128, 128, boss);
-            //DX.LoadDivGraph("Image/Enemys/StoneBoss.png", boss3.Length, 3, 5, 256, 256, boss3);
+
+            //ボス3
             DX.LoadDivGraph("Image/Enemys/StoneBossv2.png", boss3.Length, 4, 5, 256, 256, boss3);
             rightShoulder = DX.LoadGraph("Image/Enemys/StoneBossRightShoulder.png");
             leftShoulder = DX.LoadGraph("Image/Enemys/StoneBossLeftShoulder.png");
+
+            //プレイヤーシーン
+            playbackground1 = DX.LoadGraph("Image/Scene/PlayScene/playbackground1.png");
+            playbackground2 = DX.LoadGraph("Image/Scene/PlayScene/playbackground2.png");
+            playerexperienc = DX.LoadGraph("Image/Scene/PlayScene/PickaxeExperiencPoint.png");
+            hp = DX.LoadGraph("Image/Scene/PlayScene/playhp.png");
+            lv = DX.LoadGraph("Image/Scene/PlayScene/playlv.png");
 
             //パーティクル
             particleDot1 = DX.LoadGraph("Image/Particle/particle_dot_1.png");
@@ -115,6 +171,25 @@ namespace Group_Project_2
             particleSlash = DX.LoadGraph("Image/Particle/particle_slash.png");
             particleStone1 = DX.LoadGraph("Image/Particle/particle_stone_1.png");
             particleSquare = DX.LoadGraph("Image/Particle/square.png");
+
+            //タイトルシーン
+            titlebg = DX.LoadGraph("Image/Scene/Title/title_bg.png");
+            title = DX.LoadGraph("Image/Scene/Title/title.png");
+            pushanybutton = DX.LoadGraph("Image/Scene/Title/push_any_button.png");
+            team = DX.LoadGraph("Image/Scene/Title/team.png");
+
+            //ゲームオーバーシーン
+            gameovergroundback = DX.LoadGraph("Image/Scene/GameOver/gameover_groundback.png");
+            gameover = DX.LoadGraph("Image/Scene/GameOver/gameover.png");
+            gameoverreturntitle = DX.LoadGraph("Image/Scene/GameOver/gameoverreturntitle.png");
+
+            //ゲームクリアシーン
+            gamecleargroundback = DX.LoadGraph("Image/Scene/GameClear/gameclear_groundback.png");
+            gameclear = DX.LoadGraph("Image/Scene/GameClear/gameclear.png");
+            gameclearreturntitle = DX.LoadGraph("Image/Scene/GameClear/gameclearreturntitle.png");
+
+            //階段
+            Stairs = DX.LoadGraph("Image/Objects/Stairs.png");
         }
     }
 }

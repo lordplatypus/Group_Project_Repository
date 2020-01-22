@@ -197,7 +197,7 @@ namespace Group_Project_2
             for (int x = 5; x < 30; x++)
             {//make hallway
                 map[x, secretRoomHeight / 2 + secretRoomY] = -1;
-                objectMap[x, secretRoomHeight / 2 + secretRoomY] = -2;
+                if (x == 7) objectMap[x, secretRoomHeight / 2 + secretRoomY] = 10;
             }
         }
 
@@ -447,21 +447,25 @@ namespace Group_Project_2
                     {
                         playScene.gameObjects.Add(new Enemy4(playScene, worldX, worldY));
                     }
-                    //if (objectMap[x, y] == 5)
-                    //{
-                    //    playScene.gameObjects.Add(new Enemy5(playScene, worldX, worldY));
-                    //}
+                    if (objectMap[x, y] == 5)
+                    {
+                        playScene.gameObjects.Add(new Enemy5(playScene, worldX, worldY));
+                    }
                     if (objectMap[x, y] == 6)
+                    {
+                        playScene.gameObjects.Add(new Slime(playScene, worldX, worldY));
+                    }
+                    if (objectMap[x, y] == 7)
                     {
                         playScene.gameObjects.Add(new Boss(playScene, worldX, worldY));
                     }
-                    //if (objectMap[x, y] == 7)
-                    //{
-                    //    playScene.gameObjects.Add(new Boss2(playScene, worldX, worldY));
-                    //}
                     if (objectMap[x, y] == 8)
                     {
                         playScene.gameObjects.Insert(0, new Boss3(playScene, worldX, worldY));
+                    }
+                    if (objectMap[x, y] == 10)
+                    {
+                        playScene.gameObjects.Add(new MissileItem(playScene, worldX, worldY));
                     }
                 }
             }

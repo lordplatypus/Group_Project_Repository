@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Group_Project_2
 {
-    public class Warp : GameObject
+    public class MissileItem : GameObject
     {
-
-        public Warp(PlayScene playScene, float x, float y) : base(playScene)
+        public MissileItem(PlayScene playscene, float x, float y) : base(playscene)
         {
             this.x = x;
             this.y = y;
@@ -28,14 +27,14 @@ namespace Group_Project_2
 
         public override void Draw()
         {
-            Camera.DrawGraph(x, y, Image.Stairs);
+            Camera.DrawGraph(x, y, Image.item);
         }
 
         public override void OnCollision(GameObject other)
         {
             if (other is Player)
             {
-                playScene.fm.MoveFloor();
+                Kill();
             }
         }
     }
