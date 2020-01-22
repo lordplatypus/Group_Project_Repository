@@ -63,7 +63,7 @@ namespace Group_Project_2
         {
 
             //ブロック
-            DX.LoadDivGraph("Map/Block.png", block.Length, 6, 1, 64, 64, block);
+            DX.LoadDivGraph("Image/Map/Block.png", block.Length, 6, 1, 64, 64, block);
             slimeBullet = DX.LoadGraph("Image/Objects/SlimeBullet.png");
             soilBullet = DX.LoadGraph("Image/Objects/SoilBullet.png");
             stoneBullet = DX.LoadGraph("Image/Objects/StoneBullet.png");

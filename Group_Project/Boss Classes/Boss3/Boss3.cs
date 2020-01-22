@@ -56,8 +56,8 @@ namespace Group_Project_2
 
             this.x = x;
             this.y = y;
-            //hp = 35;
-            hp = 1;
+            hp = 35;
+            //hp = 1;
 
             rShoulder = new Boss3RightShoulder(playScene, this, x, y);
             lShoulder = new Boss3LeftShoulder(playScene, this, x, y);
