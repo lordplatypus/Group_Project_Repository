@@ -196,7 +196,7 @@ namespace Group_Project_2
         bool AttackRange()
         {//checks to see if the player is within "attack" range - true/false
             Player player = playScene.player;
-            int range = 2;
+            int range = 1;
             if (MyMath.RectRectIntersection(
                         GetLeft() - range * CellSize, GetTop() - range * CellSize, GetRight() + range * CellSize, GetBottom() + range * CellSize,
                         player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
