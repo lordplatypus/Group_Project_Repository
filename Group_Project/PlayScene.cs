@@ -24,6 +24,7 @@ namespace Group_Project_2
             Camera.LookAt(player.x, player.y);
             pm = new ParticleManager();
             bm = new BlockManager(this);
+            Sound.PlayBGM(Sound.playBGM);
         }
 
         public override void Update()

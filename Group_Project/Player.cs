@@ -80,7 +80,7 @@ namespace Group_Project_2
                 playScene.pickaxelevel = 2;
                 playScene.pickaxeCount = 0;
             }
-            else if (playScene.pickaxelevel == 2 && playScene.pickaxelevel >= 600)
+            else if (playScene.pickaxelevel == 2 && playScene.pickaxeCount >= 600)
             {
                 playScene.pm.Stars(x, y);
                 playScene.pickaxelevel = 3;

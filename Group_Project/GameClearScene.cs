@@ -17,7 +17,7 @@ namespace Group_Project_2
 
         public GameClearScene()
         {
-
+            Sound.PlayBGM(Sound.gameClearBGM);
         }
         public override void Update()
         {

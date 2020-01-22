@@ -37,5 +37,9 @@ namespace Group_Project_2
                 Kill();
             }
         }
+
+        public override void TakeDamage(int damage)
+        {
+        }
     }
 }

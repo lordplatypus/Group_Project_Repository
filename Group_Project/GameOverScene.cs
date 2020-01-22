@@ -15,6 +15,10 @@ namespace Group_Project_2
         float x = -1280;
 
         int counter;
+        public GameOverScene()
+        {
+            Sound.PlayBGM(Sound.gameOverBGM);
+        }
 
         public override void Update()
         {

@@ -107,11 +107,31 @@ namespace Group_Project_2
         {
             DX.DrawString(Screen.Width - 120, 5, "ブロック数 " + storedBlocks[selectedBlock], DX.GetColor(255, 255, 255));
 
-            if (selectedBlock == 0) DX.DrawGraphF(Screen.Width - 64, 30, Image.slimeBullet);
-            else if (selectedBlock == 1) DX.DrawGraphF(Screen.Width - 64, 30, Image.soilBullet);
-            else if (selectedBlock == 2) DX.DrawGraphF(Screen.Width - 64, 30, Image.stoneBullet);
-            else if (selectedBlock == 3) DX.DrawGraphF(Screen.Width - 64, 30, Image.ironBullet);
-            else DX.DrawGraphF(Screen.Width - 64, 30, Image.diamondBullet);
+            if (selectedBlock == 0)
+            {
+                DX.DrawGraphF(Screen.Width - 64, 30, Image.slimeBullet);
+                DX.DrawStringF(Screen.Width - 64, 30, "D", DX.GetColor(0, 0, 0));
+            }
+            else if (selectedBlock == 1)
+            {
+                DX.DrawGraphF(Screen.Width - 64, 30, Image.soilBullet);
+                DX.DrawStringF(Screen.Width - 64, 30, "C", DX.GetColor(255, 255, 255));
+            }
+            else if (selectedBlock == 2)
+            {
+                DX.DrawGraphF(Screen.Width - 64, 30, Image.stoneBullet);
+                DX.DrawStringF(Screen.Width - 64, 30, "B", DX.GetColor(0, 0, 0));
+            }
+            else if (selectedBlock == 3)
+            {
+                DX.DrawGraphF(Screen.Width - 64, 30, Image.ironBullet);
+                DX.DrawStringF(Screen.Width - 64, 30, "A", DX.GetColor(0, 0, 0));
+            }
+            else
+            {
+                DX.DrawGraphF(Screen.Width - 64, 30, Image.diamondBullet);
+                DX.DrawStringF(Screen.Width - 64, 30, "S", DX.GetColor(0, 0, 0));
+            }
         }
     }
 }

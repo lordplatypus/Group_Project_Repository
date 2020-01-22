@@ -38,5 +38,10 @@ namespace Group_Project_2
                 playScene.fm.MoveFloor();
             }
         }
+
+        public override void TakeDamage(int damage)
+        {
+            
+        }
     }
 }

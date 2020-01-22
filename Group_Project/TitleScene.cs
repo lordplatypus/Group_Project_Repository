@@ -12,6 +12,7 @@ namespace Group_Project_2
 
         public TitleScene()
         {
+            Sound.PlayBGM(Sound.titleBGM);
         }
         public override void Update()
         {

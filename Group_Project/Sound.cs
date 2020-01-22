@@ -9,6 +9,13 @@ namespace Group_Project_2
 {
     public static class Sound
     {
+        //BGM
+        public static int lastPlayedBGM = 0;
+        public static int gameClearBGM;
+        public static int gameOverBGM;
+        public static int playBGM;
+        public static int titleBGM;
+
         //ボース3
         public static int basicExplosion;
         public static int finalExplosion;
@@ -19,6 +26,13 @@ namespace Group_Project_2
 
         public static void Load()
         {
+            //BGM
+            gameClearBGM = DX.LoadSoundMem("Sound/BGM/game_clear.wav");
+            gameOverBGM = DX.LoadSoundMem("Sound/BGM/game_over.wav");
+            playBGM = DX.LoadSoundMem("Sound/BGM/play_bgm.mp3");
+            titleBGM = DX.LoadSoundMem("Sound/BGM/title_bgm.wav");
+
+            //Boss3
             basicExplosion = DX.LoadSoundMem("Sound/SE/Boss3/Boss3BasicExplosion.wav");
             finalExplosion = DX.LoadSoundMem("Sound/SE/Boss3/Boss3FinalExplosion.wav");
             implosions = DX.LoadSoundMem("Sound/SE/Boss3/Boss3Implode.wav");
@@ -32,11 +46,11 @@ namespace Group_Project_2
             DX.PlaySoundMem(handle, DX.DX_PLAYTYPE_BACK);
         }
 
-        public static void PlayBGM(string handle)
+        public static void PlayBGM(int handle)
         {
-            string music = "/Sound/BGM/" + handle;
-            DX.StopMusic();
-            DX.PlayMusic(music, DX.DX_PLAYTYPE_LOOP);
+            DX.StopSoundMem(lastPlayedBGM);
+            DX.PlaySoundMem(handle, DX.DX_PLAYTYPE_LOOP);
+            lastPlayedBGM = handle;
         }
     }
 }
