@@ -15,7 +15,7 @@ namespace Group_Project_2
             hp = 1;
         }
 
-        public virtual void TakeDamage(int damage)
+        public override void TakeDamage(int damage)
         {
             hp -= damage;
 

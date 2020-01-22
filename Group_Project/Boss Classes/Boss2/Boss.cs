@@ -7,7 +7,7 @@ using DxLibDLL;
 
 namespace Group_Project_2
 {
-    public class Boss : GameObject
+    public class Boss : Enemy
     {
         enum Direction
         {
@@ -60,7 +60,7 @@ namespace Group_Project_2
             }
             else LookForPlayer();
 
-            //if (!IsVisible()) foundPlayer = false;
+            if (!IsVisible()) foundPlayer = false;
 
             MoveX();
             MoveY();
@@ -193,7 +193,10 @@ namespace Group_Project_2
 
         public override void OnCollision(GameObject other)
         {
-
+            if (other is Player)
+            {
+                playScene.player.TakeDamage(1);
+            }
         }
 
         public override void TakeDamage(int damage)

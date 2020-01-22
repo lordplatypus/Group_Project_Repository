@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Group_Project_2
 {
-    public class Enemy3 : GameObject
+    public class Enemy3 : Enemy
     {
         const int CellSize = 64;
         const float Speed = 0f;
@@ -133,6 +133,10 @@ namespace Group_Project_2
 
         public override void OnCollision(GameObject other)
         {
+            if (other is Player)
+            {
+                playScene.player.TakeDamage(1);
+            }
         }
 
         public override void TakeDamage(int damage)

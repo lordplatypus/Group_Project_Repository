@@ -96,11 +96,12 @@ namespace Group_Project_2
 
         public override void OnCollision(GameObject other)
         {
-            if (other is Player || other is IronBlock || other is Boss3 || other is Boss3SmashAttack) return;
-
-            Kill();
-
-            other.TakeDamage(damage);
+            if (other is Boss3) return;
+            else if (other is Enemy || other is Boss3Missile)
+            {
+                other.TakeDamage(damage);
+                Kill();
+            }
         }
 
         public override void Kill()

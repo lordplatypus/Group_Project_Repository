@@ -8,7 +8,7 @@ using MyLib;
 
 namespace Group_Project_2
 {    
-    public class Enemy5 : GameObject
+    public class Enemy5 : Enemy
     {
         enum Direction
         {
@@ -245,7 +245,10 @@ namespace Group_Project_2
 
         public override void OnCollision(GameObject other)
         {
-
+            if (other is Player)
+            {
+                playScene.player.TakeDamage(1);
+            }
         }
     }
 }

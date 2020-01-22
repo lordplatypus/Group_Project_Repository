@@ -8,7 +8,7 @@ using DxLibDLL;
 
 namespace Group_Project_2
 {
-    class Boss3 : GameObject
+    class Boss3 : Enemy
     {
         public enum State
         {
@@ -333,6 +333,10 @@ namespace Group_Project_2
 
         public override void OnCollision(GameObject other)
         {
+            if (other is Player)
+            {
+                playScene.player.TakeDamage(1);
+            }
         }
 
         public override void Kill()
