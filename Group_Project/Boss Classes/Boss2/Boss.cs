@@ -29,6 +29,9 @@ namespace Group_Project_2
         int cooldown = 240;
         bool foundPlayer = false;
 
+        const int MutekiJikan = 30;
+        int mutekiTimer = 0;
+
         public Boss(PlayScene playScene, float x, float y) : base(playScene)
         {
             imageWidth = 128;
@@ -62,6 +65,8 @@ namespace Group_Project_2
             MoveX();
             MoveY();
             AnimationHandle();
+
+            if (mutekiTimer > 0) mutekiTimer--;
         }
 
         void LookForPlayer()
@@ -165,41 +170,39 @@ namespace Group_Project_2
 
         public override void Draw()
         {
-            if (direction == Direction.Left)
+            if (mutekiTimer % 2 == 0)
             {
-                Camera.DrawGraph(x, y, Image.boss[2]);
-            }
-            else if (direction == Direction.Right)
-            {
-                Camera.DrawGraph(x, y, Image.boss[3]);
-            }
-            else if (direction == Direction.Up)
-            {
-                Camera.DrawGraph(x, y, Image.boss[1]);
-            }
-            else
-            {
-                Camera.DrawGraph(x, y, Image.boss[0]);
+                if (direction == Direction.Left)
+                {
+                    Camera.DrawGraph(x, y, Image.boss[2]);
+                }
+                else if (direction == Direction.Right)
+                {
+                    Camera.DrawGraph(x, y, Image.boss[3]);
+                }
+                else if (direction == Direction.Up)
+                {
+                    Camera.DrawGraph(x, y, Image.boss[1]);
+                }
+                else
+                {
+                    Camera.DrawGraph(x, y, Image.boss[0]);
+                }
             }
         }
 
         public override void OnCollision(GameObject other)
         {
-            //if (other is PlayerShot)
-            //{
-            //    HP--;
-            //    if (HP == 10)
-            //    {
-            //        AngleSpeed *= 2;
-            //        cooldown /= 2;
-            //    }
-            //    if (HP <= 0) Kill();
-            //}
+
         }
 
         public override void TakeDamage(int damage)
         {
-            base.TakeDamage(damage);
+            if (mutekiTimer <= 0)
+            {
+                base.TakeDamage(damage);
+                mutekiTimer = MutekiJikan;
+            }
 
             if (hp == 10)
             {

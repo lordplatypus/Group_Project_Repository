@@ -119,7 +119,7 @@ namespace Group_Project_2
             {//don't draw if not visible or when it is "destroyed"
                 Camera.DrawRotaGraph(x, y, Image.leftShoulder, flip);
             }
-            Camera.DrawBox(GetLeft(), GetTop(), GetRight(), GetBottom(), DX.GetColor(0, 250, 0), 0);
+            //Camera.DrawBox(GetLeft(), GetTop(), GetRight(), GetBottom(), DX.GetColor(0, 250, 0), 0);
         }
 
         public override void OnCollision(GameObject other)

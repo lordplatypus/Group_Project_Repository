@@ -122,7 +122,7 @@ namespace Group_Project_2
             {
                 Camera.DrawRotaGraph(x, y, Image.rightShoulder, flip);
             }
-            Camera.DrawBox(GetLeft(), GetTop(), GetRight(), GetBottom(), DX.GetColor(0, 0, 250), 0);
+            //Camera.DrawBox(GetLeft(), GetTop(), GetRight(), GetBottom(), DX.GetColor(0, 0, 250), 0);
         }
 
         public override void OnCollision(GameObject other)
