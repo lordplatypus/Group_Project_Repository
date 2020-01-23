@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Group_Project_2
 {
-    class Boss3Missile : GameObject
+    class Boss3Missile : Enemy
     {
         enum Direction
         {

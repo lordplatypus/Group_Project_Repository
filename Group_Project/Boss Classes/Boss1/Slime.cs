@@ -7,7 +7,7 @@ using DxLibDLL;
 
 namespace Group_Project_2
 {
-    public class Slime : GameObject
+    public class Slime : Enemy
     {
         enum Direction
         {
@@ -251,6 +251,11 @@ namespace Group_Project_2
             //    }
             //    if (HP <= 0) Kill();
             //}
+
+            if (other is Player)
+            {
+                playScene.player.TakeDamage(1);
+            }
         }
 
         public override void TakeDamage(int damage)

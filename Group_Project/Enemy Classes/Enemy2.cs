@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Group_Project_2
 {
-    public class Enemy2 : GameObject
+    public class Enemy2 : Enemy
     {
 
         const float Speed = 1f;
@@ -131,25 +131,25 @@ namespace Group_Project_2
         {
             if (state == State.Down)
             {
-                Camera.DrawGraph(x, y, Image.teki3[1]);
+                Camera.DrawGraph(x, y, Image.teki2[1]);
             }
             else if (state == State.Right)
             {
-                Camera.DrawGraph(x, y, Image.teki3[10]);
+                Camera.DrawGraph(x, y, Image.teki2[10]);
             }
             else if (state == State.Left)
             {
-                Camera.DrawGraph(x, y, Image.teki3[7]);
+                Camera.DrawGraph(x, y, Image.teki2[7]);
             }
             else if (state == State.Up)
             {
-                Camera.DrawGraph(x, y, Image.teki3[3]);
+                Camera.DrawGraph(x, y, Image.teki2[3]);
             }
         }
 
         public override void OnCollision(GameObject other)
         {
-            if (other is Player || other is Enemy1 || other is Enemy2 || other is Enemy3 || other is Enemy4 || other is Enemy5)
+            if (other is Player || other is Enemy)
             {
                 if (other.x < x && other.x + 48 > x)
                 {
@@ -171,6 +171,11 @@ namespace Group_Project_2
                     vx = 0;
                     vy = -Speed;
                 }
+            }
+
+            if (other is Player)
+            {
+                playScene.player.TakeDamage(1);
             }
         }
     }

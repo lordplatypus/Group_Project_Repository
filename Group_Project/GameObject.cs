@@ -8,7 +8,6 @@ namespace Group_Project_2
         public float x;
         public float y;
         public float angle = 0;
-        public float hp = 1;
         public bool isDead = false;
 
         protected PlayScene playScene;
@@ -134,10 +133,6 @@ namespace Group_Project_2
         }
 
         public virtual void TakeDamage(int damage)
-        {
-            hp -= damage;
-
-            if (hp <= 0) Kill();
-        }
+        { }
     }
 }

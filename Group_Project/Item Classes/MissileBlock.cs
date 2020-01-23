@@ -91,9 +91,13 @@ namespace Group_Project_2
 
         public override void OnCollision(GameObject other)
         {
+            if (other is Enemy)
+            {
+                Kill(other);
+            }
         }
 
-        public override void Kill()
+        public void Kill(GameObject other)
         {
             base.Kill();
             float enemyCenterX = x + imageWidth / 2;
@@ -104,9 +108,9 @@ namespace Group_Project_2
             Player player = playScene.player;
             if (MyMath.RectRectIntersection(
                         GetLeft() - 2 * CellSize, GetTop() - 2 * CellSize, GetRight() + 2 * CellSize, GetBottom() + 2 * CellSize,
-                        player.GetLeft(), player.GetTop(), player.GetRight(), player.GetBottom()))
+                        other.GetLeft(), other.GetTop(), other.GetRight(), other.GetBottom()))
             {
-                player.TakeDamage(1);
+                other.TakeDamage(1);
             }
         }
     }

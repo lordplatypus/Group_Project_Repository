@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Group_Project_2
 {
-    public class Enemy4 : GameObject
+    public class Enemy4 : Enemy
     {
         enum Direction
         {
@@ -195,7 +195,10 @@ namespace Group_Project_2
 
         public override void OnCollision(GameObject other)
         {
-
+            if (other is Player)
+            {
+                Kill();
+            }
         }
 
         public override void Kill()

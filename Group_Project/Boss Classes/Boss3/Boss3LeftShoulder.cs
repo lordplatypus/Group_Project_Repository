@@ -7,7 +7,7 @@ using DxLibDLL;
 
 namespace Group_Project_2
 {
-    class Boss3LeftShoulder : GameObject
+    class Boss3LeftShoulder : Enemy
     {
         Boss3 b;
         float xOffset = 0;

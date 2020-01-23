@@ -415,13 +415,13 @@ namespace Group_Project_2
         //当たり判定
         public override void OnCollision(GameObject other)
         {
-            if (other is Enemy1 || other is Enemy2 || other is Enemy3 || other is Enemy4)
-            {
-                if (mutekiTimer <= 0)
-                {
-                    TakeDamage();
-                }
-            }
+            //if (other is Enemy1 || other is Enemy2 || other is Enemy3 || other is Enemy4)
+            //{
+            //    if (mutekiTimer <= 0)
+            //    {
+            //        TakeDamage();
+            //    }
+            //}
             if (other is MissileItem)
             {
                 isitem = true;
@@ -429,6 +429,37 @@ namespace Group_Project_2
         }
 
         //1以上の時ダメージ
+        //public override void TakeDamage(int damage)
+        //{
+        //    if (mutekiTimer <= 0)
+        //    {
+        //        life -= damage;
+        //        mutekiTimer = MutekiJikan;
+        //    }
+        //    if (life <= 0)
+        //    {
+        //        Kill();
+        //    }
+        //}
+
+        ////ダメージ
+        //void TakeDamage()
+        //{
+        //    life -= 1; // ライフ減少
+
+        //    if (life <= 0)
+        //    {
+        //        // ライフが無くなったら死亡
+        //        Kill();
+        //        Game.ChangeScene(new GameOverScene());
+        //    }
+        //    else
+        //    {
+        //        // 無敵時間発動
+        //        mutekiTimer = MutekiJikan;
+        //    }
+        //}
+
         public override void TakeDamage(int damage)
         {
             if (mutekiTimer <= 0)
@@ -436,28 +467,7 @@ namespace Group_Project_2
                 life -= damage;
                 mutekiTimer = MutekiJikan;
             }
-            if (life <= 0)
-            {
-                Kill();
-            }
-        }
-
-        //ダメージ
-        void TakeDamage()
-        {
-            life -= 1; // ライフ減少
-
-            if (life <= 0)
-            {
-                // ライフが無くなったら死亡
-                Kill();
-                Game.ChangeScene(new GameOverScene());
-            }
-            else
-            {
-                // 無敵時間発動
-                mutekiTimer = MutekiJikan;
-            }
+            if (life <= 0) Kill();
         }
 
         //何を掘るか調べる

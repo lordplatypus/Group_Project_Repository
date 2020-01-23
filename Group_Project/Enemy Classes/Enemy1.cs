@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Group_Project_2
 {
-    public class Enemy1 : GameObject
+    public class Enemy1 : Enemy
     {
 
         const float Speed = 1f;
@@ -149,7 +149,7 @@ namespace Group_Project_2
 
         public override void OnCollision(GameObject other)
         {
-            if (other is Player || other is Enemy1 || other is Enemy2 || other is Enemy3 || other is Enemy4)
+            if (other is Player || other is Enemy)
             {
                 if (other.x < x && other.x + 48 > x)
                 {
@@ -171,6 +171,11 @@ namespace Group_Project_2
                     vx = 0;
                     vy = -Speed;
                 }
+            }
+
+            if (other is Player)
+            {
+                playScene.player.TakeDamage(1);
             }
         }
     }

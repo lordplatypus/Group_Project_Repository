@@ -15,10 +15,10 @@ namespace Group_Project_2
         public static int[] moveEnemy = new int[24];
 
         //エネミー2
-        public static int blockenemy;
+        public static int[] teki2 = new int[12];
 
         //エネミー3
-        public static int[] teki3 = new int[12];
+        public static int teki3;
 
         //エネミー4
         public static int[] teki4 = new int[24];
@@ -123,10 +123,10 @@ namespace Group_Project_2
             DX.LoadDivGraph("Image/Enemys/move_enemy.png", moveEnemy.Length, 3, 8, 48, 48, moveEnemy);
 
             //敵２
-            DX.LoadDivGraph("Image/Enemys/teki3.png", teki3.Length, 3, 4, 48, 48, teki3);
+            DX.LoadDivGraph("Image/Enemys/teki3.png", teki2.Length, 3, 4, 48, 48, teki2);
 
             //敵３
-            blockenemy = DX.LoadGraph("Image/Enemys/block_enemy.png");
+            teki3 = DX.LoadGraph("Image/Enemys/block_enemy.png");
 
             //敵４
             DX.LoadDivGraph("Image/Enemys/teki4.png", teki4.Length, 4, 4, 48, 48, teki4);
