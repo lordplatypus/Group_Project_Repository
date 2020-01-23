@@ -158,7 +158,7 @@
     <Content Include="Image\Enemys\StoneBossv2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Image\Enemys\teki3.png">
+    <Content Include="Image\Enemys\teki2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Image\Enemys\teki4.png">

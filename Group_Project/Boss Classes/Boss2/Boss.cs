@@ -205,12 +205,11 @@ namespace Group_Project_2
             {
                 base.TakeDamage(damage);
                 mutekiTimer = MutekiJikan;
-            }
-
-            if (hp == 10)
-            {
-                AngleSpeed *= 2;
-                cooldown /= 2;
+                if (hp == 10)
+                {
+                    AngleSpeed *= 2;
+                    cooldown /= 2;
+                }
             }
         }
 

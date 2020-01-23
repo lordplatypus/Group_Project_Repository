@@ -123,7 +123,7 @@ namespace Group_Project_2
             DX.LoadDivGraph("Image/Enemys/move_enemy.png", moveEnemy.Length, 3, 8, 48, 48, moveEnemy);
 
             //敵２
-            DX.LoadDivGraph("Image/Enemys/teki3.png", teki2.Length, 3, 4, 48, 48, teki2);
+            DX.LoadDivGraph("Image/Enemys/teki2.png", teki2.Length, 3, 4, 48, 48, teki2);
 
             //敵３
             teki3 = DX.LoadGraph("Image/Enemys/block_enemy.png");

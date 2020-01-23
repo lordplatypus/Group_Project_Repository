@@ -58,6 +58,8 @@ namespace Group_Project_2
         //現在のスピード
         float vy = 0;
 
+        int alpha = 255;
+
         public Player(PlayScene playScene, float x, float y) : base(playScene)
         {
             this.x = x;
@@ -144,6 +146,8 @@ namespace Group_Project_2
             {
                 isitem = false;
             }
+
+            if (alpha > 0) alpha--;
         }
 
         //ステート管理(移動処理)
@@ -392,6 +396,7 @@ namespace Group_Project_2
         //描画
         public override void Draw()
         {
+            
             if (!AnimesionTsuruhashi)
             {
                 if (state == State.UP) Camera.DrawGraph(x, y, Image.player[12 + Animeisoncounter]);
@@ -410,6 +415,13 @@ namespace Group_Project_2
                 if (state == State.LEFT) Camera.DrawGraph(x, y, Image.playertsuruhasi[0 + AnimeisoncounterTsuruhashi]);
                 if (state == State.RIGHT) Camera.DrawGraph(x, y, Image.playertsuruhasi[3 + AnimeisoncounterTsuruhashi]);
             }
+
+            
+            DX.SetDrawBlendMode(DX.DX_BLENDMODE_ALPHA, alpha);
+            Camera.DrawBox(x, y - 5, x + (4.8f * 10), y, DX.GetColor(255, 0, 0), DX.TRUE);
+            Camera.DrawBox(x, y - 5, x + (4.8f * life), y, DX.GetColor(0, 255, 0), DX.TRUE);
+            DX.SetDrawBlendMode(DX.DX_BLENDMODE_ALPHA, 256);
+
         }
 
         //当たり判定
@@ -466,6 +478,7 @@ namespace Group_Project_2
             {
                 life -= damage;
                 mutekiTimer = MutekiJikan;
+                alpha = 256;
             }
             if (life <= 0) Kill();
         }
