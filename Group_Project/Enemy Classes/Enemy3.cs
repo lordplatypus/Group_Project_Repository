@@ -128,7 +128,7 @@ namespace Group_Project_2
 
         public override void Draw()
         {
-            Camera.DrawGraph(x, y, Image.blockenemy);
+            Camera.DrawGraph(x, y, Image.teki3);
         }
 
         public override void OnCollision(GameObject other)
