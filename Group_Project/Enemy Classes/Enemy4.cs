@@ -190,7 +190,7 @@ namespace Group_Project_2
                 Camera.DrawGraph(x, y, Image.teki4[animCount + 12]);
             }
 
-            //Camera.DrawString(x, y, angleToPlayer.ToString());
+            DrawHPBar();
         }
 
         public override void OnCollision(GameObject other)

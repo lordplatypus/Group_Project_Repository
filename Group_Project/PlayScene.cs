@@ -84,6 +84,12 @@ namespace Group_Project_2
             {
                 go.Draw();
             }
+
+            //UI
+            DX.SetDrawBlendMode(DX.DX_BLENDMODE_ALPHA, 100);            
+            DX.DrawBox(Screen.Width - 448, 0, Screen.Width, 192, DX.GetColor(0, 0, 0), DX.TRUE);
+            DX.SetDrawBlendMode(DX.DX_BLENDMODE_ALPHA, 256);
+
             if (player.isitem)
             {
                 //ライフ画像
@@ -96,31 +102,32 @@ namespace Group_Project_2
             }
 
             //枠
-            DX.DrawGraph(948, 8, Image.playerexperienc);
+            //DX.DrawGraph(948, 8, Image.playerexperienc);
             //ライフ
-            DX.DrawBox(950, 10, 950 + (15 * player.life), 25, DX.GetColor(0, 255, 0), DX.TRUE);
+            DX.DrawBox(Screen.Width - 432, 16, Screen.Width - 32, 48, DX.GetColor(255, 0, 0), DX.TRUE);
+            DX.DrawBox(Screen.Width - 432, 16, Screen.Width - 432 + ((400 / 10) * player.life), 48, DX.GetColor(0, 255, 0), DX.TRUE);
             //ライフ画像
-            DX.DrawGraph(915, 10, Image.hp);
+            //DX.DrawGraph(915, 10, Image.hp);
 
             //枠
-            DX.DrawGraph(948, 48, Image.playerexperienc);
+            //DX.DrawGraph(948, 48, Image.playerexperienc);
             //level画像
-            DX.DrawGraph(895, 50, Image.lv);
+            //DX.DrawGraph(895, 50, Image.lv);
             //ピッケル経験値
             if (pickaxelevel == 1)
             {
-                DX.DrawBox(950, 50, 950 + (pickaxeCount / 2), 65, DX.GetColor(255, 255, 0), DX.TRUE);
-                DX.DrawString(935, 50, "1", DX.GetColor(255, 255, 255));
+                DX.DrawBox(Screen.Width - 432, 64, 950 + (pickaxeCount / 2), 96, DX.GetColor(255, 255, 0), DX.TRUE);
+                DX.DrawString(Screen.Width - 432, 64, "1", DX.GetColor(255, 255, 255));
             }
             else if (pickaxelevel == 2)
             {
-                DX.DrawBox(950, 50, 950 + pickaxeCount / 4, 65, DX.GetColor(255, 255, 0), DX.TRUE);
-                DX.DrawString(935, 50, "2", DX.GetColor(255, 255, 255));
+                DX.DrawBox(Screen.Width - 432, 64, 950 + pickaxeCount / 4, 96, DX.GetColor(255, 255, 0), DX.TRUE);
+                DX.DrawString(Screen.Width - 432, 64, "2", DX.GetColor(255, 255, 255));
             }
             else
             {
-                DX.DrawBox(950, 50, 1100, 65, DX.GetColor(255, 255, 65), DX.TRUE);
-                DX.DrawString(935, 50, "3", DX.GetColor(255, 255, 255));
+                DX.DrawBox(Screen.Width - 432, 64, Screen.Width - 32, 96, DX.GetColor(255, 255, 65), DX.TRUE);
+                DX.DrawString(Screen.Width - 432, 64, "3", DX.GetColor(255, 255, 255));
             }
         }
     }

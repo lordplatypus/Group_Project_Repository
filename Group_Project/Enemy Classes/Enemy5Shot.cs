@@ -98,10 +98,15 @@ namespace Group_Project_2
 
         public override void OnCollision(GameObject other)
         {
+            if (other is Enemy5) return;
             if (other is Player)
             {
                 Kill();
                 playScene.player.TakeDamage(3);
+            }
+            else
+            {
+                Kill();
             }
         }
     }

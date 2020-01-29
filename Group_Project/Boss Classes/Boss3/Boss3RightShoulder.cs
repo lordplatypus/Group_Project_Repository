@@ -34,6 +34,7 @@ namespace Group_Project_2
             this.x = x;
             this.y = y;
             hp = 3;
+            maxHP = hp;
             this.b = b;
         }
 
@@ -120,9 +121,10 @@ namespace Group_Project_2
         {
             if (visible && !destroyed)
             {
-                Camera.DrawRotaGraph(x, y, Image.rightShoulder, flip);
+                Camera.DrawRotaGraph(x, y, 0, Image.rightShoulder, flip);
             }
-            Camera.DrawBox(GetLeft(), GetTop(), GetRight(), GetBottom(), DX.GetColor(0, 0, 250), 0);
+            //Camera.DrawBox(GetLeft(), GetTop(), GetRight(), GetBottom(), DX.GetColor(0, 0, 250), 0);
+            DrawHPBar();
         }
 
         public override void OnCollision(GameObject other)

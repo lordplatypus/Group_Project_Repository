@@ -145,6 +145,8 @@ namespace Group_Project_2
             {
                 Camera.DrawGraph(x, y, Image.teki2[3]);
             }
+
+            DrawHPBar();
         }
 
         public override void OnCollision(GameObject other)

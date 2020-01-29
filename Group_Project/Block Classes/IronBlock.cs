@@ -102,6 +102,10 @@ namespace Group_Project_2
                 other.TakeDamage(damage);
                 Kill();
             }
+            else if (other is SlimeBullet || other is BossBullet || other is Enemy5Shot)
+            {
+                Kill();
+            }
         }
 
         public override void Kill()

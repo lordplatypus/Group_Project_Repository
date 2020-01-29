@@ -46,6 +46,7 @@ namespace Group_Project_2
             centerX = x - imageWidth / 2;
             centerY = y - imageHeight / 2;
             hp = 20;
+            maxHP = hp;
         }
 
         public override void Update()
@@ -189,6 +190,8 @@ namespace Group_Project_2
                     Camera.DrawGraph(x, y, Image.boss[0]);
                 }
             }
+
+            DrawHPBar();
         }
 
         public override void OnCollision(GameObject other)

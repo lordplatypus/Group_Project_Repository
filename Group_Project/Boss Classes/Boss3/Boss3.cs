@@ -57,6 +57,7 @@ namespace Group_Project_2
             this.x = x;
             this.y = y;
             hp = 35;
+            maxHP = hp;
             //hp = 1;
 
             rShoulder = new Boss3RightShoulder(playScene, this, x, y);
@@ -328,7 +329,8 @@ namespace Group_Project_2
                     Camera.DrawGraph(x, y, Image.boss3[0 + animationCounter]);
                 }
             }
-            Camera.DrawBox(GetLeft(), GetTop(), GetRight(), GetBottom(), DX.GetColor(0, 250, 250), 0);
+            //Camera.DrawBox(GetLeft(), GetTop(), GetRight(), GetBottom(), DX.GetColor(0, 250, 250), 0);
+            DrawHPBar();
         }
 
         public override void OnCollision(GameObject other)

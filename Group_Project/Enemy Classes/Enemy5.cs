@@ -42,6 +42,7 @@ namespace Group_Project_2
             this.x = x;
             this.y = y;
             hp = 5;
+            maxHP = hp;
 
             imageWidth = 48;
             imageHeight = 48;
@@ -241,6 +242,8 @@ namespace Group_Project_2
             {
                 Camera.DrawGraph(x, y, Image.enemy5[0]);
             }
+
+            DrawHPBar();
         }        
 
         public override void OnCollision(GameObject other)

@@ -27,6 +27,7 @@ namespace Group_Project_2
             this.x = x;
             this.y = y;
             hp = 3;
+            maxHP = hp;
 
             imageWidth = 48;
             imageHeight = 48;
@@ -129,6 +130,7 @@ namespace Group_Project_2
         public override void Draw()
         {
             Camera.DrawGraph(x, y, Image.teki3);
+            DrawHPBar();
         }
 
         public override void OnCollision(GameObject other)

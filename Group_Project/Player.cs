@@ -1,4 +1,5 @@
-﻿using DxLibDLL;
+﻿using System;
+using DxLibDLL;
 using MyLib;
 
 namespace Group_Project_2
@@ -58,6 +59,7 @@ namespace Group_Project_2
         //現在のスピード
         float vy = 0;
 
+        //My Additions
         int alpha = 255;
 
         public Player(PlayScene playScene, float x, float y) : base(playScene)
@@ -147,6 +149,7 @@ namespace Group_Project_2
                 isitem = false;
             }
 
+            //My additions
             if (alpha > 0) alpha--;
         }
 
@@ -416,12 +419,11 @@ namespace Group_Project_2
                 if (state == State.RIGHT) Camera.DrawGraph(x, y, Image.playertsuruhasi[3 + AnimeisoncounterTsuruhashi]);
             }
 
-            
+            //My additions
             DX.SetDrawBlendMode(DX.DX_BLENDMODE_ALPHA, alpha);
             Camera.DrawBox(x, y - 5, x + (4.8f * 10), y, DX.GetColor(255, 0, 0), DX.TRUE);
             Camera.DrawBox(x, y - 5, x + (4.8f * life), y, DX.GetColor(0, 255, 0), DX.TRUE);
             DX.SetDrawBlendMode(DX.DX_BLENDMODE_ALPHA, 256);
-
         }
 
         //当たり判定
@@ -480,7 +482,11 @@ namespace Group_Project_2
                 mutekiTimer = MutekiJikan;
                 alpha = 256;
             }
-            if (life <= 0) Kill();
+            if (life <= 0)
+            {
+                Kill();
+                Game.ChangeScene(new GameOverScene());
+            }
         }
 
         //何を掘るか調べる

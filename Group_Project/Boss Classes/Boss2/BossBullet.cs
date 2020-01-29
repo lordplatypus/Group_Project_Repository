@@ -94,10 +94,8 @@ namespace Group_Project_2
 
         public override void OnCollision(GameObject other)
         {
-            if (other is Player)
-            {
-                Kill();
-            }
+            if (other is Boss) return;
+            Kill();
         }
 
         public override void Kill()
