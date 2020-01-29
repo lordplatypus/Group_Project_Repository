@@ -7,7 +7,7 @@ namespace Group_Project_2
     public class Player : GameObject
     {
         //アイテムを取得しているか
-        public bool isitem = false;
+        public bool isitem = true;
         //アイテム使用回数
         public int itemcount = 10;
         //ライフ

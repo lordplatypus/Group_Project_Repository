@@ -97,6 +97,10 @@ namespace Group_Project_2
         //階段
         public static int Stairs;
 
+        //Font Size
+        public static int bigFont = DX.CreateFontToHandle(null, 32, -1);
+        public static int smallFont = DX.CreateFontToHandle(null, 24, -1);
+
 
         public static void Load()
         {

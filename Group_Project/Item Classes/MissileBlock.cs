@@ -105,7 +105,6 @@ namespace Group_Project_2
             playScene.pm.Explosion(enemyCenterX, enemyCenterY, 100);
             playScene.map.BlowUpWall(enemyCenterX, enemyCenterY);
 
-            Player player = playScene.player;
             if (MyMath.RectRectIntersection(
                         GetLeft() - 2 * CellSize, GetTop() - 2 * CellSize, GetRight() + 2 * CellSize, GetBottom() + 2 * CellSize,
                         other.GetLeft(), other.GetTop(), other.GetRight(), other.GetBottom()))

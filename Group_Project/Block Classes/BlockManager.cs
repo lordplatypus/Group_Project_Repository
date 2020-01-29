@@ -22,9 +22,6 @@ namespace Group_Project_2
 
         static int selectedBlock = 0;
 
-        int bigFont = DX.CreateFontToHandle(null, 32, -1);
-        int smallFont = DX.CreateFontToHandle(null, 24, -1);
-
         public BlockManager(PlayScene playScene)
         {
             this.playScene = playScene;
@@ -113,37 +110,37 @@ namespace Group_Project_2
             if (selectedBlock == 0)
             {
                 DX.DrawGraphF(Screen.Width - 432, 112, Image.block[0]);
-                DX.DrawStringToHandle(Screen.Width - 432, 112, storedBlocks[selectedBlock].ToString(), DX.GetColor(0, 0, 0), bigFont);
-                DX.DrawStringToHandle(Screen.Width - 352, 112, "強: C", DX.GetColor(255, 255, 255), smallFont);
-                DX.DrawStringToHandle(Screen.Width - 352, 160, "飛: C", DX.GetColor(255, 255, 255), smallFont);
+                DX.DrawStringToHandle(Screen.Width - 432, 112, storedBlocks[selectedBlock].ToString(), DX.GetColor(0, 0, 0), Image.bigFont);
+                DX.DrawStringToHandle(Screen.Width - 352, 112, "強: C", DX.GetColor(255, 255, 255), Image.smallFont);
+                DX.DrawStringToHandle(Screen.Width - 352, 146, "飛: C", DX.GetColor(255, 255, 255), Image.smallFont);
             }
             else if (selectedBlock == 1)
             {
                 DX.DrawGraphF(Screen.Width - 432, 112, Image.block[1]);
-                DX.DrawStringToHandle(Screen.Width - 432, 112, storedBlocks[selectedBlock].ToString(), DX.GetColor(255, 255, 255), bigFont);
-                DX.DrawStringToHandle(Screen.Width - 352, 112, "強: C", DX.GetColor(255, 255, 255), smallFont);
-                DX.DrawStringToHandle(Screen.Width - 352, 160, "飛: B", DX.GetColor(255, 255, 255), smallFont);
+                DX.DrawStringToHandle(Screen.Width - 432, 112, storedBlocks[selectedBlock].ToString(), DX.GetColor(255, 255, 255), Image.bigFont);
+                DX.DrawStringToHandle(Screen.Width - 352, 112, "強: C", DX.GetColor(255, 255, 255), Image.smallFont);
+                DX.DrawStringToHandle(Screen.Width - 352, 146, "飛: B", DX.GetColor(255, 255, 255), Image.smallFont);
             }
             else if (selectedBlock == 2)
             {
                 DX.DrawGraphF(Screen.Width - 432, 112, Image.block[2]);
-                DX.DrawStringToHandle(Screen.Width - 432, 112, storedBlocks[selectedBlock].ToString(), DX.GetColor(0, 0, 0), bigFont);
-                DX.DrawStringToHandle(Screen.Width - 352, 112, "強: B", DX.GetColor(255, 255, 255), smallFont);
-                DX.DrawStringToHandle(Screen.Width - 352, 160, "飛: A", DX.GetColor(255, 255, 255), smallFont);
+                DX.DrawStringToHandle(Screen.Width - 432, 112, storedBlocks[selectedBlock].ToString(), DX.GetColor(0, 0, 0), Image.bigFont);
+                DX.DrawStringToHandle(Screen.Width - 352, 112, "強: B", DX.GetColor(255, 255, 255), Image.smallFont);
+                DX.DrawStringToHandle(Screen.Width - 352, 146, "飛: A", DX.GetColor(255, 255, 255), Image.smallFont);
             }
             else if (selectedBlock == 3)
             {
                 DX.DrawGraphF(Screen.Width - 432, 112, Image.block[3]);
-                DX.DrawStringToHandle(Screen.Width - 432, 112, storedBlocks[selectedBlock].ToString(), DX.GetColor(0, 0, 0), bigFont);
-                DX.DrawStringToHandle(Screen.Width - 352, 112, "強: A", DX.GetColor(255, 255, 255), smallFont);
-                DX.DrawStringToHandle(Screen.Width - 352, 160, "飛: S", DX.GetColor(255, 255, 255), smallFont);
+                DX.DrawStringToHandle(Screen.Width - 432, 112, storedBlocks[selectedBlock].ToString(), DX.GetColor(0, 0, 0), Image.bigFont);
+                DX.DrawStringToHandle(Screen.Width - 352, 112, "強: A", DX.GetColor(255, 255, 255), Image.smallFont);
+                DX.DrawStringToHandle(Screen.Width - 352, 146, "飛: S", DX.GetColor(255, 255, 255), Image.smallFont);
             }
             else
             {
                 DX.DrawGraphF(Screen.Width - 432, 112, Image.block[4]);
-                DX.DrawStringToHandle(Screen.Width - 432, 112, storedBlocks[selectedBlock].ToString(), DX.GetColor(0, 0, 0), bigFont);
-                DX.DrawStringToHandle(Screen.Width - 352, 112, "強: S", DX.GetColor(255, 255, 255), smallFont);
-                DX.DrawStringToHandle(Screen.Width - 352, 112, "飛: S", DX.GetColor(255, 255, 255), smallFont);
+                DX.DrawStringToHandle(Screen.Width - 432, 112, storedBlocks[selectedBlock].ToString(), DX.GetColor(0, 0, 0), Image.bigFont);
+                DX.DrawStringToHandle(Screen.Width - 352, 112, "強: S", DX.GetColor(255, 255, 255), Image.smallFont);
+                DX.DrawStringToHandle(Screen.Width - 352, 146, "飛: S", DX.GetColor(255, 255, 255), Image.smallFont);
             }
         }
     }
